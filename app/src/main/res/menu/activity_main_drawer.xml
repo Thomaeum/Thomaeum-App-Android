@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_thomsline"
+            android:icon="@drawable/ic_menu_thomsline"
+            android:title="@string/menu_thomsline" />
+        <item
+            android:id="@+id/nav_vertretungsplan_oberstufe"
+            android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"
+            android:title="@string/menu_vertretungsplan_oberstufe" />
+
+        <item
+            android:id="@+id/nav_vertretungsplan_unterstufe"
+            android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"
+            android:title="@string/menu_vertretungsplan_unterstufe" />
+    </group>
+</menu>

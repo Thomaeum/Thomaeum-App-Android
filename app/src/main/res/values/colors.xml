@@ -1,0 +1,15 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!--Hier theme einfügen (generiert mit https://material.io/resources/color/)-->
+    <color name="primaryColor">#a51a3e</color>
+    <color name="primaryLightColor">#dc5268</color>
+    <color name="primaryDarkColor">#700018</color>
+    <color name="secondaryColor">#0a4659</color>
+    <color name="secondaryLightColor">#407186</color>
+    <color name="secondaryDarkColor">#001f30</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
+</resources>

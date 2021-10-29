@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="net.informatikag.thomapp.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_thomsline"
+        android:name="net.informatikag.thomapp.ui.thomsline.ThomsLineFragment"
+        android:label="@string/menu_thomsline"
+        tools:layout="@layout/fragment_thomsline" />
+
+    <fragment
+        android:id="@+id/nav_vertretungsplan_oberstufe"
+        android:name="net.informatikag.thomapp.ui.vertretungsplan.oberstufe.VertretungsplanOberstufeFragment"
+        android:label="@string/menu_vertretungsplan_oberstufe"
+        tools:layout="@layout/fragment_vertretungsplan_oberstufe" />
+
+    <fragment
+        android:id="@+id/nav_vertretungsplan_unterstufe"
+        android:name="net.informatikag.thomapp.ui.vertretungsplan.unterstufe.VertretungsplanUnterstufeFragment"
+        android:label="@string/menu_vertretungsplan_unterstufe"
+        tools:layout="@layout/fragment_vertretungsplan_unterstufe" />
+</navigation>
