@@ -1,13 +1,13 @@
-package net.informatikag.thomapp.ui.gallery
+package net.informatikag.thomapp.ui.screens.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ThomsLineViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is the Thomsline Fragment"
+        value = "This is home Fragment"
     }
     val text: LiveData<String> = _text
 }

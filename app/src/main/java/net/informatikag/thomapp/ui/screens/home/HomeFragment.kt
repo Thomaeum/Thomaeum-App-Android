@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.ui.home
+package net.informatikag.thomapp.ui.screens.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
