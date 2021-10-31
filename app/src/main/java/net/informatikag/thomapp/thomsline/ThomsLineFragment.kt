@@ -2,6 +2,7 @@ package net.informatikag.thomapp.thomsline
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -56,9 +57,9 @@ class ThomsLineFragment : Fragment(){
                     data.add(
                         WordpressArticle(
                             current.getInt("id"),
-                            current.getJSONObject("title").getString("rendered"),
-                            current.getJSONObject("content").getString("rendered"),
-                            current.getJSONObject("excerpt").getString("rendered"),
+                            Html.fromHtml(current.getJSONObject("title").getString("rendered")).toString(),
+                            Html.fromHtml(current.getJSONObject("content").getString("rendered")).toString(),
+                            Html.fromHtml(current.getJSONObject("excerpt").getString("rendered")).toString(),
                             current.getJSONObject("_embedded").getJSONArray("author").getJSONObject(0).getString("name"),
                             current.getJSONObject("_embedded").getJSONArray("wp:featuredmedia").getJSONObject(0).getJSONObject("media_details").getJSONObject("sizes").getJSONObject("medium").getString("source_url")
                         )
