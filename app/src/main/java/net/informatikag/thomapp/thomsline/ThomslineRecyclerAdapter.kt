@@ -47,7 +47,6 @@ class ThomslineRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         val image = itemView.findViewById<ImageView>(R.id.thomsline_post_image)
 
         fun bind(post: WordpressArticle){
-            Log.d("ThomsLineAdapter", post.title)
             title.setText(post.title)
             author.setText(post.author)
 
