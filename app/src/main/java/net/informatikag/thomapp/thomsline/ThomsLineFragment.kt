@@ -68,7 +68,6 @@ class ThomsLineFragment : Fragment(){
                 Log.d("test", data[0].title)
 
                 postAdapter.submitList(data)
-                postAdapter.notifyDataSetChanged()
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request failed")

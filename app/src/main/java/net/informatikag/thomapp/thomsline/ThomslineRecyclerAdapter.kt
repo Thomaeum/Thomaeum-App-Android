@@ -36,7 +36,7 @@ class ThomslineRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     fun submitList(postList: ArrayList<WordpressArticle>){
         items = postList
-        Log.d("ThomsLineAdapter", items.size.toString())
+        this.notifyDataSetChanged()
     }
 
     class ThomsLineViewHolder constructor(
