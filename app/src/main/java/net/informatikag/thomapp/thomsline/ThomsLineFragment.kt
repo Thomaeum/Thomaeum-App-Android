@@ -10,16 +10,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.GsonBuilder
+import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
 import net.informatikag.thomapp.thomsline.models.WordpressArticle
 
-class ThomsLineFragment : Fragment(){
+class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var postAdapter: ThomslineRecyclerAdapter
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private var _binding: FragmentThomslineBinding? = null
 
     // This property is only valid between onCreateView and
@@ -34,8 +37,25 @@ class ThomsLineFragment : Fragment(){
         _binding = FragmentThomslineBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        mSwipeRefreshLayout = root.findViewById(R.id.thomsline_swipe_container)
+        mSwipeRefreshLayout.setOnRefreshListener(this)
+        mSwipeRefreshLayout.setColorSchemeResources(
+            R.color.primaryColor,
+            android.R.color.holo_green_dark,
+            android.R.color.holo_orange_dark,
+            android.R.color.holo_blue_dark,
+        )
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post {
+            mSwipeRefreshLayout.isRefreshing = true
+            loadArticles()
+        }
+
         initRecyclerView()
-        loadArticles()
 
         return root
     }
@@ -61,14 +81,13 @@ class ThomsLineFragment : Fragment(){
                             Html.fromHtml(current.getJSONObject("content").getString("rendered")).toString(),
                             Html.fromHtml(current.getJSONObject("excerpt").getString("rendered")).toString(),
                             current.getJSONObject("_embedded").getJSONArray("author").getJSONObject(0).getString("name"),
-                            current.getJSONObject("_embedded").getJSONArray("wp:featuredmedia").getJSONObject(0).getJSONObject("media_details").getJSONObject("sizes").getJSONObject("medium").getString("source_url")
+                            current.getJSONObject("_embedded").getJSONArray("wp:featuredmedia").getJSONObject(0).getJSONObject("media_details").getJSONObject("sizes").getJSONObject("full").getString("source_url")
                         )
                     )
                 }
 
-                Log.d("test", data[0].title)
-
                 postAdapter.submitList(data)
+                mSwipeRefreshLayout.setRefreshing(false);
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request failed")
@@ -107,5 +126,9 @@ class ThomsLineFragment : Fragment(){
             outRect.left = padding
             outRect.right = padding
         }
+    }
+
+    override fun onRefresh() {
+        loadArticles()
     }
 }
