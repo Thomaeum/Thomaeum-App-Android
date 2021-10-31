@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.ui.screens.home
+package net.informatikag.thomapp.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.ui.screens.vertretungsplan.unterstufe
+package net.informatikag.thomapp.vertretungsplan.unterstufe
 
 import android.os.Bundle
 import android.view.LayoutInflater

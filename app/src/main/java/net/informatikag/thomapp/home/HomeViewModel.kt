@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.ui.screens.home
+package net.informatikag.thomapp.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -4,7 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.screens.thomsline.ThomsLineFragment">
+    tools:context=".thomsline.ThomsLineFragment">
+
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:id="@+id/thomsline_recycler_view_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

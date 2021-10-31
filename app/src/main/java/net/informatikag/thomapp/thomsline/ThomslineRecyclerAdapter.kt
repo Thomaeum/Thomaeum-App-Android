@@ -1,5 +1,6 @@
-package net.informatikag.thomapp.ui.screens.thomsline
+package net.informatikag.thomapp.thomsline
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.ui.models.ThomsLinePost
+import net.informatikag.thomapp.thomsline.models.WordpressArticle
 
 class ThomslineRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var items: List<ThomsLinePost> = ArrayList()
+    private var items: ArrayList<WordpressArticle> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ThomsLineViewHolder(
@@ -33,8 +34,9 @@ class ThomslineRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         return items.size
     }
 
-    fun submitList(postList: List<ThomsLinePost>){
+    fun submitList(postList: ArrayList<WordpressArticle>){
         items = postList
+        Log.d("ThomsLineAdapter", items.size.toString())
     }
 
     class ThomsLineViewHolder constructor(
@@ -44,7 +46,8 @@ class ThomslineRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         val author = itemView.findViewById<TextView>(R.id.thomsline_post_author)
         val image = itemView.findViewById<ImageView>(R.id.thomsline_post_image)
 
-        fun bind(post: ThomsLinePost){
+        fun bind(post: WordpressArticle){
+            Log.d("ThomsLineAdapter", post.title)
             title.setText(post.title)
             author.setText(post.author)
 
