@@ -2,8 +2,6 @@ package net.informatikag.thomapp.thomsline
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.GsonBuilder
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
-import net.informatikag.thomapp.thomsline.models.WordpressArticle
+import net.informatikag.thomapp.thomsline.RecyclerView.ThomslineRecyclerAdapter
 
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
@@ -41,9 +35,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         mSwipeRefreshLayout.setOnRefreshListener(this)
         mSwipeRefreshLayout.setColorSchemeResources(
             R.color.primaryColor,
-            android.R.color.holo_green_dark,
-            android.R.color.holo_orange_dark,
-            android.R.color.holo_blue_dark,
+            R.color.secondaryColor
         )
 
         /**
@@ -52,7 +44,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
          */
         mSwipeRefreshLayout.post {
             mSwipeRefreshLayout.isRefreshing = true
-            loadArticles()
+            postAdapter.loadArticles(0)
         }
 
         initRecyclerView()
@@ -60,49 +52,10 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         return root
     }
 
-    private fun loadArticles(){
-
-        val url="https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
-
-        Log.d("ThomsLine", "Requesting Data")
-
-        val wordpressRequest = JsonArrayRequest(url,
-            { response ->
-                Log.d("ThomsLine", "Request Successfull")
-
-                val data = ArrayList<WordpressArticle>()
-
-                for (i in 0 until response.length()){
-                    val current = response.getJSONObject(i)
-                    data.add(
-                        WordpressArticle(
-                            current.getInt("id"),
-                            Html.fromHtml(current.getJSONObject("title").getString("rendered")).toString(),
-                            Html.fromHtml(current.getJSONObject("content").getString("rendered")).toString(),
-                            Html.fromHtml(current.getJSONObject("excerpt").getString("rendered")).toString(),
-                            current.getJSONObject("_embedded").getJSONArray("author").getJSONObject(0).getString("name"),
-                            current.getJSONObject("_embedded").getJSONArray("wp:featuredmedia").getJSONObject(0).getJSONObject("media_details").getJSONObject("sizes").getJSONObject("full").getString("source_url")
-                        )
-                    )
-                }
-
-                postAdapter.submitList(data)
-                mSwipeRefreshLayout.setRefreshing(false);
-            },
-            { volleyError ->
-                Log.d("ThomsLine", "Request failed")
-                Log.d("ThomsLine", volleyError.message.toString())
-            }
-        )
-
-        Volley.newRequestQueue(this.context).add(wordpressRequest)
-
-    }
-
     private fun initRecyclerView(){
         _binding?.thomslineRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
-            postAdapter = ThomslineRecyclerAdapter()
+            postAdapter = ThomslineRecyclerAdapter(mSwipeRefreshLayout)
             addItemDecoration(TopSpacingItemDecoration(30))
             adapter = postAdapter
         }
@@ -129,6 +82,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     }
 
     override fun onRefresh() {
-        loadArticles()
+        postAdapter.loadArticles(0)
     }
 }
