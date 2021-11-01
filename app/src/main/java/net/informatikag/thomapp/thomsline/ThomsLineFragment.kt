@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +20,9 @@ import net.informatikag.thomapp.thomsline.RecyclerView.ThomslineRecyclerAdapter
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
 
     private lateinit var postAdapter: ThomslineRecyclerAdapter
+    private lateinit var viewModel: ThomsLineFragmentViewModel
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var thomslineRecyclerAdapter: ThomslineRecyclerAdapter
     private var _binding: FragmentThomslineBinding? = null
 
     // This property is only valid between onCreateView and
@@ -33,6 +37,14 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
         _binding = FragmentThomslineBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
+        viewModel.articles.observe(viewLifecycleOwner, Observer {
+            thomslineRecyclerAdapter.setPages(it)
+            mSwipeRefreshLayout.isRefreshing = false
+        })
+
+        thomslineRecyclerAdapter =  ThomslineRecyclerAdapter(this, viewModel)
+
         initSwipeRefreshLayout(root)
         initRecyclerView()
 
@@ -40,10 +52,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
     }
 
     private fun initRecyclerView(){
-        val thomslineRecyclerAdapter = ThomslineRecyclerAdapter(
-            mSwipeRefreshLayout,
-            this
-        )
         _binding?.thomslineRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
             postAdapter = thomslineRecyclerAdapter
@@ -53,6 +61,10 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
     }
 
     private fun initSwipeRefreshLayout(root: View) {
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
         mSwipeRefreshLayout = root.findViewById(R.id.thomsline_swipe_container)
         mSwipeRefreshLayout.setOnRefreshListener(this)
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -60,13 +72,10 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             R.color.secondaryColor
         )
 
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
-        mSwipeRefreshLayout.post {
+
+        if (viewModel.articles.value == null) mSwipeRefreshLayout.post {
             mSwipeRefreshLayout.isRefreshing = true
-            postAdapter.loadArticles(0)
+            viewModel.loadArticles(0)
         }
     }
 
@@ -83,15 +92,15 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             state: RecyclerView.State
         ) {
             super.getItemOffsets(outRect, view, parent, state)
-            outRect.top = padding/2
-            outRect.bottom = padding/2
+            outRect.top = padding
+            outRect.bottom = padding
             outRect.left = padding
             outRect.right = padding
         }
     }
 
     override fun onRefresh() {
-        postAdapter.loadArticles(0)
+        viewModel.loadArticles(0)
     }
 
 

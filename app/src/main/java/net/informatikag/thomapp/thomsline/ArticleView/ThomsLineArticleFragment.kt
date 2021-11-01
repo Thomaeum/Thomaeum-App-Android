@@ -33,7 +33,6 @@ class ThomsLineArticleFragment : Fragment() {
         fun newInstance() = ThomsLineArticleFragment()
     }
 
-    private lateinit var viewModel: ThomsLineArticleViewViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,10 +49,7 @@ class ThomsLineArticleFragment : Fragment() {
 
         if (args.imageURL != null)
             Glide.with(imageView.context)
-                .applyDefaultRequestOptions(
-                    RequestOptions()
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background))
+                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.ic_launcher_background))
                 .load(args.imageURL)
                 .placeholder(R.drawable.default_article_image)
                 .into(imageView)
@@ -63,11 +59,4 @@ class ThomsLineArticleFragment : Fragment() {
 
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ThomsLineArticleViewViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
