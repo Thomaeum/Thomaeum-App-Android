@@ -1,5 +1,6 @@
 package net.informatikag.thomapp.thomsline.ArticleView
 
+import android.graphics.drawable.LevelListDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Html
@@ -58,8 +59,7 @@ class ThomsLineArticleFragment : Fragment() {
                 .into(imageView)
         else imageView.isGone = true
 
-//        contentView.loadDataWithBaseURL("",args.content, "text/html", "UTF-8","")
-        contentView.text = (Html.fromHtml(args.content))
+        contentView.text = Html.fromHtml(args.content, ThomsLineArticleImageGetter(resources, contentView), null)
 
         return binding.root
     }
