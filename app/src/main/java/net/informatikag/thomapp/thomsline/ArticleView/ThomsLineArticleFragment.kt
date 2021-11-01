@@ -44,7 +44,7 @@ class ThomsLineArticleFragment : Fragment() {
 
         val titleView: TextView = binding.thomslineArtilcleTitle
         val imageView: ImageView = binding.thomslineArticleImage
-        val contentView: TextView = binding.thomslineArticleContent
+        val contentView: WebView = binding.thomslineArticleContent
 
         titleView.setText(args.title)
 
@@ -59,7 +59,7 @@ class ThomsLineArticleFragment : Fragment() {
                 .into(imageView)
         else imageView.isGone = true
 
-        contentView.text = Html.fromHtml(args.content, ThomsLineArticleImageGetter(resources, contentView), null)
+        contentView.loadDataWithBaseURL("", args.content, "text/html", "UTF-8", "")
 
         return binding.root
     }

@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // Class to download Images which extends [Html.ImageGetter]
+// Copyed from https://www.geeksforgeeks.org/how-to-display-html-in-textview-along-with-images-in-android/
 class ThomsLineArticleImageGetter(
     private val res: Resources,
     private val htmlTextView: TextView
