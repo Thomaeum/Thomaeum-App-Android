@@ -15,7 +15,27 @@
         android:id="@+id/nav_thomsline"
         android:name="net.informatikag.thomapp.thomsline.ThomsLineFragment"
         android:label="@string/menu_thomsline"
-        tools:layout="@layout/fragment_thomsline" />
+        tools:layout="@layout/fragment_thomsline" >
+        <action
+            android:id="@+id/action_nav_thomsline_to_nav_thomsline_article_view"
+            app:destination="@id/nav_thomsline_article_view" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_thomsline_article_view"
+        android:name="net.informatikag.thomapp.thomsline.ArticleView.ThomsLineArticleFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="imageURL"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_vertretungsplan_oberstufe"

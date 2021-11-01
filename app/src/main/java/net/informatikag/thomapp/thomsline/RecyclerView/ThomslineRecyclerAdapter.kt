@@ -3,19 +3,20 @@ package net.informatikag.thomapp.thomsline.RecyclerView
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.RecyclerView.ThomsLineArticleViewHolder.WordpressArticle
-import java.lang.Exception
+import net.informatikag.thomapp.thomsline.WordpressArticle
 
 class ThomslineRecyclerAdapter(
-    swipeRefreshLayout: SwipeRefreshLayout
+    swipeRefreshLayout: SwipeRefreshLayout,
+    val itemClickListener: ItemClickListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
     private var swipeRefreshLayout: SwipeRefreshLayout = swipeRefreshLayout
     private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
     private val perPage:Int = 10
@@ -24,7 +25,8 @@ class ThomslineRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_article, parent, false)
+                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_article, parent, false),
+                itemClickListener
             )
         }
         return ThomsLineLoadingViewholder(
@@ -79,9 +81,7 @@ class ThomslineRecyclerAdapter(
                                 current.getInt("id"),
                                 Html.fromHtml(current.getJSONObject("title").getString("rendered"))
                                     .toString(),
-                                Html.fromHtml(
-                                    current.getJSONObject("content").getString("rendered")
-                                ).toString(),
+                                current.getJSONObject("content").getString("rendered"),
                                 Html.fromHtml(
                                     current.getJSONObject("excerpt").getString("rendered")
                                 ).toString(),

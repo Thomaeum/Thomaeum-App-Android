@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
+import net.informatikag.thomapp.thomsline.RecyclerView.ItemClickListener
 import net.informatikag.thomapp.thomsline.RecyclerView.ThomslineRecyclerAdapter
 
-class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
+class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
 
     private lateinit var postAdapter: ThomslineRecyclerAdapter
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -31,6 +33,26 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         _binding = FragmentThomslineBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        initSwipeRefreshLayout(root)
+        initRecyclerView()
+
+        return root
+    }
+
+    private fun initRecyclerView(){
+        val thomslineRecyclerAdapter = ThomslineRecyclerAdapter(
+            mSwipeRefreshLayout,
+            this
+        )
+        _binding?.thomslineRecyclerView?.apply {
+            layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
+            postAdapter = thomslineRecyclerAdapter
+            addItemDecoration(TopSpacingItemDecoration(30))
+            adapter = postAdapter
+        }
+    }
+
+    private fun initSwipeRefreshLayout(root: View) {
         mSwipeRefreshLayout = root.findViewById(R.id.thomsline_swipe_container)
         mSwipeRefreshLayout.setOnRefreshListener(this)
         mSwipeRefreshLayout.setColorSchemeResources(
@@ -45,19 +67,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         mSwipeRefreshLayout.post {
             mSwipeRefreshLayout.isRefreshing = true
             postAdapter.loadArticles(0)
-        }
-
-        initRecyclerView()
-
-        return root
-    }
-
-    private fun initRecyclerView(){
-        _binding?.thomslineRecyclerView?.apply {
-            layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
-            postAdapter = ThomslineRecyclerAdapter(mSwipeRefreshLayout)
-            addItemDecoration(TopSpacingItemDecoration(30))
-            adapter = postAdapter
         }
     }
 
@@ -83,5 +92,11 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
     override fun onRefresh() {
         postAdapter.loadArticles(0)
+    }
+
+
+    override fun onItemClick(wordpressArticle: WordpressArticle) {
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(wordpressArticle.title, wordpressArticle.imageURL, wordpressArticle.content)
+        findNavController().navigate(action)
     }
 }

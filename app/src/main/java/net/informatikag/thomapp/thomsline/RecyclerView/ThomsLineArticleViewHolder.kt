@@ -3,13 +3,18 @@ package net.informatikag.thomapp.thomsline.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.thomsline.WordpressArticle
 
 class ThomsLineArticleViewHolder constructor(
-    itemView: View
+    itemView: View,
+    val itemClickListener: ItemClickListener
 ): RecyclerView.ViewHolder(itemView){
     val title = itemView.findViewById<TextView>(R.id.thomsline_post_title)
     val author = itemView.findViewById<TextView>(R.id.thomsline_post_author)
@@ -28,14 +33,9 @@ class ThomsLineArticleViewHolder constructor(
             .load(post.imageURL)
             .placeholder(R.drawable.default_article_image)
             .into(image)
-    }
 
-    data class WordpressArticle(
-        var id: Int,
-        var title: String,
-        var content: String,
-        var excerpt: String,
-        var author: String,
-        var imageURL: String?,
-    )
+        itemView.setOnClickListener(View.OnClickListener {
+            itemClickListener.onItemClick(post)
+        })
+    }
 }
