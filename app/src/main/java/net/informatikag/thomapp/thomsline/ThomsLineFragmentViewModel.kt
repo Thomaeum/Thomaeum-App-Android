@@ -4,9 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.text.Html
 import android.util.Log
+import androidx.core.content.res.ComplexColorCompat
 import androidx.lifecycle.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import net.informatikag.thomapp.R
 
 class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
 
@@ -31,26 +33,30 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
 
                     for (j in 0 until response.length()) {
                         val current = response.getJSONObject(j)
-                        data.add(
-                            WordpressArticle(
-                                current.getInt("id"),
-                                Html.fromHtml(current.getJSONObject("title").getString("rendered"))
-                                    .toString(),
-                                current.getJSONObject("content").getString("rendered"),
-                                Html.fromHtml(
-                                    current.getJSONObject("excerpt").getString("rendered")
-                                ).toString(),
-                                current.getJSONObject("_embedded").getJSONArray("author")
-                                    .getJSONObject(0).getString("name"),
-                                if (current.getJSONObject("_embedded").has("wp:featuredmedia"))
-                                    current.getJSONObject("_embedded")
-                                        .getJSONArray("wp:featuredmedia")
-                                        .getJSONObject(0).getJSONObject("media_details")
-                                        .getJSONObject("sizes").getJSONObject("full")
-                                        .getString("source_url")
-                                else defaultImageURL
-                            )
+                        var article = WordpressArticle(
+                            current.getInt("id"),
+                            Html.fromHtml(current.getJSONObject("title").getString("rendered"))
+                                .toString(),
+                            current.getJSONObject("content").getString("rendered"),
+                            Html.fromHtml(
+                                current.getJSONObject("excerpt").getString("rendered")
+                            ).toString(),
+                            current.getJSONObject("_embedded").getJSONArray("author")
+                                .getJSONObject(0).getString("name"),
+                            if (current.getJSONObject("_embedded").has("wp:featuredmedia"))
+                                current.getJSONObject("_embedded")
+                                    .getJSONArray("wp:featuredmedia")
+                                    .getJSONObject(0).getJSONObject("media_details")
+                                    .getJSONObject("sizes").getJSONObject("full")
+                                    .getString("source_url")
+                            else defaultImageURL
                         )
+
+                        article.content = "<html><head><style type=\"text/css\">body{color:#888888}}</style></head><body>${
+                            article.content
+                        }</body></html>"
+
+                        data.add(article)
                     }
 
                     if (i == pages.size) pages.add(data)

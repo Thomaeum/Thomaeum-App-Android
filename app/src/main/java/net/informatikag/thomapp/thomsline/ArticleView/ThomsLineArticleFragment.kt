@@ -1,5 +1,6 @@
 package net.informatikag.thomapp.thomsline.ArticleView
 
+import android.graphics.Color
 import android.graphics.drawable.LevelListDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -17,7 +18,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
-import net.informatikag.thomapp.databinding.FragmentThomslineBinding
 import org.w3c.dom.Text
 
 class ThomsLineArticleFragment : Fragment() {
@@ -55,6 +55,8 @@ class ThomsLineArticleFragment : Fragment() {
                 .into(imageView)
         else imageView.isGone = true
 
+        contentView.isFocusable = false
+        contentView.setBackgroundColor(Color.TRANSPARENT)
         contentView.loadDataWithBaseURL("", args.content, "text/html", "UTF-8", "")
 
         return binding.root
