@@ -1,7 +1,13 @@
 package net.informatikag.thomapp.thomsline
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Rect
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +18,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.android.volley.*
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
 import net.informatikag.thomapp.thomsline.RecyclerView.ItemClickListener
 import net.informatikag.thomapp.thomsline.RecyclerView.ThomslineRecyclerAdapter
+import org.apache.http.conn.ConnectTimeoutException
+import org.json.JSONException
+import org.xmlpull.v1.XmlPullParserException
+import java.net.ConnectException
+import java.net.MalformedURLException
+import java.net.SocketException
+import java.net.SocketTimeoutException
 
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
 
@@ -23,6 +40,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
     private lateinit var viewModel: ThomsLineFragmentViewModel
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
     private lateinit var thomslineRecyclerAdapter: ThomslineRecyclerAdapter
+    private val defaultImageURL = "https://thoms-line.thomaeum.de/wp-content/uploads/2021/01/Thom-01.jpg"
     private var _binding: FragmentThomslineBinding? = null
 
     // This property is only valid between onCreateView and
@@ -43,7 +61,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             mSwipeRefreshLayout.isRefreshing = false
         })
 
-        thomslineRecyclerAdapter =  ThomslineRecyclerAdapter(this, viewModel)
+        thomslineRecyclerAdapter =  ThomslineRecyclerAdapter(this)
 
         initSwipeRefreshLayout(root)
         initRecyclerView()
@@ -75,7 +93,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
 
         if (viewModel.articles.value == null) mSwipeRefreshLayout.post {
             mSwipeRefreshLayout.isRefreshing = true
-            viewModel.loadArticles(0)
+            loadArticles(0)
         }
     }
 
@@ -100,12 +118,120 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
     }
 
     override fun onRefresh() {
-        viewModel.loadArticles(0)
+        loadArticles(0)
     }
 
 
     override fun onItemClick(wordpressArticle: WordpressArticle) {
         val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(wordpressArticle.title, wordpressArticle.imageURL, wordpressArticle.content)
         findNavController().navigate(action)
+    }
+
+    fun getViewModel(): ThomsLineFragmentViewModel{
+        return viewModel;
+    }
+
+    fun loadArticles(page:Int){
+
+        val pages: ArrayList<ArrayList<WordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
+
+        while (pages.size > page) pages.removeLast()
+
+        val requestQueue = Volley.newRequestQueue(this.context)
+
+        for (i in 0 until page+1) {
+            Log.d("ThomsLine", "Requesting Data for page $i")
+            requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${i+1}",
+                { response ->
+                    val data = ArrayList<WordpressArticle>()
+
+                    for (j in 0 until response.length()) {
+                        val current = response.getJSONObject(j)
+                        var article = WordpressArticle(
+                            current.getInt("id"),
+                            Html.fromHtml(current.getJSONObject("title").getString("rendered"))
+                                .toString(),
+                            current.getJSONObject("content").getString("rendered"),
+                            Html.fromHtml(
+                                current.getJSONObject("excerpt").getString("rendered")
+                            ).toString(),
+                            current.getJSONObject("_embedded").getJSONArray("author")
+                                .getJSONObject(0).getString("name"),
+                            if (current.getJSONObject("_embedded").has("wp:featuredmedia"))
+                                current.getJSONObject("_embedded")
+                                    .getJSONArray("wp:featuredmedia")
+                                    .getJSONObject(0).getJSONObject("media_details")
+                                    .getJSONObject("sizes").getJSONObject("full")
+                                    .getString("source_url")
+                            else defaultImageURL
+                        )
+
+                        article.content = "<html><head><style type=\"text/css\">body{color:#888888}}</style></head><body>${
+                            article.content
+                        }</body></html>"
+
+                        data.add(article)
+                    }
+
+                    if (i == pages.size) pages.add(data)
+                    else if (i < pages.size) pages.set(i, data)
+
+                    if (i == page) viewModel.articles.apply {
+                        viewModel.setArticles(pages)
+                    }
+                },
+                { volleyError ->
+
+                    if (volleyError.networkResponse?.statusCode == 400){
+                        viewModel.lastPage = if(viewModel.lastPage == -1 || i-1<viewModel.lastPage) i-1 else viewModel.lastPage
+                        Log.d("ThomsLine", "Page does not exist")
+                    } else {
+                        Log.d("ThomsLine", "Request failed")
+                        Log.d("ThomsLine", volleyError.message.toString())
+
+                        Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), requireActivity().getVolleyError(volleyError), Snackbar.LENGTH_LONG).show()
+                    }
+
+                    if (i == page) viewModel.articles.apply {
+                        viewModel.setArticles(pages)
+                    }
+                }
+            ))
+        }
+    }
+
+    fun Activity.getVolleyError(error: VolleyError): String {
+        var errorMsg = ""
+        if (error is NoConnectionError) {
+            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            var activeNetwork: NetworkInfo? = null
+            activeNetwork = cm.activeNetworkInfo
+            errorMsg = if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
+                "Server is not connected to the internet. Please try again"
+            } else {
+                "Your device is not connected to internet.please try again with active internet connection"
+            }
+            errorMsg = "Entweder du oder der Server haben keine keine Verbindung zum Internet"
+        } else if (error is NetworkError || error.cause is ConnectException) {
+            errorMsg = "Du bist nicht mit dem Internet verbunden"
+        } else if (error.cause is MalformedURLException) {
+            errorMsg = "Irgendwas ist schief gelaufen..."
+        } else if (error is ParseError || error.cause is IllegalStateException || error.cause is JSONException || error.cause is XmlPullParserException) {
+            errorMsg = "Irgendwie konnten wir nichts mit der Antwort vom Server anfangen :("
+        } else if (error.cause is OutOfMemoryError) {
+            errorMsg = "Du hast zuwenig WAM installiet :)"
+        } else if (error is AuthFailureError) {
+            errorMsg = "Irgendwas ist schief gelaufen..."
+        } else if (error is ServerError || error.cause is ServerError) {
+            errorMsg = "Der Server hat gerade Probleme, versuchs später nochmal"
+        } else if (error is TimeoutError || error.cause is SocketTimeoutException || error.cause is ConnectTimeoutException || error.cause is SocketException || (error.cause!!.message != null && error.cause!!.message!!.contains(
+                "Die Antwort vom Server hat zu lange gedauert"
+            ))
+        ) {
+            errorMsg = "Die Antwort vom Server hat zu lange gedauert"
+        } else {
+            errorMsg = "Irgendwas ist schief gelaufen..."
+        }
+        return errorMsg
     }
 }

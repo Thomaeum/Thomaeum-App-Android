@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.thomsline.ThomsLineFragment
 import net.informatikag.thomapp.thomsline.ThomsLineFragmentViewModel
 import net.informatikag.thomapp.thomsline.WordpressArticle
 
 class ThomslineRecyclerAdapter(
-    val itemClickListener: ItemClickListener,
-    val viewModel: ThomsLineFragmentViewModel
+    val fragment: ThomsLineFragment,
+//    val itemClickListener: ItemClickListener,
+//    val viewModel: ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
     private val perPage:Int = 10
@@ -27,7 +29,7 @@ class ThomslineRecyclerAdapter(
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_article, parent, false),
-                itemClickListener
+                fragment
             )
         }
         return ThomsLineLoadingViewholder(
@@ -47,7 +49,7 @@ class ThomslineRecyclerAdapter(
                 )
             }
             is ThomsLineLoadingViewholder -> {
-                viewModel.loadArticles(pages.size+1)
+                fragment.loadArticles(pages.size+1)
             }
         }
     }
