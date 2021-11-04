@@ -1,14 +1,11 @@
 package net.informatikag.thomapp.thomsline
 
 import android.app.Application
-import android.content.Context
 import android.text.Html
 import android.util.Log
-import androidx.core.content.res.ComplexColorCompat
 import androidx.lifecycle.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import net.informatikag.thomapp.R
 
 class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
 
@@ -16,6 +13,8 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
 
     private val _articles = MutableLiveData<ArrayList<ArrayList<WordpressArticle>>>()
     val articles: LiveData<ArrayList<ArrayList<WordpressArticle>>> = _articles
+//    var endReached: Boolean = false
+    var lastPage: Int = -1
 
     fun loadArticles(page:Int){
 
@@ -67,8 +66,19 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
                     }
                 },
                 { volleyError ->
-                    Log.d("ThomsLine", "Request failed")
-                    Log.d("ThomsLine", volleyError.message.toString())
+
+                    if (volleyError.networkResponse.statusCode == 400){
+//                        endReached = true
+                        lastPage = if(lastPage == -1 || i-1<lastPage) i-1 else lastPage
+                        Log.d("ThomsLine", "Page does not exist")
+                    } else {
+                        Log.d("ThomsLine", "Request failed")
+                        Log.d("ThomsLine", volleyError.message.toString())
+                    }
+
+                    if (i == page) _articles.apply {
+                        value = pages
+                    }
                 }
             ))
         }

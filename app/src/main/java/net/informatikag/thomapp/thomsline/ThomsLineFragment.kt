@@ -39,7 +39,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
 
         viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
         viewModel.articles.observe(viewLifecycleOwner, Observer {
-            thomslineRecyclerAdapter.setPages(it)
+            thomslineRecyclerAdapter.setPages(it, viewModel.lastPage)
             mSwipeRefreshLayout.isRefreshing = false
         })
 

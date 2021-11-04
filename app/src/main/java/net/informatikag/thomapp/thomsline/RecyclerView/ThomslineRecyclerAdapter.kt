@@ -1,5 +1,6 @@
 package net.informatikag.thomapp.thomsline.RecyclerView
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +14,13 @@ class ThomslineRecyclerAdapter(
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
     private val perPage:Int = 10
+    private var lastPage:Int = -1
+//    private var endReached: Boolean = false
 
-    fun setPages(pPages: ArrayList<ArrayList<WordpressArticle>>){
-        pages = pPages
+    fun setPages(pPages: ArrayList<ArrayList<WordpressArticle>>, pLastPage: Int){
+        this.pages = pPages
+        this.lastPage = pLastPage
+        Log.d("test", pLastPage.toString())
         this.notifyDataSetChanged()
     }
 
@@ -50,11 +55,17 @@ class ThomslineRecyclerAdapter(
 
     override fun getItemCount(): Int {
         if (pages.size == 0) return 0
-        else return (pages.size-1) * perPage + pages[pages.size-1].size + 1
+        else return (pages.size-1) * perPage + pages[pages.size-1].size + (if (pages.size >= lastPage && lastPage != -1) 0 else 1)
     }
 
+    /*
+    1 if Viewholder is a Loadingindicator
+    0 if Viewholder is an Article
+     */
     override fun getItemViewType(position: Int): Int {
-        if (position == getItemCount()-1 && position != 0) return 1
-        else return 0
+        val pageIndex = position/(perPage)
+        val itemIndex = position%perPage
+        return if ((pageIndex != 0 && position == itemCount-1) && (pageIndex != lastPage)) 1
+        else 0
     }
 }
