@@ -15,7 +15,6 @@ class ThomslineRecyclerAdapter(
     private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
     private val perPage:Int = 10
     private var lastPage:Int = -1
-//    private var endReached: Boolean = false
 
     fun setPages(pPages: ArrayList<ArrayList<WordpressArticle>>, pLastPage: Int){
         this.pages = pPages
