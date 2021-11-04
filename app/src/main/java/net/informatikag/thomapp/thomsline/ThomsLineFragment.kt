@@ -211,7 +211,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             } else {
                 "Your device is not connected to internet.please try again with active internet connection"
             }
-            errorMsg = "Entweder du oder der Server haben keine keine Verbindung zum Internet"
         } else if (error is NetworkError || error.cause is ConnectException) {
             errorMsg = "Du bist nicht mit dem Internet verbunden"
         } else if (error.cause is MalformedURLException) {
