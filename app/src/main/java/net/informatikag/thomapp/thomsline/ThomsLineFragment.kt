@@ -207,29 +207,29 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             var activeNetwork: NetworkInfo? = null
             activeNetwork = cm.activeNetworkInfo
             errorMsg = if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
-                "Server is not connected to the internet. Please try again"
+                getString(R.string.network_error_server_error)
             } else {
-                "Your device is not connected to internet.please try again with active internet connection"
+                getString(R.string.network_error_not_connected)
             }
         } else if (error is NetworkError || error.cause is ConnectException) {
-            errorMsg = "Du bist nicht mit dem Internet verbunden"
+            errorMsg = getString(R.string.network_error_not_connected)
         } else if (error.cause is MalformedURLException) {
-            errorMsg = "Irgendwas ist schief gelaufen..."
+            errorMsg = getString(R.string.network_error_weired_response)
         } else if (error is ParseError || error.cause is IllegalStateException || error.cause is JSONException || error.cause is XmlPullParserException) {
-            errorMsg = "Irgendwie konnten wir nichts mit der Antwort vom Server anfangen :("
+            errorMsg = getString(R.string.network_error_weired_response)
         } else if (error.cause is OutOfMemoryError) {
-            errorMsg = "Du hast zuwenig WAM installiet :)"
+            errorMsg = getString(R.string.network_error_out_of_memory)
         } else if (error is AuthFailureError) {
-            errorMsg = "Irgendwas ist schief gelaufen..."
+            errorMsg = getString(R.string.network_error_generic)
         } else if (error is ServerError || error.cause is ServerError) {
-            errorMsg = "Der Server hat gerade Probleme, versuchs später nochmal"
+            getString(R.string.network_error_server_error)
         } else if (error is TimeoutError || error.cause is SocketTimeoutException || error.cause is ConnectTimeoutException || error.cause is SocketException || (error.cause!!.message != null && error.cause!!.message!!.contains(
-                "Die Antwort vom Server hat zu lange gedauert"
+                getString(R.string.network_error_timeout)
             ))
         ) {
-            errorMsg = "Die Antwort vom Server hat zu lange gedauert"
+            errorMsg = getString(R.string.network_error_timeout)
         } else {
-            errorMsg = "Irgendwas ist schief gelaufen..."
+            errorMsg = getString(R.string.network_error_generic)
         }
         return errorMsg
     }
