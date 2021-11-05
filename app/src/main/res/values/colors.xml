@@ -12,4 +12,7 @@
     <color name="secondaryDarkColor">#001f30</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
+
+    <!--This is not acually used-->
+    <color name="articleTextColor">#888888</color>
 </resources>

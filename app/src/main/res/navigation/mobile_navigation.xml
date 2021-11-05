@@ -7,25 +7,45 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="net.informatikag.thomapp.ui.home.HomeFragment"
+        android:name="net.informatikag.thomapp.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_thomsline"
-        android:name="net.informatikag.thomapp.ui.thomsline.ThomsLineFragment"
+        android:name="net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment"
         android:label="@string/menu_thomsline"
-        tools:layout="@layout/fragment_thomsline" />
+        tools:layout="@layout/fragment_thomsline" >
+        <action
+            android:id="@+id/action_nav_thomsline_to_nav_thomsline_article_view"
+            app:destination="@id/nav_thomsline_article_view" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_thomsline_article_view"
+        android:name="net.informatikag.thomapp.thomsline.fragments.ArticleView.ThomsLineArticleFragment">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="imageURL"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="content"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_vertretungsplan_oberstufe"
-        android:name="net.informatikag.thomapp.ui.vertretungsplan.oberstufe.VertretungsplanOberstufeFragment"
+        android:name="net.informatikag.thomapp.vertretungsplan.oberstufe.VertretungsplanOberstufeFragment"
         android:label="@string/menu_vertretungsplan_oberstufe"
         tools:layout="@layout/fragment_vertretungsplan_oberstufe" />
 
     <fragment
         android:id="@+id/nav_vertretungsplan_unterstufe"
-        android:name="net.informatikag.thomapp.ui.vertretungsplan.unterstufe.VertretungsplanUnterstufeFragment"
+        android:name="net.informatikag.thomapp.vertretungsplan.unterstufe.VertretungsplanUnterstufeFragment"
         android:label="@string/menu_vertretungsplan_unterstufe"
         tools:layout="@layout/fragment_vertretungsplan_unterstufe" />
 </navigation>
