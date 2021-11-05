@@ -24,8 +24,17 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout the Code
         uses: actions/checkout@v2
+        
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.3.1
+        with:
+          # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
+          java-version: 1.8
+        
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-      # Runs a single command using the runners shell
+      # Build App
       - name: Build
         run: ./gradlew build
 
