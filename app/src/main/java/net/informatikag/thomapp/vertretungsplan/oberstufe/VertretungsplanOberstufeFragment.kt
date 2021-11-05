@@ -28,7 +28,8 @@ class VertretungsplanOberstufeFragment : Fragment() {
 
         handler = VertretungsplanHandler(
             "https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf",
-            binding.fragmentVertretungsplanLayout
+            binding.fragmentVertretungsplanLayout,
+            requireActivity().findViewById(R.id.app_bar_main)
         )
 
         return root
