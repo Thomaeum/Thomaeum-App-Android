@@ -2,7 +2,6 @@ package net.informatikag.thomapp.thomsline.fragments.ArticleList
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -16,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
@@ -26,7 +24,6 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
 import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.ThomslineRecyclerAdapter
 import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.TopSpacingItemDecoration
-import net.informatikag.thomapp.thomsline.utils.ItemClickListener
 import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
@@ -36,7 +33,7 @@ import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 
-class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
+class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var viewModel: ThomsLineFragmentViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -101,7 +98,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
     }
 
 
-    override fun onItemClick(wordpressArticle: WordpressArticle) {
+    fun onItemClick(wordpressArticle: WordpressArticle) {
         val action =
             ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
                 wordpressArticle.title,

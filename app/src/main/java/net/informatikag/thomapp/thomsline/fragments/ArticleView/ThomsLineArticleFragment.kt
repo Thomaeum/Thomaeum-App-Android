@@ -25,24 +25,17 @@ class ThomsLineArticleFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = ThomsLineArticleFragment()
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentThomslineArticleViewBinding.inflate(inflater, container, false)
 
+        //Change Title TextView
+        binding.thomslineArtilcleTitle.setText(args.title)
 
-        val titleView: TextView = binding.thomslineArtilcleTitle
+        //Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
-        val contentView: WebView = binding.thomslineArticleContent
-
-        titleView.setText(args.title)
-
         if (args.imageURL != null)
             Glide.with(imageView.context)
                 .applyDefaultRequestOptions(RequestOptions().error(R.drawable.ic_launcher_background))
@@ -51,6 +44,8 @@ class ThomsLineArticleFragment : Fragment() {
                 .into(imageView)
         else imageView.isGone = true
 
+        //Load Content
+        val contentView: WebView = binding.thomslineArticleContent
         contentView.isFocusable = false
         contentView.setBackgroundColor(Color.TRANSPARENT)
         contentView.loadDataWithBaseURL("", args.content, "text/html", "UTF-8", "")

@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.utils.ItemClickListener
+import net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment
 import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 
 class ThomsLineArticleViewHolder constructor(
     itemView: View,
-    val itemClickListener: ItemClickListener
+    val fragment: ThomsLineFragment
 ): RecyclerView.ViewHolder(itemView){
     fun bind(post: WordpressArticle){
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
@@ -29,7 +29,7 @@ class ThomsLineArticleViewHolder constructor(
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
 
         itemView.setOnClickListener(View.OnClickListener {
-            itemClickListener.onItemClick(post)
+            fragment.onItemClick(post)
         })
     }
 }

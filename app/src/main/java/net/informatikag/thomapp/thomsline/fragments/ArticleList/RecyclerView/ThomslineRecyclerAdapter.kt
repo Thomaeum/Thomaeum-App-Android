@@ -10,8 +10,6 @@ import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 
 class ThomslineRecyclerAdapter(
     val fragment: ThomsLineFragment,
-//    val itemClickListener: ItemClickListener,
-//    val viewModel: ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
     private val perPage:Int = 10
@@ -38,7 +36,7 @@ class ThomslineRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when(holder){
             is ThomsLineArticleViewHolder -> {
-                var pageIndex = position/(perPage)
+                val pageIndex = position/(perPage)
                 val itemIndex = position%perPage
 
                 holder.bind(pages
@@ -58,12 +56,11 @@ class ThomslineRecyclerAdapter(
     }
 
     /*
-    1 if Viewholder is a Loadingindicator
-    0 if Viewholder is an Article
+     * 1 if Viewholder is a Loadingindicator
+     * 0 if Viewholder is an Article
      */
     override fun getItemViewType(position: Int): Int {
         val pageIndex = position/(perPage)
-        val itemIndex = position%perPage
         return if ((pageIndex != 0 && position == itemCount-1) && (pageIndex != lastPage)) 1
         else 0
     }
