@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
 import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.ThomslineRecyclerAdapter
+import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.TopSpacingItemDecoration
 import net.informatikag.thomapp.thomsline.utils.ItemClickListener
 import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 import org.apache.http.conn.ConnectTimeoutException
@@ -37,10 +38,9 @@ import java.net.SocketTimeoutException
 
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
 
-    private lateinit var postAdapter: ThomslineRecyclerAdapter
     private lateinit var viewModel: ThomsLineFragmentViewModel
-    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var thomslineRecyclerAdapter: ThomslineRecyclerAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var recyclerAdapter: ThomslineRecyclerAdapter
     private val defaultImageURL = "https://thoms-line.thomaeum.de/wp-content/uploads/2021/01/Thom-01.jpg"
     private var _binding: FragmentThomslineBinding? = null
 
@@ -56,66 +56,44 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
         _binding = FragmentThomslineBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        //Instantiate Variables
         viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
+        recyclerAdapter =  ThomslineRecyclerAdapter(this)
+
+        //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {
-            thomslineRecyclerAdapter.setPages(it, viewModel.lastPage)
-            mSwipeRefreshLayout.isRefreshing = false
+            recyclerAdapter.setPages(it, viewModel.lastPage)
+            swipeRefreshLayout.isRefreshing = false
         })
 
-        thomslineRecyclerAdapter =  ThomslineRecyclerAdapter(this)
-
-        initSwipeRefreshLayout(root)
-        initRecyclerView()
-
-        return root
-    }
-
-    private fun initRecyclerView(){
-        _binding?.thomslineRecyclerView?.apply {
-            layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
-            postAdapter = thomslineRecyclerAdapter
-            addItemDecoration(TopSpacingItemDecoration(30))
-            adapter = postAdapter
-        }
-    }
-
-    private fun initSwipeRefreshLayout(root: View) {
-        /**
-         * Showing Swipe Refresh animation on activity create
-         * As animation won't start on onCreate, post runnable is used
-         */
-        mSwipeRefreshLayout = root.findViewById(R.id.thomsline_swipe_container)
-        mSwipeRefreshLayout.setOnRefreshListener(this)
-        mSwipeRefreshLayout.setColorSchemeResources(
+        //region Init SwipeRefresh Layout
+        swipeRefreshLayout = root.findViewById(R.id.thomsline_swipe_container)
+        swipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeResources(
             R.color.primaryColor,
             R.color.secondaryColor
         )
 
-
-        if (viewModel.articles.value == null) mSwipeRefreshLayout.post {
-            mSwipeRefreshLayout.isRefreshing = true
+        if (viewModel.articles.value == null) swipeRefreshLayout.post {
+            swipeRefreshLayout.isRefreshing = true
             loadArticles(0)
         }
+        //endregion
+
+        //region Init Recycler View
+        _binding?.thomslineRecyclerView?.apply {
+            layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
+            addItemDecoration(TopSpacingItemDecoration())
+            adapter = recyclerAdapter
+        }
+        //endregion
+
+        return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    class TopSpacingItemDecoration(private val padding: Int): RecyclerView.ItemDecoration(){
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            super.getItemOffsets(outRect, view, parent, state)
-            outRect.top = padding
-            outRect.bottom = padding
-            outRect.left = padding
-            outRect.right = padding
-        }
     }
 
     override fun onRefresh() {
@@ -131,10 +109,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
                 wordpressArticle.content
             )
         findNavController().navigate(action)
-    }
-
-    fun getViewModel(): ThomsLineFragmentViewModel {
-        return viewModel;
     }
 
     fun loadArticles(page:Int){
@@ -227,9 +201,12 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
             errorMsg = getString(R.string.network_error_generic)
         } else if (error is ServerError || error.cause is ServerError) {
             getString(R.string.network_error_server_error)
-        } else if (error is TimeoutError || error.cause is SocketTimeoutException || error.cause is ConnectTimeoutException || error.cause is SocketException || (error.cause!!.message != null && error.cause!!.message!!.contains(
-                getString(R.string.network_error_timeout)
-            ))
+        } else if (
+            error is TimeoutError ||
+            error.cause is SocketTimeoutException ||
+            error.cause is ConnectTimeoutException ||
+            error.cause is SocketException ||
+            (error.cause!!.message != null && error.cause!!.message!!.contains("Your connection has timed out, please try again"))
         ) {
             errorMsg = getString(R.string.network_error_timeout)
         } else {
