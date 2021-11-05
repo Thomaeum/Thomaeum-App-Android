@@ -192,9 +192,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
                         viewModel.lastPage = if(viewModel.lastPage == -1 || i-1<viewModel.lastPage) i-1 else viewModel.lastPage
                         Log.d("ThomsLine", "Page does not exist")
                     } else {
-                        Log.d("ThomsLine", "Request failed")
-                        Log.d("ThomsLine", volleyError.message.toString())
-
+                        Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
                         Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), requireActivity().getVolleyError(volleyError), Snackbar.LENGTH_LONG).show()
                     }
 

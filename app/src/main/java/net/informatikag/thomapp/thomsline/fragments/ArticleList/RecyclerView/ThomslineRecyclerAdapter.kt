@@ -20,7 +20,6 @@ class ThomslineRecyclerAdapter(
     fun setPages(pPages: ArrayList<ArrayList<WordpressArticle>>, pLastPage: Int){
         this.pages = pPages
         this.lastPage = pLastPage
-        Log.d("test", pLastPage.toString())
         this.notifyDataSetChanged()
     }
 
