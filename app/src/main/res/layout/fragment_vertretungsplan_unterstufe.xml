@@ -6,9 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".vertretungsplan.unterstufe.VertretungsplanUnterstufeFragment">
 
-    <!--PDF Viewer to display our PDF-->
-    <WebView
-        android:id="@+id/vertretungsplan_unterstufe_pdf_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include
+        android:id="@+id/fragment_vertretungsplan_layout"
+        layout="@layout/fragment_vertretungsplan_template"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
