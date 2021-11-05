@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentVertretungsplanOberstufeBinding
-import net.informatikag.thomapp.ui.gallery.VertretungsplanOberstufeViewModel
+import net.informatikag.thomapp.vertretungsplan.utils.VertretungsplanHandler
 
 class VertretungsplanOberstufeFragment : Fragment() {
 
-    private lateinit var vertretungsplanOberstufeViewModel: VertretungsplanOberstufeViewModel
     private var _binding: FragmentVertretungsplanOberstufeBinding? = null
+    private lateinit var handler: VertretungsplanHandler
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -28,14 +26,11 @@ class VertretungsplanOberstufeFragment : Fragment() {
         _binding = FragmentVertretungsplanOberstufeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        vertretungsplanOberstufeViewModel = ViewModelProvider(this).get(VertretungsplanOberstufeViewModel::class.java)
-
-        val pdfView: WebView = binding.vertretungsplanOberstufePdfView
-        pdfView.settings.loadWithOverviewMode = true
-        pdfView.settings.javaScriptEnabled = true
-        vertretungsplanOberstufeViewModel.url.observe(viewLifecycleOwner, Observer {
-            pdfView.loadUrl("https://docs.google.com/gview?embedded=true&url=$it")
-        })
+        handler = VertretungsplanHandler(
+            "https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf",
+            binding.fragmentVertretungsplanLayout,
+            requireActivity().findViewById(R.id.app_bar_main)
+        )
 
         return root
     }
