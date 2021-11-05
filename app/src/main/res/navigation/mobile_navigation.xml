@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_thomsline"
-        android:name="net.informatikag.thomapp.thomsline.ThomsLineFragment"
+        android:name="net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment"
         android:label="@string/menu_thomsline"
         tools:layout="@layout/fragment_thomsline" >
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/nav_thomsline_article_view"
-        android:name="net.informatikag.thomapp.thomsline.ArticleView.ThomsLineArticleFragment">
+        android:name="net.informatikag.thomapp.thomsline.fragments.ArticleView.ThomsLineArticleFragment">
         <argument
             android:name="title"
             app:argType="string" />

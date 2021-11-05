@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline
+package net.informatikag.thomapp.thomsline.utils
 
 data class WordpressArticle(
     var id: Int,

@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.ArticleView
+package net.informatikag.thomapp.thomsline.fragments.ArticleView
 
 import android.content.res.Resources
 import android.graphics.Bitmap

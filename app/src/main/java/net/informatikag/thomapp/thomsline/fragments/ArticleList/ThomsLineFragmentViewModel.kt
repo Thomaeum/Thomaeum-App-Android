@@ -1,21 +1,8 @@
-package net.informatikag.thomapp.thomsline
+package net.informatikag.thomapp.thomsline.fragments.ArticleList
 
 import android.app.Application
-import android.text.Html
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
-import com.android.volley.*
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
-import com.google.android.material.internal.ContextUtils.getActivity
-import org.apache.http.conn.ConnectTimeoutException
-import org.json.JSONException
-import org.xmlpull.v1.XmlPullParserException
-import java.net.ConnectException
-import java.net.MalformedURLException
-import java.net.SocketException
-import java.net.SocketTimeoutException
+import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 
 class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
 

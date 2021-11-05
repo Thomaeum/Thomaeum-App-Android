@@ -1,13 +1,12 @@
-package net.informatikag.thomapp.thomsline.RecyclerView
+package net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.ThomsLineFragment
-import net.informatikag.thomapp.thomsline.ThomsLineFragmentViewModel
-import net.informatikag.thomapp.thomsline.WordpressArticle
+import net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment
+import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 
 class ThomslineRecyclerAdapter(
     val fragment: ThomsLineFragment,

@@ -1,10 +1,7 @@
-package net.informatikag.thomapp.thomsline.ArticleView
+package net.informatikag.thomapp.thomsline.fragments.ArticleView
 
 import android.graphics.Color
-import android.graphics.drawable.LevelListDrawable
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +15,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
-import org.w3c.dom.Text
 
 class ThomsLineArticleFragment : Fragment() {
 

@@ -1,16 +1,14 @@
-package net.informatikag.thomapp.thomsline.RecyclerView
+package net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.WordpressArticle
+import net.informatikag.thomapp.thomsline.utils.ItemClickListener
+import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 
 class ThomsLineArticleViewHolder constructor(
     itemView: View,

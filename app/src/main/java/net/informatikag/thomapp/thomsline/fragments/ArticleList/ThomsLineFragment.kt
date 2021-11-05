@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline
+package net.informatikag.thomapp.thomsline.fragments.ArticleList
 
 import android.app.Activity
 import android.content.Context
@@ -24,8 +24,9 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
-import net.informatikag.thomapp.thomsline.RecyclerView.ItemClickListener
-import net.informatikag.thomapp.thomsline.RecyclerView.ThomslineRecyclerAdapter
+import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.ThomslineRecyclerAdapter
+import net.informatikag.thomapp.thomsline.utils.ItemClickListener
+import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import org.xmlpull.v1.XmlPullParserException
@@ -123,11 +124,16 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Item
 
 
     override fun onItemClick(wordpressArticle: WordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(wordpressArticle.title, wordpressArticle.imageURL, wordpressArticle.content)
+        val action =
+            ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
+                wordpressArticle.title,
+                wordpressArticle.imageURL,
+                wordpressArticle.content
+            )
         findNavController().navigate(action)
     }
 
-    fun getViewModel(): ThomsLineFragmentViewModel{
+    fun getViewModel(): ThomsLineFragmentViewModel {
         return viewModel;
     }
 
