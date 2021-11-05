@@ -14,13 +14,9 @@ class ThomsLineArticleViewHolder constructor(
     itemView: View,
     val itemClickListener: ItemClickListener
 ): RecyclerView.ViewHolder(itemView){
-    val title = itemView.findViewById<TextView>(R.id.thomsline_post_title)
-    val author = itemView.findViewById<TextView>(R.id.thomsline_post_author)
-    val image = itemView.findViewById<ImageView>(R.id.thomsline_post_image)
-
     fun bind(post: WordpressArticle){
-        title.setText(post.title)
-        author.setText(post.author)
+        itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
+        itemView.findViewById<TextView>(R.id.thomsline_post_author).setText(post.author)
 
         if (post.imageURL != null)
         Glide.with(itemView.context)
@@ -30,7 +26,7 @@ class ThomsLineArticleViewHolder constructor(
                     .error(R.drawable.ic_launcher_background))
             .load(post.imageURL)
             .placeholder(R.drawable.default_article_image)
-            .into(image)
+            .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
 
         itemView.setOnClickListener(View.OnClickListener {
             itemClickListener.onItemClick(post)
