@@ -9,12 +9,14 @@ android {
 
     defaultConfig {
         applicationId "net.informatikag.thomapp"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 31
+        minSdkVersion 24
     }
 
     buildTypes {
