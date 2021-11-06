@@ -1,12 +1,12 @@
 package net.informatikag.thomapp.thomsline.fragments.ArticleView
 
-import android.graphics.Color
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
+import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleImageGetter
 
 class ThomsLineArticleFragment : Fragment() {
 
@@ -45,10 +46,13 @@ class ThomsLineArticleFragment : Fragment() {
         else imageView.isGone = true
 
         //Load Content
-        val contentView: WebView = binding.thomslineArticleContent
-        contentView.isFocusable = false
-        contentView.setBackgroundColor(Color.TRANSPARENT)
-        contentView.loadDataWithBaseURL("", args.content, "text/html", "UTF-8", "")
+        val contentView: TextView = binding.thomslineArticleContent
+        contentView.setText(Html.fromHtml(
+            args.content.replace("figcaption", "p", true),
+            Html.FROM_HTML_MODE_LEGACY,
+            ThomsLineArticleImageGetter(resources, contentView),
+            null)
+        )
 
         return binding.root
     }

@@ -142,11 +142,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                                     .getString("source_url")
                             else defaultImageURL
                         )
-
-                        article.content = "<html><head><style type=\"text/css\">body{color:#888888}}</style></head><body>${
-                            article.content
-                        }</body></html>"
-
                         data.add(article)
                     }
 
