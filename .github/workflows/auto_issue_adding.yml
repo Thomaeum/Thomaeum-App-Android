@@ -1,0 +1,16 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Auto add Issues to Project
+
+on:
+  issues:
+    types: [opened]
+jobs:
+  createCard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or Update Project Card
+        uses: peter-evans/create-or-update-project-card@v1
+        with:
+          project-name: Entwicklung einer Thomaeum App
+          column-name: To do
