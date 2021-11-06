@@ -45,8 +45,7 @@ class VertretungsplanHandler(
         error: WebResourceError?
     ) {
         super.onReceivedError(view, request, error)
-        //TODO add Error Code
-        Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens${if(error != null) ": ${error.description}" else null}", Snackbar.LENGTH_LONG).show()
         layout.root.post { layout.root.isRefreshing = false }
     }
 }
