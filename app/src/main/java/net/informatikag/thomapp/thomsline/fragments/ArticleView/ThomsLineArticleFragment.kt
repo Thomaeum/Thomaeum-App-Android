@@ -47,6 +47,11 @@ class ThomsLineArticleFragment : Fragment() {
 
         //Load Content
         val contentView: TextView = binding.thomslineArticleContent
+
+        var content = args.content
+        content = content.replace("\t*<([/]?)div.*>".toRegex(), "")
+        content = content.replace("<figcaption>", "<br><figcaption>", true)
+
         contentView.setText(Html.fromHtml(
             args.content.replace("figcaption", "p", true),
             Html.FROM_HTML_MODE_LEGACY,
