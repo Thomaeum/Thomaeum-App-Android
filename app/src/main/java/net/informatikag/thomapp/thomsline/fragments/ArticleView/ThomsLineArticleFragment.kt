@@ -48,14 +48,21 @@ class ThomsLineArticleFragment : Fragment() {
 
         //Load Content
         val contentView: TextView = binding.thomslineArticleContent
-
         var content = args.content
-        content = content.replace("\t*<([/]?)div.*>".toRegex(), "")
-        content = content.replace("<figcaption>", "<br><figcaption>", true)
-        content = content.replace("\n", "", true)
-        content = content.replace("</figure>", "</figure>", true)
-        content = content.replace("<figure>", "</figure>", true)
 
+        //Remove new Line Chars
+        content = content.replace("\n", "", true)
+
+        //Remove Divs
+        content = content.replace("\t*</?div[^>]*>".toRegex(), "")
+
+        //Remove multiple Whitespaces
+        content = content.replace("(\\s|&nbsp;)+".toRegex(), " ")
+
+        //Add Linebreak bevore Caption
+        content = content.replace("<figcaption>", "<br><figcaption>", true)
+
+        //Load HTML to Textview
         contentView.setText(Html.fromHtml(
             content,
             Html.FROM_HTML_MODE_LEGACY,
