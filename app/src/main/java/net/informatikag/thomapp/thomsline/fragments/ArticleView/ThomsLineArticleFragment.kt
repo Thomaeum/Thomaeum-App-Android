@@ -1,8 +1,9 @@
 package net.informatikag.thomapp.thomsline.fragments.ArticleView
 
+import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -69,6 +70,9 @@ class ThomsLineArticleFragment : Fragment() {
             ThomsLineArticleImageGetter(resources, contentView),
             ThomsLineArticleTagHandler())
         )
+
+        //Since Android 8 (O) Block-Text is possible
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) contentView.justificationMode = JUSTIFICATION_MODE_INTER_WORD
 
         return binding.root
     }

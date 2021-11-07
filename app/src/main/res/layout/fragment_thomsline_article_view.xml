@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:gravity="center_horizontal"
+            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textStyle="bold"
             tools:text="Title" />
