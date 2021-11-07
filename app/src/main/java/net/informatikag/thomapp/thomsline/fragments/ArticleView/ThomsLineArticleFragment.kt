@@ -37,6 +37,9 @@ class ThomsLineArticleFragment : Fragment() {
         //Change Title TextView
         binding.thomslineArtilcleTitle.setText(args.title)
 
+        //Load Author
+        binding.thomslineArticleAuthor.setText(args.authors)
+
         //Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
         if (args.imageURL != null)
@@ -50,12 +53,6 @@ class ThomsLineArticleFragment : Fragment() {
         //Load Content
         val contentView: TextView = binding.thomslineArticleContent
         var content = args.content
-
-        //Remove new Line Chars
-        content = content.replace("\n", "", true)
-
-        //Remove Divs
-        content = content.replace("\t*</?div[^>]*>".toRegex(), "")
 
         //Remove multiple Whitespaces
         content = content.replace("(\\s|&nbsp;)+".toRegex(), " ")
