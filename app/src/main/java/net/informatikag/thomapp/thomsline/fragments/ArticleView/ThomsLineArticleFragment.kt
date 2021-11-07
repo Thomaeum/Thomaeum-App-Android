@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
 import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleImageGetter
+import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleTagHandler
 
 class ThomsLineArticleFragment : Fragment() {
 
@@ -51,12 +52,15 @@ class ThomsLineArticleFragment : Fragment() {
         var content = args.content
         content = content.replace("\t*<([/]?)div.*>".toRegex(), "")
         content = content.replace("<figcaption>", "<br><figcaption>", true)
+        content = content.replace("\n", "", true)
+        content = content.replace("</figure>", "</figure>", true)
+        content = content.replace("<figure>", "</figure>", true)
 
         contentView.setText(Html.fromHtml(
-            args.content.replace("figcaption", "p", true),
+            content,
             Html.FROM_HTML_MODE_LEGACY,
             ThomsLineArticleImageGetter(resources, contentView),
-            null)
+            ThomsLineArticleTagHandler())
         )
 
         return binding.root
