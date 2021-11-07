@@ -41,7 +41,7 @@ class ThomsLineArticleFragment : Fragment() {
         val imageView: ImageView = binding.thomslineArticleImage
         if (args.imageURL != null)
             Glide.with(imageView.context)
-                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.ic_launcher_background))
+                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.default_article_image))
                 .load(args.imageURL)
                 .placeholder(R.drawable.default_article_image)
                 .into(imageView)
