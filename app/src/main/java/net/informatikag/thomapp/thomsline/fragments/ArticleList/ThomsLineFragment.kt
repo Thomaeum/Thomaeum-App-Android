@@ -33,6 +33,10 @@ import java.net.ConnectException
 import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
+import java.text.DateFormat
+import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
@@ -106,7 +110,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 wordpressArticle.imageURL,
                 wordpressArticle.content,
                 wordpressArticle.getAuthorString(),
-                0
+                wordpressArticle.date.time,
             )
         findNavController().navigate(action)
     }
@@ -128,6 +132,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                     for (j in 0 until response.length()) {
                         val current = response.getJSONObject(j)
 
+                        val dateString = current.getString("date").split("[-T:]".toRegex())
+
                         val article = WordpressArticle(
                             current.getInt("id"),
                             Html.fromHtml(current.getJSONObject("title").getString("rendered"))
@@ -143,7 +149,15 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                                     .getJSONObject(0).getJSONObject("media_details")
                                     .getJSONObject("sizes").getJSONObject("full")
                                     .getString("source_url")
-                            else defaultImageURL
+                            else defaultImageURL,
+                            Date(
+                                dateString[0].toInt(),
+                                dateString[1].toInt(),
+                                dateString[2].toInt(),
+                                dateString[3].toInt(),
+                                dateString[4].toInt(),
+                                dateString[5].toInt()
+                            )
                         )
                         data.add(article)
                     }

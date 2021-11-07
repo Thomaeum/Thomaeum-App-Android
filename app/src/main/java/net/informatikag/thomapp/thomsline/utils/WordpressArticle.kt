@@ -1,5 +1,7 @@
 package net.informatikag.thomapp.thomsline.utils
 
+import java.util.*
+
 data class WordpressArticle(
     var id: Int,
     var title: String,
@@ -7,6 +9,7 @@ data class WordpressArticle(
     var excerpt: String,
     var authors: Array<String>,
     var imageURL: String?,
+    var date: Date
 ) {
     fun getAuthorString():String{
         var output = ""

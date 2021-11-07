@@ -18,6 +18,8 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
 import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleImageGetter
 import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleTagHandler
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ThomsLineArticleFragment : Fragment() {
 
@@ -39,6 +41,12 @@ class ThomsLineArticleFragment : Fragment() {
 
         //Load Author
         binding.thomslineArticleAuthor.setText(args.authors)
+
+        //Load Date
+        val date = Date(args.date)
+        binding.thomslineArticleDate.setText(
+            "${date.hours}:${date.minutes} - ${date.date}.${date.month}.${date.year}"
+        )
 
         //Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
