@@ -26,12 +26,17 @@ import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.Tho
 import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.TopSpacingItemDecoration
 import net.informatikag.thomapp.thomsline.utils.WordpressArticle
 import org.apache.http.conn.ConnectTimeoutException
+import org.json.JSONArray
 import org.json.JSONException
 import org.xmlpull.v1.XmlPullParserException
 import java.net.ConnectException
 import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
+import java.text.DateFormat
+import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
@@ -103,7 +108,9 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
                 wordpressArticle.title,
                 wordpressArticle.imageURL,
-                wordpressArticle.content
+                wordpressArticle.content,
+                wordpressArticle.getAuthorString(),
+                wordpressArticle.date.time,
             )
         findNavController().navigate(action)
     }
@@ -124,7 +131,10 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
                     for (j in 0 until response.length()) {
                         val current = response.getJSONObject(j)
-                        var article = WordpressArticle(
+
+                        val dateString = current.getString("date").split("[-T:]".toRegex())
+
+                        val article = WordpressArticle(
                             current.getInt("id"),
                             Html.fromHtml(current.getJSONObject("title").getString("rendered"))
                                 .toString(),
@@ -132,21 +142,23 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                             Html.fromHtml(
                                 current.getJSONObject("excerpt").getString("rendered")
                             ).toString(),
-                            current.getJSONObject("_embedded").getJSONArray("author")
-                                .getJSONObject(0).getString("name"),
+                            Array(current.getJSONObject("_embedded").getJSONArray("author").length(), { i -> current.getJSONObject("_embedded").getJSONArray("author").getJSONObject(i).getString("name")}),
                             if (current.getJSONObject("_embedded").has("wp:featuredmedia"))
                                 current.getJSONObject("_embedded")
                                     .getJSONArray("wp:featuredmedia")
                                     .getJSONObject(0).getJSONObject("media_details")
                                     .getJSONObject("sizes").getJSONObject("full")
                                     .getString("source_url")
-                            else defaultImageURL
+                            else defaultImageURL,
+                            Date(
+                                dateString[0].toInt(),
+                                dateString[1].toInt(),
+                                dateString[2].toInt(),
+                                dateString[3].toInt(),
+                                dateString[4].toInt(),
+                                dateString[5].toInt()
+                            )
                         )
-
-                        article.content = "<html><head><style type=\"text/css\">body{color:#888888}}</style></head><body>${
-                            article.content
-                        }</body></html>"
-
                         data.add(article)
                     }
 

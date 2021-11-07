@@ -35,6 +35,12 @@
         <argument
             android:name="content"
             app:argType="string" />
+        <argument
+            android:name="authors"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="long" />
     </fragment>
 
     <fragment
