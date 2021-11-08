@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class TopSpacingItemDecoration: RecyclerView.ItemDecoration(){
+class ArticleListSpacingDecoration: RecyclerView.ItemDecoration(){
 
     private val PADDING: Int = 30
 

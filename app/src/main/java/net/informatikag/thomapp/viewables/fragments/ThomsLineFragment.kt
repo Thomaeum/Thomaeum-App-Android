@@ -23,7 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
-import net.informatikag.thomapp.utils.TopSpacingItemDecoration
+import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import org.apache.http.conn.ConnectTimeoutException
@@ -83,7 +83,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         //region Init Recycler View
         _binding?.thomslineRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
-            addItemDecoration(TopSpacingItemDecoration())
+            addItemDecoration(ArticleListSpacingDecoration())
             adapter = recyclerAdapter
         }
         //endregion
