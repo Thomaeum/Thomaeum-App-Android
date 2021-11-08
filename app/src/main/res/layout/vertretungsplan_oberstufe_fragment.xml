@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".viewables.fragments.VertretungsplanOberstufeFragment">
+    tools:context=".viewables.fragments.vertretungsplan.VertretungsplanOberstufeFragment">
 
     <include
         android:id="@+id/fragment_vertretungsplan_layout"
-        layout="@layout/vertretungsplan_template_fragment"/>
+        layout="@layout/vertretungsplan_template_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

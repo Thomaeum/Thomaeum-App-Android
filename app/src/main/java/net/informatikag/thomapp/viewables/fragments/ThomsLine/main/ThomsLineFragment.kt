@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments
+package net.informatikag.thomapp.viewables.fragments.ThomsLine.main
 
 import android.app.Activity
 import android.content.Context
@@ -102,8 +102,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
 
     fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action =
-            ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
                 thomsLineWordpressArticle.title,
                 thomsLineWordpressArticle.imageURL,
                 thomsLineWordpressArticle.content,

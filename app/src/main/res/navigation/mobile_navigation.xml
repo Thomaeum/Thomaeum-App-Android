@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="net.informatikag.thomapp.viewables.fragments.HomeFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/home_fragment" />
 
     <fragment
         android:id="@+id/nav_thomsline"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLineFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment"
         android:label="@string/menu_thomsline"
         tools:layout="@layout/thomsline_main_fragment" >
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/nav_thomsline_article_view"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLineArticleFragment">
+        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
         <argument
             android:name="title"
             app:argType="string" />
@@ -45,13 +45,13 @@
 
     <fragment
         android:id="@+id/nav_vertretungsplan_oberstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.VertretungsplanOberstufeFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.vertretungsplan.VertretungsplanOberstufeFragment"
         android:label="@string/menu_vertretungsplan_oberstufe"
         tools:layout="@layout/vertretungsplan_oberstufe_fragment" />
 
     <fragment
         android:id="@+id/nav_vertretungsplan_unterstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.VertretungsplanUnterstufeFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.vertretungsplan.VertretungsplanUnterstufeFragment"
         android:label="@string/menu_vertretungsplan_unterstufe"
         tools:layout="@layout/vertretungsplan_unterstufe_fragment" />
 </navigation>

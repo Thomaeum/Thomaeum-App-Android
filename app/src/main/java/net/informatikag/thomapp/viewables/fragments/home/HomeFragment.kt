@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments
+package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
 import android.view.LayoutInflater

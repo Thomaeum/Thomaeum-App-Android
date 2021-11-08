@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.viewables.fragments.ThomsLineFragment
+import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 
 class ThomsLineArticleViewHolder constructor(
