@@ -21,7 +21,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.databinding.FragmentThomslineBinding
+import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.TopSpacingItemDecoration
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
@@ -42,7 +42,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter
     private val defaultImageURL = "https://thoms-line.thomaeum.de/wp-content/uploads/2021/01/Thom-01.jpg"
-    private var _binding: FragmentThomslineBinding? = null
+    private var _binding: ThomslineMainFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -53,7 +53,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentThomslineBinding.inflate(inflater, container, false)
+        _binding = ThomslineMainFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         //Instantiate Variables

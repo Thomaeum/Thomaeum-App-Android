@@ -15,7 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
+import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineArticleImageGetter
 import net.informatikag.thomapp.utils.handlers.ThomsLineArticleTagHandler
 import java.util.*
@@ -23,7 +23,7 @@ import java.util.*
 class ThomsLineArticleFragment : Fragment() {
 
     private val args: ThomsLineArticleFragmentArgs by navArgs()
-    private var _binding: FragmentThomslineArticleViewBinding? = null
+    private var _binding: ThomslineArticleFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,7 +33,7 @@ class ThomsLineArticleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentThomslineArticleViewBinding.inflate(inflater, container, false)
+        _binding = ThomslineArticleFragmentBinding.inflate(inflater, container, false)
 
         //Change Title TextView
         binding.thomslineArtilcleTitle.setText(args.title)
@@ -51,9 +51,9 @@ class ThomsLineArticleFragment : Fragment() {
         val imageView: ImageView = binding.thomslineArticleImage
         if (args.imageURL != null)
             Glide.with(imageView.context)
-                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.default_article_image))
+                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.img_thomsline_article_image_default))
                 .load(args.imageURL)
-                .placeholder(R.drawable.default_article_image)
+                .placeholder(R.drawable.img_thomsline_article_image_default)
                 .into(imageView)
         else imageView.isGone = true
 

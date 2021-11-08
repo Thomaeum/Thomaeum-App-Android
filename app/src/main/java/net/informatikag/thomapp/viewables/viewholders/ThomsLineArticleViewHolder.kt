@@ -25,7 +25,7 @@ class ThomsLineArticleViewHolder constructor(
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background))
             .load(post.imageURL)
-            .placeholder(R.drawable.default_article_image)
+            .placeholder(R.drawable.img_thomsline_article_image_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
 
         itemView.setOnClickListener(View.OnClickListener {

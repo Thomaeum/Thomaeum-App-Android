@@ -25,12 +25,12 @@ class ThomsLineRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_article, parent, false),
+                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
                 fragment
             )
         }
         return ThomsLineLoadingViewholder(
-            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_loading, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
         )
     }
 
