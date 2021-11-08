@@ -15,14 +15,20 @@ import kotlinx.coroutines.withContext
 
 // Class to download Images which extends [Html.ImageGetter]
 // Copyed from https://www.geeksforgeeks.org/how-to-display-html-in-textview-along-with-images-in-android/
-class ThomsLineArticleImageGetter(
+class DrawableImageGetter(
     private val res: Resources,
-    private val htmlTextView: TextView
+    private val htmlTextView: TextView,
+    private var maxHeight: Float?,
+    private var maxWidth: Float?
 ) : Html.ImageGetter {
 
     // Function needs to overridden when extending [Html.ImageGetter] ,
     // which will download the image
     override fun getDrawable(url: String): Drawable {
+
+        maxWidth = if(maxWidth != null) maxWidth else getScreenWidth().toFloat()
+        maxHeight = if(maxHeight != null) maxHeight else 700f
+
         val holder = BitmapDrawablePlaceHolder(res, null)
 
         // Coroutine Scope to download image in Background

@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
-import net.informatikag.thomapp.utils.handlers.ThomsLineArticleImageGetter
-import net.informatikag.thomapp.utils.handlers.ThomsLineArticleTagHandler
+import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
+import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
 import java.util.*
 
 class ThomsLineArticleFragment : Fragment() {
@@ -71,8 +71,8 @@ class ThomsLineArticleFragment : Fragment() {
         contentView.setText(Html.fromHtml(
             content,
             Html.FROM_HTML_MODE_LEGACY,
-            ThomsLineArticleImageGetter(resources, contentView),
-            ThomsLineArticleTagHandler()
+            DrawableImageGetter(resources, contentView, null, null),
+            WordpressHtmlTagHandler()
         )
         )
 

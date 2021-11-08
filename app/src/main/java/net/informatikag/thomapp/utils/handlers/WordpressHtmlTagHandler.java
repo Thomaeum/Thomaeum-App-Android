@@ -9,7 +9,7 @@ import android.text.style.StrikethroughSpan;
 
 import org.xml.sax.XMLReader;
 
-public class ThomsLineArticleTagHandler implements Html.TagHandler {
+public class WordpressHtmlTagHandler implements Html.TagHandler {
     @Override
     public void handleTag(boolean opening, String tag, Editable output,
                           XMLReader xmlReader) {
