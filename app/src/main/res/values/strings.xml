@@ -20,6 +20,6 @@
     <string name="network_error_timeout">Die Antwort vom Server hat zu lange gedauert</string>
     <string name="network_error_out_of_memory">Du hast zu wenig WAM installiet :)</string>
 
-
-        "Avoiding elevation interference.\n\n"
+    <!-- Vertretungsplan -->
+    <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
 </resources>
