@@ -1,4 +1,4 @@
-name: CI
+name: Auto Increment Version
 
 # Controls when the workflow will run
 on:
