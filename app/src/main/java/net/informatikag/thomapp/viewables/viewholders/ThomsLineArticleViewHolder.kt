@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView
+package net.informatikag.thomapp.viewables.viewholders
 
 import android.view.View
 import android.widget.ImageView
@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment
-import net.informatikag.thomapp.thomsline.utils.WordpressArticle
+import net.informatikag.thomapp.viewables.fragments.ThomsLineFragment
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 
 class ThomsLineArticleViewHolder constructor(
     itemView: View,
     val fragment: ThomsLineFragment
 ): RecyclerView.ViewHolder(itemView){
-    fun bind(post: WordpressArticle){
+    fun bind(post: ThomsLineWordpressArticle){
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
         itemView.findViewById<TextView>(R.id.thomsline_post_author).setText(post.getAuthorString())
 

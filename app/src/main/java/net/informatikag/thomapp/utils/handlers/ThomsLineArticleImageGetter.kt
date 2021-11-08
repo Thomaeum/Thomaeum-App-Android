@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.utils
+package net.informatikag.thomapp.utils.handlers
 
 import android.content.res.Resources
 import android.graphics.Bitmap

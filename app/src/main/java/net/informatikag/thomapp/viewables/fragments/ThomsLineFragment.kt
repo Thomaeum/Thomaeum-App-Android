@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleList
+package net.informatikag.thomapp.viewables.fragments
 
 import android.app.Activity
 import android.content.Context
@@ -22,19 +22,17 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineBinding
-import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.ThomslineRecyclerAdapter
-import net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView.TopSpacingItemDecoration
-import net.informatikag.thomapp.thomsline.utils.WordpressArticle
+import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
+import net.informatikag.thomapp.utils.TopSpacingItemDecoration
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import org.apache.http.conn.ConnectTimeoutException
-import org.json.JSONArray
 import org.json.JSONException
 import org.xmlpull.v1.XmlPullParserException
 import java.net.ConnectException
 import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
-import java.text.DateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,7 +40,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var viewModel: ThomsLineFragmentViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var recyclerAdapter: ThomslineRecyclerAdapter
+    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter
     private val defaultImageURL = "https://thoms-line.thomaeum.de/wp-content/uploads/2021/01/Thom-01.jpg"
     private var _binding: FragmentThomslineBinding? = null
 
@@ -60,7 +58,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
         //Instantiate Variables
         viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
-        recyclerAdapter =  ThomslineRecyclerAdapter(this)
+        recyclerAdapter =  ThomsLineRecyclerAdapter(this)
 
         //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {
@@ -103,21 +101,21 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     }
 
 
-    fun onItemClick(wordpressArticle: WordpressArticle) {
+    fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
         val action =
             ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
-                wordpressArticle.title,
-                wordpressArticle.imageURL,
-                wordpressArticle.content,
-                wordpressArticle.getAuthorString(),
-                wordpressArticle.date.time,
+                thomsLineWordpressArticle.title,
+                thomsLineWordpressArticle.imageURL,
+                thomsLineWordpressArticle.content,
+                thomsLineWordpressArticle.getAuthorString(),
+                thomsLineWordpressArticle.date.time,
             )
         findNavController().navigate(action)
     }
 
     fun loadArticles(page:Int){
 
-        val pages: ArrayList<ArrayList<WordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
+        val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
 
         while (pages.size > page) pages.removeLast()
 
@@ -127,14 +125,14 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             Log.d("ThomsLine", "Requesting Data for page $i")
             requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${i+1}",
                 { response ->
-                    val data = ArrayList<WordpressArticle>()
+                    val data = ArrayList<ThomsLineWordpressArticle>()
 
                     for (j in 0 until response.length()) {
                         val current = response.getJSONObject(j)
 
                         val dateString = current.getString("date").split("[-T:]".toRegex())
 
-                        val article = WordpressArticle(
+                        val article = ThomsLineWordpressArticle(
                             current.getInt("id"),
                             Html.fromHtml(current.getJSONObject("title").getString("rendered"))
                                 .toString(),

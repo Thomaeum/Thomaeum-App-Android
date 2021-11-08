@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.utils;
+package net.informatikag.thomapp.utils.handlers;
 
 import android.text.Editable;
 import android.text.Html;

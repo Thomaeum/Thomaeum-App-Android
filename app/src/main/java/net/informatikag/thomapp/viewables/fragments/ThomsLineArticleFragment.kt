@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleView
+package net.informatikag.thomapp.viewables.fragments
 
 import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 import android.os.Build
@@ -16,14 +16,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
-import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleImageGetter
-import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleTagHandler
-import java.text.SimpleDateFormat
+import net.informatikag.thomapp.utils.handlers.ThomsLineArticleImageGetter
+import net.informatikag.thomapp.utils.handlers.ThomsLineArticleTagHandler
 import java.util.*
 
 class ThomsLineArticleFragment : Fragment() {
 
-    private val args:ThomsLineArticleFragmentArgs by navArgs()
+    private val args: ThomsLineArticleFragmentArgs by navArgs()
     private var _binding: FragmentThomslineArticleViewBinding? = null
 
     // This property is only valid between onCreateView and
@@ -73,7 +72,8 @@ class ThomsLineArticleFragment : Fragment() {
             content,
             Html.FROM_HTML_MODE_LEGACY,
             ThomsLineArticleImageGetter(resources, contentView),
-            ThomsLineArticleTagHandler())
+            ThomsLineArticleTagHandler()
+        )
         )
 
         //Since Android 8 (O) Block-Text is possible

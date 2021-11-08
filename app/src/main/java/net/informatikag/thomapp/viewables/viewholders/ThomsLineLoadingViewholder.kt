@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView
+package net.informatikag.thomapp.viewables.viewholders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

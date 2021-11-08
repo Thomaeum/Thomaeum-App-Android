@@ -5,7 +5,7 @@
     android:id="@+id/thomsline_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".thomsline.fragments.ArticleList.ThomsLineFragment">
+    tools:context=".viewables.fragments.ThomsLineFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
