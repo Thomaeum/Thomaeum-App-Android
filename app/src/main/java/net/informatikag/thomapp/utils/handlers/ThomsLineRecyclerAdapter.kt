@@ -1,21 +1,22 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleList.RecyclerView
+package net.informatikag.thomapp.utils.handlers
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.thomsline.fragments.ArticleList.ThomsLineFragment
-import net.informatikag.thomapp.thomsline.utils.WordpressArticle
+import net.informatikag.thomapp.viewables.fragments.ThomsLineFragment
+import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
+import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 
-class ThomslineRecyclerAdapter(
+class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var pages: ArrayList<ArrayList<WordpressArticle>> = ArrayList()
+    private var pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = ArrayList()
     private val perPage:Int = 10
     private var lastPage:Int = -1
 
-    fun setPages(pPages: ArrayList<ArrayList<WordpressArticle>>, pLastPage: Int){
+    fun setPages(pPages: ArrayList<ArrayList<ThomsLineWordpressArticle>>, pLastPage: Int){
         this.pages = pPages
         this.lastPage = pLastPage
         this.notifyDataSetChanged()
@@ -24,12 +25,12 @@ class ThomslineRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_article, parent, false),
+                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
                 fragment
             )
         }
         return ThomsLineLoadingViewholder(
-            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_list_loading, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
         )
     }
 

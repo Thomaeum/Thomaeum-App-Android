@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
             android:padding="0dp"
-            android:src="@drawable/default_article_image"
+            android:src="@drawable/img_thomsline_article_image_default"
             android:id="@+id/thomsline_post_image"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.utils;
+package net.informatikag.thomapp.utils.handlers;
 
 import android.text.Editable;
 import android.text.Html;
@@ -9,7 +9,7 @@ import android.text.style.StrikethroughSpan;
 
 import org.xml.sax.XMLReader;
 
-public class ThomsLineArticleTagHandler implements Html.TagHandler {
+public class WordpressHtmlTagHandler implements Html.TagHandler {
     @Override
     public void handleTag(boolean opening, String tag, Editable output,
                           XMLReader xmlReader) {

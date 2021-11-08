@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.thomsline.fragments.ArticleView
+package net.informatikag.thomapp.viewables.fragments
 
 import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 import android.os.Build
@@ -15,16 +15,15 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.databinding.FragmentThomslineArticleViewBinding
-import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleImageGetter
-import net.informatikag.thomapp.thomsline.utils.ThomsLineArticleTagHandler
-import java.text.SimpleDateFormat
+import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
+import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
+import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
 import java.util.*
 
 class ThomsLineArticleFragment : Fragment() {
 
-    private val args:ThomsLineArticleFragmentArgs by navArgs()
-    private var _binding: FragmentThomslineArticleViewBinding? = null
+    private val args: ThomsLineArticleFragmentArgs by navArgs()
+    private var _binding: ThomslineArticleFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,7 +33,7 @@ class ThomsLineArticleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentThomslineArticleViewBinding.inflate(inflater, container, false)
+        _binding = ThomslineArticleFragmentBinding.inflate(inflater, container, false)
 
         //Change Title TextView
         binding.thomslineArtilcleTitle.setText(args.title)
@@ -52,9 +51,9 @@ class ThomsLineArticleFragment : Fragment() {
         val imageView: ImageView = binding.thomslineArticleImage
         if (args.imageURL != null)
             Glide.with(imageView.context)
-                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.default_article_image))
+                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.img_thomsline_article_image_default))
                 .load(args.imageURL)
-                .placeholder(R.drawable.default_article_image)
+                .placeholder(R.drawable.img_thomsline_article_image_default)
                 .into(imageView)
         else imageView.isGone = true
 
@@ -72,8 +71,9 @@ class ThomsLineArticleFragment : Fragment() {
         contentView.setText(Html.fromHtml(
             content,
             Html.FROM_HTML_MODE_LEGACY,
-            ThomsLineArticleImageGetter(resources, contentView),
-            ThomsLineArticleTagHandler())
+            DrawableImageGetter(resources, contentView, null, null),
+            WordpressHtmlTagHandler()
+        )
         )
 
         //Since Android 8 (O) Block-Text is possible

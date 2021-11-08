@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.vertretungsplan.utils
+package net.informatikag.thomapp.utils.handlers
 
 import android.view.View
 import android.webkit.WebResourceError
@@ -7,11 +7,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
-import net.informatikag.thomapp.databinding.FragmentVertretungsplanTemplateBinding
+import net.informatikag.thomapp.databinding.VertretungsplanTemplateFragmentBinding
 
 class VertretungsplanHandler(
     pdfURL: String,
-    val layout: FragmentVertretungsplanTemplateBinding,
+    val layout: VertretungsplanTemplateFragmentBinding,
     val snackbarView: CoordinatorLayout
 ): WebViewClient() {
     init {

@@ -1,8 +1,8 @@
-package net.informatikag.thomapp.thomsline.utils
+package net.informatikag.thomapp.utils.models.data
 
 import java.util.*
 
-data class WordpressArticle(
+data class ThomsLineWordpressArticle(
     var id: Int,
     var title: String,
     var content: String,

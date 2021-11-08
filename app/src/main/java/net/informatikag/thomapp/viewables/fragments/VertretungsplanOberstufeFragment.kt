@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.vertretungsplan.unterstufe
+package net.informatikag.thomapp.viewables.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.databinding.FragmentVertretungsplanOberstufeBinding
-import net.informatikag.thomapp.vertretungsplan.utils.VertretungsplanHandler
+import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
+import net.informatikag.thomapp.utils.handlers.VertretungsplanHandler
 
-class VertretungsplanUnterstufeFragment : Fragment() {
+class VertretungsplanOberstufeFragment : Fragment() {
 
-    private var _binding: FragmentVertretungsplanOberstufeBinding? = null
+    private var _binding: VertretungsplanOberstufeFragmentBinding? = null
     private lateinit var handler: VertretungsplanHandler
 
     // This property is only valid between onCreateView and
@@ -23,11 +23,11 @@ class VertretungsplanUnterstufeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentVertretungsplanOberstufeBinding.inflate(inflater, container, false)
+        _binding = VertretungsplanOberstufeFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         handler = VertretungsplanHandler(
-            "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf",
+            "https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf",
             binding.fragmentVertretungsplanLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )
