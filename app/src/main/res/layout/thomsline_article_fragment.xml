@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".viewables.fragments.ThomsLineArticleFragment">
+    tools:context=".viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

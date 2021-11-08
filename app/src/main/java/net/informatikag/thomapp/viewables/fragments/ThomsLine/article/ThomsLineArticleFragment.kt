@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments
+package net.informatikag.thomapp.viewables.fragments.ThomsLine.article
 
 import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 import android.os.Build

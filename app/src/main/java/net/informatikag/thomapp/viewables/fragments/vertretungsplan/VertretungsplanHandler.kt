@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.utils.handlers
+package net.informatikag.thomapp.viewables.fragments.vertretungsplan
 
 import android.view.View
 import android.webkit.WebResourceError

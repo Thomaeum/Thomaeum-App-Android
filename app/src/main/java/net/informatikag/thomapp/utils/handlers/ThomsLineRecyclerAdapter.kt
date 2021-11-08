@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.viewables.fragments.ThomsLineFragment
+import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle

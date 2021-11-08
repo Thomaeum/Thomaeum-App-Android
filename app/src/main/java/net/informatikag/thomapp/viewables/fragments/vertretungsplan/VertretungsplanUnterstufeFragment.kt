@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments
+package net.informatikag.thomapp.viewables.fragments.vertretungsplan
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
-import net.informatikag.thomapp.utils.handlers.VertretungsplanHandler
 
 class VertretungsplanUnterstufeFragment : Fragment() {
 
