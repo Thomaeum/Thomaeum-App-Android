@@ -14,12 +14,16 @@ class VertretungsplanHandler(
     val layout: VertretungsplanTemplateFragmentBinding,
     val snackbarView: CoordinatorLayout
 ): WebViewClient() {
+
+    private var loadingError:Boolean = false
+
     init {
         //Setup Refresh Button
         layout.vertretungsplanRefreshButton.setOnClickListener {
             layout.vertretungsplanPdfView.reload()
             layout.vertretungsplanPdfView.visibility = View.GONE
             layout.vertretungsplanProgressbar.visibility = View.VISIBLE
+            loadingError = false
         }
 
         //Setup Webview and Load Page
@@ -30,9 +34,12 @@ class VertretungsplanHandler(
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
-        //Show Webview and remove Progressbar
-        layout.vertretungsplanPdfView.visibility = View.VISIBLE
-        layout.vertretungsplanProgressbar.visibility = View.GONE
+        //only execute if there was no error while loading
+        if (!loadingError) {
+            //Show Webview and remove Progressbar
+            layout.vertretungsplanPdfView.visibility = View.VISIBLE
+            layout.vertretungsplanProgressbar.visibility = View.GONE
+        }
     }
 
     override fun onReceivedError(
@@ -41,8 +48,9 @@ class VertretungsplanHandler(
         error: WebResourceError?
     ) {
         super.onReceivedError(view, request, error)
-        Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens${if(error != null) ": ${error.description}" else null}", Snackbar.LENGTH_LONG).show()
+        loadingError = true
         layout.vertretungsplanPdfView.visibility = View.GONE
-        layout.vertretungsplanPdfView.visibility = View.GONE
+        layout.vertretungsplanProgressbar.visibility = View.GONE
+        Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens${if(error != null) ": ${error.description}" else null}", Snackbar.LENGTH_LONG).setAction("Action", null).show()
     }
 }
