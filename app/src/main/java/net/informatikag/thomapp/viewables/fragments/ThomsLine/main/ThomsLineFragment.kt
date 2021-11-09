@@ -102,13 +102,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
 
     fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
-                thomsLineWordpressArticle.title,
-                thomsLineWordpressArticle.imageURL,
-                thomsLineWordpressArticle.content,
-                thomsLineWordpressArticle.getAuthorString(),
-                thomsLineWordpressArticle.date.time,
-            )
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
         findNavController().navigate(action)
     }
 
@@ -154,7 +148,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                                 dateString[3].toInt(),
                                 dateString[4].toInt(),
                                 dateString[5].toInt()
-                            )
+                            ),
+                            true
                         )
                         data.add(article)
                     }
@@ -173,7 +168,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                         Log.d("ThomsLine", "Page does not exist")
                     } else {
                         Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
-                        Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), requireActivity().getVolleyError(volleyError), Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                     }
 
                     if (i == page) viewModel.articles.apply {
