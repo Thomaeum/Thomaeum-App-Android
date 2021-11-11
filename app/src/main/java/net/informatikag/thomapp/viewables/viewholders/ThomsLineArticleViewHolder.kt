@@ -3,6 +3,7 @@ package net.informatikag.thomapp.viewables.viewholders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -27,6 +28,11 @@ class ThomsLineArticleViewHolder constructor(
             .load(post.imageURL)
             .placeholder(R.drawable.img_thomsline_article_image_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
+        else itemView.findViewById<ImageView>(R.id.thomsline_post_image).setImageDrawable(
+            AppCompatResources.getDrawable(
+                fragment.requireContext(),
+                R.drawable.img_thomsline_article_image_default
+            ))
 
         itemView.setOnClickListener(View.OnClickListener {
             fragment.onItemClick(post)
