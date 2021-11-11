@@ -113,7 +113,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     fun reloadPage(id: Int, requestQueue:RequestQueue) {
         Log.d("ThomsLine", "Requesting Data for page $id")
         this.requestsPending++
-        requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${id+1+4}",
+        requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded&&page=${id+1}",
             { response ->
                 Log.d("ThomsLine", "Got Data for page $id")
 
