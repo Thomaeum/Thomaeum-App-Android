@@ -11,7 +11,16 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
 
     var lastPage: Int = -1
 
-    fun setArticles(pArticleThomsLines: ArrayList<ArrayList<ThomsLineWordpressArticle>>){
-        _articles.value = pArticleThomsLines
+    fun setArticlePage(id: Int, content:ArrayList<ThomsLineWordpressArticle>){
+        if (_articles.value == null) _articles.value = ArrayList(0)
+
+        if (id >= _articles.value!!.size) _articles.value?.add(content)
+        else if (id < _articles.value!!.size) _articles.value?.set(id, content)
+
+        _articles.postValue(_articles.value)
+    }
+
+    fun removeArticlePagesFromIndex(index:Int){
+        if (articles.value != null) while (_articles.value!!.size > index) _articles.value!!.removeLast()
     }
 }

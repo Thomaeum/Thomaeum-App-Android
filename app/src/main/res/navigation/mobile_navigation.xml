@@ -26,21 +26,8 @@
         android:id="@+id/nav_thomsline_article_view"
         android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
         <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="imageURL"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="content"
-            app:argType="string" />
-        <argument
-            android:name="authors"
-            app:argType="string" />
-        <argument
-            android:name="date"
-            app:argType="long" />
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 
     <fragment

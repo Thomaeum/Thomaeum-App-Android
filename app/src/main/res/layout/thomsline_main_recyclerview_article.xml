@@ -49,13 +49,13 @@
 
 
             <TextView
+                android:id="@+id/thomsline_post_excerpt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textAllCaps="false"
                 android:textSize="12.5sp"
-                android:textAllCaps="true"
-                android:id="@+id/thomsline_post_author"
-                tools:text="Main Author"/>
+                tools:text="Post Excerpt" />
 
         </LinearLayout>
 

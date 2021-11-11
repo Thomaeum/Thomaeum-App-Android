@@ -1,74 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/thomsline_article_swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/thomsline_article_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/thomsline_artilcle_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center_horizontal"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textStyle="bold"
-            tools:text="Title" />
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="71dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/thomsline_article_container">
 
             <TextView
-                android:id="@+id/thomsline_article_author"
-                android:layout_width="wrap_content"
+                android:id="@+id/thomsline_artilcle_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="2"
-                android:textAlignment="textStart"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal"
                 android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textStyle="bold"
-                tools:text="Author" />
+                tools:text="Title" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/thomsline_article_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    tools:text="Author" />
+
+                <TextView
+                    android:id="@+id/thomsline_article_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textStyle="italic"
+                    tools:text="Date" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/thomsline_article_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:padding="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_thomsline_article_image_default"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/thomsline_article_date"
-                android:layout_width="wrap_content"
+                android:id="@+id/thomsline_article_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textStyle="italic"
-                tools:text="Date" />
+                android:layout_margin="10dp" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <ImageView
-            android:id="@+id/thomsline_article_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="10dp"
-            android:adjustViewBounds="true"
-            android:padding="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_thomsline_article_image_default"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/thomsline_article_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
-    </LinearLayout>
-
-</ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

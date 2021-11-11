@@ -3,6 +3,7 @@ package net.informatikag.thomapp.viewables.viewholders
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -16,7 +17,7 @@ class ThomsLineArticleViewHolder constructor(
 ): RecyclerView.ViewHolder(itemView){
     fun bind(post: ThomsLineWordpressArticle){
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
-        itemView.findViewById<TextView>(R.id.thomsline_post_author).setText(post.getAuthorString())
+        itemView.findViewById<TextView>(R.id.thomsline_post_excerpt).setText(post.excerpt)
 
         if (post.imageURL != null)
         Glide.with(itemView.context)
@@ -27,6 +28,11 @@ class ThomsLineArticleViewHolder constructor(
             .load(post.imageURL)
             .placeholder(R.drawable.img_thomsline_article_image_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
+        else itemView.findViewById<ImageView>(R.id.thomsline_post_image).setImageDrawable(
+            AppCompatResources.getDrawable(
+                fragment.requireContext(),
+                R.drawable.img_thomsline_article_image_default
+            ))
 
         itemView.setOnClickListener(View.OnClickListener {
             fragment.onItemClick(post)
