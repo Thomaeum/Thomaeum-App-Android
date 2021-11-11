@@ -7,7 +7,6 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
@@ -52,7 +51,6 @@ class ThomsLineRecyclerAdapter(
     override fun getItemCount(): Int {
         if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
         else return (viewmodel.articles.value!!.size-1) * perPage + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + 1
-//        else return (viewmodel.articles.value!!.size-1) * perPage + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + (if (viewmodel.articles.value!!.size >= viewmodel.lastPage && viewmodel.lastPage != -1) 0 else 1)
     }
 
     /**

@@ -113,43 +113,41 @@ data class ThomsLineWordpressArticle(
     }
 
     companion object {
-        fun getIDFromJSON(json: JSONObject):Int{
-            return json.getInt("id")
-        }
-        fun getTitleFromJSON(json: JSONObject):String?{
-            return Html.fromHtml(json.getJSONObject("title").getString("rendered"))
-                .toString()
-        }
-        fun getContentFromJSON(json: JSONObject):String?{
-            return json.getJSONObject("content").getString("rendered")
-        }
-        fun getExcerptFromJSON(json: JSONObject):String?{
-            return Html.fromHtml(
+        fun getIDFromJSON(json: JSONObject):Int = json.getInt("id")
+        fun getTitleFromJSON(json: JSONObject):String? = try {
+            Html.fromHtml(json.getJSONObject("title").getString("rendered")).toString()
+        } catch (e: Exception){null}
+
+        fun getContentFromJSON(json: JSONObject):String? = try {
+            json.getJSONObject("content").getString("rendered")
+        } catch (e: Exception){null}
+
+        fun getExcerptFromJSON(json: JSONObject):String? = try {
+            Html.fromHtml(
                 json.getJSONObject("excerpt").getString("rendered")
             ).toString()
-        }
-        fun getAuthorsFromJSON(json: JSONObject):Array<String>?{
-            return Array(
+        } catch (e: Exception){null}
+
+        fun getAuthorsFromJSON(json: JSONObject):Array<String>? = try {
+            Array(
                 json.getJSONObject("_embedded").getJSONArray("author").length()
             ) { i ->
                 json.getJSONObject("_embedded").getJSONArray("author")
                     .getJSONObject(i).getString("name")
             }
-        }
-        fun getImageURLFromJSON(json: JSONObject):String?{
-            return try {
-                json.getJSONObject("_embedded")
-                    .getJSONArray("wp:featuredmedia")
-                    .getJSONObject(0).getJSONObject("media_details")
-                    .getJSONObject("sizes").getJSONObject("full")
-                    .getString("source_url")
-            } catch (e: Exception) {
-                null
-            }
-        }
-        fun getDateFromJSON(json: JSONObject):Date?{
+        } catch (e: Exception){null}
+
+        fun getImageURLFromJSON(json: JSONObject):String? = try {
+            json.getJSONObject("_embedded")
+                .getJSONArray("wp:featuredmedia")
+                .getJSONObject(0).getJSONObject("media_details")
+                .getJSONObject("sizes").getJSONObject("full")
+                .getString("source_url")
+        } catch (e: Exception) {null}
+
+        fun getDateFromJSON(json: JSONObject):Date? = try {
             val dateStrings = json.getString("date").split("[-T:]".toRegex())
-            return Date(
+            Date(
                 dateStrings[0].toInt(),
                 dateStrings[1].toInt(),
                 dateStrings[2].toInt(),
@@ -157,7 +155,7 @@ data class ThomsLineWordpressArticle(
                 dateStrings[4].toInt(),
                 dateStrings[5].toInt()
             )
-        }
+        } catch (e: Exception) {null}
 
         fun getVolleyError(error: VolleyError, activity: Activity): String {
             var errorMsg = ""

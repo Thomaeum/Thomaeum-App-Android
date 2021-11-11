@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError

@@ -102,9 +102,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         }
     }
 
-    fun isLoading():Boolean {
-        return this.requestsPending != 0
-    }
+    fun isLoading():Boolean = this.requestsPending != 0
 
     fun reloadPage(id:Int){
         reloadPage(id, Volley.newRequestQueue(this.context))
