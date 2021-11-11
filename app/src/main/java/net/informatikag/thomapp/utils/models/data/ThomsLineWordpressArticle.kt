@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import net.informatikag.thomapp.R
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
+import org.json.JSONObject
 import org.xmlpull.v1.XmlPullParserException
 import java.net.ConnectException
 import java.net.MalformedURLException
@@ -21,58 +22,64 @@ import java.util.*
 data class ThomsLineWordpressArticle(
     var id: Int,
     var title: String?,
-    var content: String?,
-    var excerpt: String?,
-    var authors: Array<String>?,
     var imageURL: String?,
+    var excerpt: String?,
+    var content: String?,
+    var authors: Array<String>?,
     var date: Date?,
-    var loaded:Boolean
+    var loaded:Boolean,
+    var liteVersion:Boolean
 ) {
-    constructor(id:Int, context: Context, callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit):this(id, null, null, null, null, null, null, false){
-        refresh(context, callback)
-    }
+    val LITE_URL = ""
+    val FULL_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
+
+    constructor(id:Int,
+                context: Context,
+                callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
+    ):this(
+        id,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        false,
+        false
+    ){ refresh(context, callback) }
+
+    constructor(json: JSONObject, liteVersion: Boolean): this(
+        getIDFromJSON(json),
+        getTitleFromJSON(json),
+        getImageURLFromJSON(json),
+        getExcerptFromJSON(json),
+        if (!liteVersion) getContentFromJSON(json) else null,
+        if (!liteVersion) getAuthorsFromJSON(json) else null,
+        if (!liteVersion) getDateFromJSON(json) else null,
+        true,
+        liteVersion
+    )
 
     fun refresh(
         context: Context,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ) {
-        Volley.newRequestQueue(context)
-            .add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&include=$id",
+        val url = (if (this.liteVersion) LITE_URL else FULL_URL) + "&include=$id"
+        Volley.newRequestQueue(context).add(
+            JsonArrayRequest(url,
                 { response ->
-                    val jsonData = response.getJSONObject(0)
+                    val json = response.getJSONObject(0)
+                    this.title = getTitleFromJSON(json)
+                    this.imageURL = getImageURLFromJSON(json)
+                    this.excerpt = getExcerptFromJSON(json)
 
-                    this.title =
-                        Html.fromHtml(jsonData.getJSONObject("title").getString("rendered"))
-                            .toString()
-                    this.content = jsonData.getJSONObject("content").getString("rendered")
-                    this.excerpt = Html.fromHtml(
-                        jsonData.getJSONObject("excerpt").getString("rendered")
-                    ).toString()
-
-                    this.authors = Array(
-                        jsonData.getJSONObject("_embedded").getJSONArray("author").length()
-                    ) { i ->
-                        jsonData.getJSONObject("_embedded").getJSONArray("author")
-                            .getJSONObject(i).getString("name")
+                    if(!this.liteVersion){
+                        this.content = getContentFromJSON(json)
+                        this.authors = getAuthorsFromJSON(json)
+                        this.date = getDateFromJSON(json)
                     }
 
-                    this.imageURL = jsonData.getJSONObject("_embedded")
-                        .getJSONArray("wp:featuredmedia")
-                        .getJSONObject(0).getJSONObject("media_details")
-                        .getJSONObject("sizes").getJSONObject("full")
-                        .getString("source_url")
-
-                    val dateString = jsonData.getString("date").split("[-T:]".toRegex())
-                    this.date = Date(
-                        dateString[0].toInt(),
-                        dateString[1].toInt(),
-                        dateString[2].toInt(),
-                        dateString[3].toInt(),
-                        dateString[4].toInt(),
-                        dateString[5].toInt()
-                    )
-
-                    this.loaded = true
+                    this.loaded = false
                     callback(this, null)
                 },
                 { volleyError ->
@@ -85,7 +92,8 @@ data class ThomsLineWordpressArticle(
                     this.loaded = false
                     callback(this, volleyError)
                 }
-            ))
+            )
+        )
     }
 
     fun getAuthorString():String{
@@ -105,6 +113,52 @@ data class ThomsLineWordpressArticle(
     }
 
     companion object {
+        fun getIDFromJSON(json: JSONObject):Int{
+            return json.getInt("id")
+        }
+        fun getTitleFromJSON(json: JSONObject):String?{
+            return Html.fromHtml(json.getJSONObject("title").getString("rendered"))
+                .toString()
+        }
+        fun getContentFromJSON(json: JSONObject):String?{
+            return json.getJSONObject("content").getString("rendered")
+        }
+        fun getExcerptFromJSON(json: JSONObject):String?{
+            return Html.fromHtml(
+                json.getJSONObject("excerpt").getString("rendered")
+            ).toString()
+        }
+        fun getAuthorsFromJSON(json: JSONObject):Array<String>?{
+            return Array(
+                json.getJSONObject("_embedded").getJSONArray("author").length()
+            ) { i ->
+                json.getJSONObject("_embedded").getJSONArray("author")
+                    .getJSONObject(i).getString("name")
+            }
+        }
+        fun getImageURLFromJSON(json: JSONObject):String?{
+            return try {
+                json.getJSONObject("_embedded")
+                    .getJSONArray("wp:featuredmedia")
+                    .getJSONObject(0).getJSONObject("media_details")
+                    .getJSONObject("sizes").getJSONObject("full")
+                    .getString("source_url")
+            } catch (e: Exception) {
+                null
+            }
+        }
+        fun getDateFromJSON(json: JSONObject):Date?{
+            val dateStrings = json.getString("date").split("[-T:]".toRegex())
+            return Date(
+                dateStrings[0].toInt(),
+                dateStrings[1].toInt(),
+                dateStrings[2].toInt(),
+                dateStrings[3].toInt(),
+                dateStrings[4].toInt(),
+                dateStrings[5].toInt()
+            )
+        }
+
         fun getVolleyError(error: VolleyError, activity: Activity): String {
             var errorMsg = ""
             if (error is NoConnectionError) {

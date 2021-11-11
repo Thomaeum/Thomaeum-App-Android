@@ -8,18 +8,21 @@ import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFrag
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
+import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
 class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
+    val viewmodel:ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = ArrayList()
+//    private var pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = ArrayList()
     private val perPage:Int = 10
-    private var lastPage:Int = -1
+//    private var lastPage:Int = -1
 
     fun setPages(pPages: ArrayList<ArrayList<ThomsLineWordpressArticle>>, pLastPage: Int){
-        this.pages = pPages
-        this.lastPage = pLastPage
-        this.notifyDataSetChanged()
+//        this.pages = pPages
+//        this.lastPage = pLastPage
+//        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -27,6 +30,9 @@ class ThomsLineRecyclerAdapter(
             0 -> return ThomsLineArticleViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
                 fragment
+            )
+            2 -> return ThomsLineEndViewholder(
+                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_end, parent, false)
             )
         }
         return ThomsLineLoadingViewholder(
@@ -40,20 +46,21 @@ class ThomsLineRecyclerAdapter(
                 val pageIndex = position/(perPage)
                 val itemIndex = position%perPage
 
-                holder.bind(pages
+                holder.bind(viewmodel.articles.value!!
                     .get(pageIndex)
                     .get(itemIndex)
                 )
             }
             is ThomsLineLoadingViewholder -> {
-                fragment.loadArticles(pages.size+1)
+                if (!fragment.isLoading()) fragment.loadArticles(viewmodel.articles.value!!.size)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        if (pages.size == 0) return 0
-        else return (pages.size-1) * perPage + pages[pages.size-1].size + (if (pages.size >= lastPage && lastPage != -1) 0 else 1)
+        if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
+        else return (viewmodel.articles.value!!.size-1) * perPage + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + 1
+//        else return (viewmodel.articles.value!!.size-1) * perPage + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + (if (viewmodel.articles.value!!.size >= viewmodel.lastPage && viewmodel.lastPage != -1) 0 else 1)
     }
 
     /*
@@ -62,7 +69,6 @@ class ThomsLineRecyclerAdapter(
      */
     override fun getItemViewType(position: Int): Int {
         val pageIndex = position/(perPage)
-        return if ((pageIndex != 0 && position == itemCount-1) && (pageIndex != lastPage)) 1
-        else 0
+        return if ((pageIndex != 0 && position == itemCount-1)) if (pageIndex == viewmodel.lastPage) 2 else 1 else 0
     }
 }

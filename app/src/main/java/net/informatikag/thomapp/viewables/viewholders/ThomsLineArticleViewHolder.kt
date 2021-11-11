@@ -17,7 +17,7 @@ class ThomsLineArticleViewHolder constructor(
 ): RecyclerView.ViewHolder(itemView){
     fun bind(post: ThomsLineWordpressArticle){
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
-        itemView.findViewById<TextView>(R.id.thomsline_post_author).setText(post.getAuthorString())
+        itemView.findViewById<TextView>(R.id.thomsline_post_excerpt).setText(post.excerpt)
 
         if (post.imageURL != null)
         Glide.with(itemView.context)

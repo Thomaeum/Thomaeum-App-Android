@@ -1,7 +1,6 @@
 package net.informatikag.thomapp.viewables.fragments.ThomsLine.main
 
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +29,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     private lateinit var viewModel: ThomsLineFragmentViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter
-    private val defaultImageURL = "https://thoms-line.thomaeum.de/wp-content/uploads/2021/01/Thom-01.jpg"
     private var _binding: ThomslineMainFragmentBinding? = null
+    private var requestsPending: Int = 0
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -47,7 +46,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
         //Instantiate Variables
         viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
-        recyclerAdapter =  ThomsLineRecyclerAdapter(this)
+        recyclerAdapter =  ThomsLineRecyclerAdapter(this, viewModel)
 
         //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {
@@ -89,82 +88,65 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         loadArticles(0)
     }
 
-
     fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
         val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
         findNavController().navigate(action)
     }
 
     fun loadArticles(page:Int){
-
-        val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
-
-        while (pages.size > page) pages.removeLast()
+        viewModel.removeArticlePagesFromIndex(page)
 
         val requestQueue = Volley.newRequestQueue(this.context)
 
         for (i in 0 until page+1) {
-            Log.d("ThomsLine", "Requesting Data for page $i")
-            requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${i+1}",
-                { response ->
-                    val data = ArrayList<ThomsLineWordpressArticle>()
-
-                    for (j in 0 until response.length()) {
-                        val current = response.getJSONObject(j)
-
-                        val dateString = current.getString("date").split("[-T:]".toRegex())
-
-                        val article = ThomsLineWordpressArticle(
-                            current.getInt("id"),
-                            Html.fromHtml(current.getJSONObject("title").getString("rendered"))
-                                .toString(),
-                            current.getJSONObject("content").getString("rendered"),
-                            Html.fromHtml(
-                                current.getJSONObject("excerpt").getString("rendered")
-                            ).toString(),
-                            Array(current.getJSONObject("_embedded").getJSONArray("author").length(), { i -> current.getJSONObject("_embedded").getJSONArray("author").getJSONObject(i).getString("name")}),
-                            if (current.getJSONObject("_embedded").has("wp:featuredmedia"))
-                                current.getJSONObject("_embedded")
-                                    .getJSONArray("wp:featuredmedia")
-                                    .getJSONObject(0).getJSONObject("media_details")
-                                    .getJSONObject("sizes").getJSONObject("full")
-                                    .getString("source_url")
-                            else defaultImageURL,
-                            Date(
-                                dateString[0].toInt(),
-                                dateString[1].toInt(),
-                                dateString[2].toInt(),
-                                dateString[3].toInt(),
-                                dateString[4].toInt(),
-                                dateString[5].toInt()
-                            ),
-                            true
-                        )
-                        data.add(article)
-                    }
-
-                    if (i == pages.size) pages.add(data)
-                    else if (i < pages.size) pages.set(i, data)
-
-                    if (i == page) viewModel.articles.apply {
-                        viewModel.setArticles(pages)
-                    }
-                },
-                { volleyError ->
-
-                    if (volleyError.networkResponse?.statusCode == 400){
-                        viewModel.lastPage = if(viewModel.lastPage == -1 || i-1<viewModel.lastPage) i-1 else viewModel.lastPage
-                        Log.d("ThomsLine", "Page does not exist")
-                    } else {
-                        Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
-                        Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
-                    }
-
-                    if (i == page) viewModel.articles.apply {
-                        viewModel.setArticles(pages)
-                    }
-                }
-            ))
+            reloadPage(i, requestQueue)
         }
+    }
+
+    fun isLoading():Boolean {
+        return this.requestsPending != 0
+    }
+
+    fun reloadPage(id:Int){
+        reloadPage(id, Volley.newRequestQueue(this.context))
+    }
+
+    fun reloadPage(id: Int, requestQueue:RequestQueue) {
+//        Log.d("ThomsLine", "Requesting Data for page $id")
+        this.requestsPending++
+        requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${id+1+4}",
+            { response ->
+                Log.d("ThomsLine", "Got Data for page $id")
+
+                val data = ArrayList<ThomsLineWordpressArticle>()
+
+                val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
+
+                for (j in 0 until response.length()) data.add(ThomsLineWordpressArticle(response.getJSONObject(j), true))
+
+                if (id == pages.size) pages.add(data)
+                else if (id < pages.size) pages.set(id, data)
+
+                this.requestsPending--
+
+                viewModel.setArticlePage(id, data)
+                recyclerAdapter.notifyItemChanged(id)
+            },
+            { volleyError ->
+                Log.d("ThomsLine", "Request Error while loading Data for page $id")
+                if (volleyError.networkResponse?.statusCode == 400){
+                    viewModel.lastPage
+                    viewModel.lastPage = if(id-1<viewModel.lastPage) viewModel.lastPage else id-1
+//                    Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage}, should be ${if(id-1<viewModel.lastPage) id-1 else viewModel.lastPage})")
+                    Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage})")
+                } else {
+                    Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
+                    Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
+                }
+//                this.requestsPending--
+
+                recyclerAdapter.notifyItemChanged(id)
+            }
+        ))
     }
 }
