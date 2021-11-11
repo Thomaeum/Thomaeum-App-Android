@@ -20,10 +20,6 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
         _articles.postValue(_articles.value)
     }
 
-//    fun setLastPage(index: Int) {
-//        this.lastPage = index
-//    }
-
     fun removeArticlePagesFromIndex(index:Int){
         if (articles.value != null) while (_articles.value!!.size > index) _articles.value!!.removeLast()
     }

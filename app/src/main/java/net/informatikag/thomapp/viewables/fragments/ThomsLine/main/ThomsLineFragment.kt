@@ -50,7 +50,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
         //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {
-            recyclerAdapter.setPages(it, viewModel.lastPage)
             swipeRefreshLayout.isRefreshing = false
         })
 
@@ -112,7 +111,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     }
 
     fun reloadPage(id: Int, requestQueue:RequestQueue) {
-//        Log.d("ThomsLine", "Requesting Data for page $id")
+        Log.d("ThomsLine", "Requesting Data for page $id")
         this.requestsPending++
         requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed&&page=${id+1+4}",
             { response ->
@@ -137,13 +136,11 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 if (volleyError.networkResponse?.statusCode == 400){
                     viewModel.lastPage
                     viewModel.lastPage = if(id-1<viewModel.lastPage) viewModel.lastPage else id-1
-//                    Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage}, should be ${if(id-1<viewModel.lastPage) id-1 else viewModel.lastPage})")
                     Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage})")
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
                     Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
-//                this.requestsPending--
 
                 recyclerAdapter.notifyItemChanged(id)
             }
