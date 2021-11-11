@@ -18,12 +18,12 @@ class WordpressHtmlTagHandler : TagHandler {
             val split = output.toString().split("\n")
 
             //include last 3 Paragraphs (Picture and 2 empty ones or an empty one, Caption and Picture)
-            for (i in 0 until 3) {
+            for (i in 0 until minOf(split.size, 3)) {
                 start -= (split[split.size - (i+1)] + "\n").length
             }
 
             //If theres a also include one more Char (Compensate for last not included empty Paragraph)
-            if (split[split.size - 3] != "") start -= split[split.size - 3].length
+            if (split.size >= 3 && split[split.size - 3] != "") start -= split[split.size - 3].length
             val end = output.length
 
             output.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), start, end, 0)
