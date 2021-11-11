@@ -1,9 +1,5 @@
 package net.informatikag.thomapp.viewables.fragments.ThomsLine.main
 
-import android.app.Activity
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -26,13 +22,6 @@ import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
-import org.apache.http.conn.ConnectTimeoutException
-import org.json.JSONException
-import org.xmlpull.v1.XmlPullParserException
-import java.net.ConnectException
-import java.net.MalformedURLException
-import java.net.SocketException
-import java.net.SocketTimeoutException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -177,42 +166,5 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 }
             ))
         }
-    }
-
-    fun Activity.getVolleyError(error: VolleyError): String {
-        var errorMsg = ""
-        if (error is NoConnectionError) {
-            val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            var activeNetwork: NetworkInfo? = null
-            activeNetwork = cm.activeNetworkInfo
-            errorMsg = if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
-                getString(R.string.network_error_server_error)
-            } else {
-                getString(R.string.network_error_not_connected)
-            }
-        } else if (error is NetworkError || error.cause is ConnectException) {
-            errorMsg = getString(R.string.network_error_not_connected)
-        } else if (error.cause is MalformedURLException) {
-            errorMsg = getString(R.string.network_error_weired_response)
-        } else if (error is ParseError || error.cause is IllegalStateException || error.cause is JSONException || error.cause is XmlPullParserException) {
-            errorMsg = getString(R.string.network_error_weired_response)
-        } else if (error.cause is OutOfMemoryError) {
-            errorMsg = getString(R.string.network_error_out_of_memory)
-        } else if (error is AuthFailureError) {
-            errorMsg = getString(R.string.network_error_generic)
-        } else if (error is ServerError || error.cause is ServerError) {
-            getString(R.string.network_error_server_error)
-        } else if (
-            error is TimeoutError ||
-            error.cause is SocketTimeoutException ||
-            error.cause is ConnectTimeoutException ||
-            error.cause is SocketException ||
-            (error.cause!!.message != null && error.cause!!.message!!.contains("Your connection has timed out, please try again"))
-        ) {
-            errorMsg = getString(R.string.network_error_timeout)
-        } else {
-            errorMsg = getString(R.string.network_error_generic)
-        }
-        return errorMsg
     }
 }
