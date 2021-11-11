@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.view.isGone
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
@@ -59,7 +58,7 @@ class ThomsLineArticleFragment : Fragment() {
     }
 
     fun articleRefreshCallback(article: ThomsLineWordpressArticle, error: VolleyError?){
-        if (error == null) loadArticle(article)
+        if (error == null) loadArticleToViews(article)
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
             ThomsLineWordpressArticle.getVolleyError(error, this.requireActivity()),
@@ -68,7 +67,7 @@ class ThomsLineArticleFragment : Fragment() {
         binding.thomslineArticleSwipeRefreshLayout.isRefreshing = false
     }
 
-    fun loadArticle(wordpressArticle: ThomsLineWordpressArticle) {
+    fun loadArticleToViews(wordpressArticle: ThomsLineWordpressArticle) {
 
         //Make shure the Fragment is still Loaded
         if (this.context == null) return
@@ -88,11 +87,11 @@ class ThomsLineArticleFragment : Fragment() {
         val imageView: ImageView = binding.thomslineArticleImage
         if (wordpressArticle.imageURL != null)
             Glide.with(imageView.context)
-                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.img_thomsline_article_image_default))
+//                .applyDefaultRequestOptions(RequestOptions().error(R.drawable.img_thomsline_article_image_default))
                 .load(wordpressArticle.imageURL)
                 .placeholder(R.drawable.img_thomsline_article_image_default)
                 .into(imageView)
-        else imageView.isGone = true
+        else imageView.visibility = View.GONE
 
         //Load Content
         val contentView: TextView = binding.thomslineArticleContent
