@@ -42,15 +42,24 @@ class VertretungsplanHandler(
         }
     }
 
+    /**
+     * Wenn es einen Fehler beim Laden des Webviews gibt wird dies durch eine Snachbar dargestellt
+     */
     override fun onReceivedError(
         view: WebView?,
         request: WebResourceRequest?,
         error: WebResourceError?
     ) {
         super.onReceivedError(view, request, error)
+
+        // Verhindert das der Webview angezeigt wird
         loadingError = true
+
+        // Webview und Progressbar verstecken
         layout.vertretungsplanPdfView.visibility = View.GONE
         layout.vertretungsplanProgressbar.visibility = View.GONE
+
+        // Snackbar erstellen und anzeigen
         Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens${if(error != null) ": ${error.description}" else null}", Snackbar.LENGTH_LONG).setAction("Action", null).show()
     }
 }
