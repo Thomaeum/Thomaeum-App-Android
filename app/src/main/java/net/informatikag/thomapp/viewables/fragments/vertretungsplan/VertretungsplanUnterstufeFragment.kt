@@ -8,10 +8,14 @@ import androidx.fragment.app.Fragment
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
 
+/**
+ * Zeigt den Unterstufen Vertretungsplan an, wobei die eigendlichen funktionalen Teile dieser Klasse
+ * in VertretunsplanHandler ausgelagert wurde, da sie sich nur durch die URL zum Plan unterscheiden
+ */
 class VertretungsplanUnterstufeFragment : Fragment() {
 
-    private var _binding: VertretungsplanOberstufeFragmentBinding? = null
-    private lateinit var handler: VertretungsplanHandler
+    private var _binding: VertretungsplanOberstufeFragmentBinding? = null   // Binding um auf das Layout zuzugreifen
+    private lateinit var handler: VertretungsplanHandler                    // Die funktionalen Teile
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,18 +26,23 @@ class VertretungsplanUnterstufeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate Layout
         _binding = VertretungsplanOberstufeFragmentBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
+        // Handler hinzufügen
         handler = VertretungsplanHandler(
             "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf",
             binding.fragmentVertretungsplanLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )
 
-        return root
+        // Layout zurückgeben
+        return binding.root
     }
 
+    /**
+     * Wenn das Fragment nicht mehr verwendet wird muss das Binding auch weg
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
