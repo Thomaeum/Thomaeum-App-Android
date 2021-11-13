@@ -4,6 +4,10 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Diese Decoration wird auf jedes Element im Recyclerview angewendet, vorallem um abstand zwischen
+ * den Artikeln und zu den Bildschrimrändern zu haben
+ */
 class ArticleListSpacingDecoration: RecyclerView.ItemDecoration(){
 
     private val PADDING: Int = 30
