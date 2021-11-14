@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 
 /**
- * Keine Ahnung was hier mal angezeigt wird
+ * No idea what will be displayed here, currently there is not really something here
  */
 class HomeFragment : Fragment() {
 

@@ -23,7 +23,7 @@ import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 
 /**
- * Läd einen Artikel aus der WordpressAPI und zeigt Titel, Titelbild und Content an
+ * Loads an article from the WordpressAPI and displays title, cover image and content
  */
 class ThomsLineArticleFragment : Fragment() {
 
@@ -37,7 +37,7 @@ class ThomsLineArticleFragment : Fragment() {
     private val binding get() = _binding!!
 
     /**
-     * Wird ausgeführt wenn das Fragment geöffnet wird
+     * Will be executed when the fragment is opened
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

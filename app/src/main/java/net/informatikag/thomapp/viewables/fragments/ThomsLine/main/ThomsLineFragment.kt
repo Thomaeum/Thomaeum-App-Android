@@ -25,8 +25,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * Ziegt eine Liste von Artikeln die aus der JSON API der Wordpress Instanz der Schülerzeitung ThomsLine läd
- * Die Artikel werden dynamisch mit einem RecyclerView geladen.
+ * Pulls a list of articles from the JSON API of the Wordpress instance of the ThomsLine student newspaper.
+ * The articles are dynamically loaded with a RecyclerView.
  */
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
@@ -41,7 +41,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     private val binding get() = _binding!!
 
     /**
-     * Wird ausgeführt wenn das Fragment geöffnet wird
+     * Will be executed when the fragment is opened
      */
     override fun onCreateView(
         inflater: LayoutInflater,
