@@ -20,18 +20,18 @@ import java.net.SocketTimeoutException
 import java.util.*
 
 /**
- * Speichert benötigte Informationen über einen WordpressArtikel. Die Artikel können auch in der
- * "lite Version" vorliegen, dabei werden nicht alle Parameter geladen um die Bandbreite zu schonen
- * @param id muss immer angegeben werden
- * @param title immer geladen
- * @param imageURL immer geladen
- * @param excerpt immer geladen
+ * Stores required information about a Wordpress article. The articles can also be available in the
+ * "lite version", in this case not all parameters are loaded to save bandwidth
+ * @param id must always be specified
+ * @param title Always loaded
+ * @param imageURL Always loaded
+ * @param excerpt Always loaded
  *
- * @param content nicht in der liteversion
- * @param authors nicht in der liteversion
- * @param date nicht in der liteversion
+ * @param content not loaded in lite version
+ * @param authors not loaded in lite version
+ * @param date not loaded in lite version
  *
- * @param loaded gibt an ob der Artikel geladen ist.
+ * @param loaded indicates whether the item is loaded
  * @param liteVersion
  *
  * @author isi_ko
@@ -47,16 +47,17 @@ data class ThomsLineWordpressArticle(
     var loaded:Boolean,
     var liteVersion:Boolean
 ) {
-    // Die URLs um die Artikel zu laden
-    // (es wird in der refresh Methode noch angegeben welcher Artikel geladen wird, diese URLs sollten nur die Felder filtern die zurückgegeben werden)
+    // The URLs to load articles from
+    // (it is still specified in the refresh method which article is loaded, these URLs should only filter the fields that are returned)
+    //TODO Make this general Strings
     val LITE_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
     val FULL_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
 
     /**
-     * Läd den Artikel aus der API
-     * @param id die WordpressID des Artikels
-     * @param context für Volley genutzt um die Anfragen stellen zu können
-     * @param callback ausgeführt wenn der Artikel geladen ist
+     * Loads the article from API
+     * @param id the WordpressID of the article
+     * @param context used for Volley to be able to make the requests
+     * @param callback executed when the item is loaded
      */
     constructor(
         id:Int,
@@ -75,9 +76,9 @@ data class ThomsLineWordpressArticle(
     ){ refresh(context, callback) }
 
     /**
-     * Läd den Artikel aus einem JSONObject
-     * @param json hier aus wird der Artikel geladen
-     * @param liteVersion gibt an ob der Artikel in der LiteVersion vorliegt
+     * Loads the article from a JSONObject
+     * @param json From here the article is loaded
+     * @param liteVersion indicates whether the item is available in the Lite version
      */
     constructor(json: JSONObject, liteVersion: Boolean): this(
         getIDFromJSON(json),
@@ -92,9 +93,9 @@ data class ThomsLineWordpressArticle(
     )
 
     /**
-     * Läd den Artikel neu
-     * @param context für Volley genutzt um die Anfragen stellen zu können
-     * @param callback ausgeführt wenn der Artikel geladen ist
+     * Reloads the article
+     * @param context used for Volley to be able to make the requests
+     * @param callback executed when the item is loaded
      */
     fun refresh(
         context: Context,
@@ -133,9 +134,8 @@ data class ThomsLineWordpressArticle(
     }
 
     /**
-     * Da die Authoren in einem Array von Strings vorliegen,
-     * muss es die Möglichkeit geben sie in einen String zu bekommen
-     * @return Ein String der die Authoren auflistet
+     * Since the authors are in an array of strings, there must be a way to get them into a single string
+     * @return A string that lists the authors
      */
     fun getAuthorString():String{
         var output = ""
@@ -154,7 +154,6 @@ data class ThomsLineWordpressArticle(
     }
 
     companion object {
-
         //region Get Data from JSON
         fun getIDFromJSON(json: JSONObject):Int = json.getInt("id")
         fun getTitleFromJSON(json: JSONObject):String? = try {
