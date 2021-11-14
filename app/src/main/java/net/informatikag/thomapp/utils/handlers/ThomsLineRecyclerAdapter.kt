@@ -11,25 +11,24 @@ import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
 /**
- * Diese Klasse kümmert sich um den RecyclerView der die Artikel anzeigt.
- * @param fragment Das Fragment in dem der RecyclerView sich befindet, wudurch Artikel geladen werden können
- * @param viewmodel Das zum Fragment gehörige Viewmodel, woraus die Artikel abgefragt werden
+ * This class takes care of the RecyclerView that displays the items.
+ * @param fragment The fragment in which the RecyclerView is located, through which articles can be loaded
+ * @param viewmodel The viewmodel belonging to the fragment, from which the articles are queried
  */
 class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
     val viewmodel:ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    //Anzahl der Artikel pro Seite
+    //Number of articles per page
     //TODO dies sollte eine Globale Variable werden
     private val perPage:Int = 10
 
     /**
-     * Wird aufgerufen wenn ein neuer Viewholder (ohne Daten) erstellt wird.
-     * @param viewType Der durch getItemViewtype() ausgewöhlte Int der die Sorte des Viewtyps angibt
+     * Called when a new viewholder (without data) is created.
+     * @param viewType The integer selected by getItemViewtype() which specifies the type of the viewtype.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-
-        //Die Layouts werden Inflatet, je nach viewType
+        //The layouts are inflated, depending on the viewType
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
@@ -42,36 +41,36 @@ class ThomsLineRecyclerAdapter(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_end, parent, false)
             )
         }
-        //Wenn der Viewtype nicht bekannt ist wird einfach ein Ladesymbol geladen
+        //If the viewtype is not known a simple loading symbol is loaded
         return ThomsLineLoadingViewholder(
             LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
         )
     }
 
     /**
-     * Ein Inhalt wird an den Viewholder gebunden
-     * @param holder der ViewHoler an den der Inhalt gebunden wird
-     * @param position die Position im Recycler View
+     * A content is bound to the viewholder
+     * @param holder the ViewHoler to which the content will be bound
+     * @param position the position in the Recycler View
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //Je nach Typ des Viewholders gibt es verschiedene Prozeduren
+        // Depending on the type of viewholder there are different procedures
         when(holder){
-            //Wenn der Viewholder einen Artikel Darstellt wird er an den entsprechenden WordpressArtikel gebunden
+            // When the viewholder displays an article, it is bound to the corresponding Wordpress article.
             is ThomsLineArticleViewHolder -> {
-                //Die Seite auf der das inhaltsObjekt liegt
+                // The page on which the content object is located
                 val pageIndex = position/(perPage)
-                //Der Index an dem das inhaltsObjekt auf der Seite zu finden ist
+                // The index at which the content object can be found on the page
                 val itemIndex = position%perPage
 
-                //Der Inhalt wird an den viewHolder gebunden
+                // The content is bound to the viewHolder
                 holder.bind(viewmodel.articles.value!!
                     .get(pageIndex)
                     .get(itemIndex)
                 )
             }
-            // Wenn ein Lade Viewholder gebunden werden soll, heißt das das das Ende der Seite
-            // geladen wurde, es müssen also weitere Artiel nachgeladen werden, um nicht zu viele
-            // anfragen zu senden, wird das nur gemacht wenn gerade keine Anfragen ausstehen
+            // If a load viewholder is to be bound, this means that the end of the page has been
+            // loaded, so further artiels must be loaded, in order not to send too many requests,
+            // this is only done when there are no requests pending.
             is ThomsLineLoadingViewholder -> {
                 if (!fragment.isLoading()) fragment.loadArticles(viewmodel.articles.value!!.size)
             }
@@ -79,8 +78,8 @@ class ThomsLineRecyclerAdapter(
     }
 
     /**
-     * Berechnet die Anzahl der Viewholder im Recycler View
-     * @return viewHolder Anzahl
+     * Calculates the number of viewholders in the Recycler View
+     * @return viewHolder count
      */
     override fun getItemCount(): Int {
         if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
@@ -88,11 +87,11 @@ class ThomsLineRecyclerAdapter(
     }
 
     /**
-     * Berechnet den Typ des Viewholders
-     * @return 0 = Article Viewholder, 1 = Lade Anzeige, 2 = Ende der Artikel
+     * Calculates the type of viewholder
+     * @return 0 = Article Viewholder, 1 = Loading indicator, 2 = End of the RecyclerView
      */
     override fun getItemViewType(position: Int): Int {
-        val pageIndex = position/(perPage)  //Die Seite auf der das Daten Model eines Artikel liegen würde
+        val pageIndex = position/(perPage)  // The page on which the data model of the article would be located
         return if ((pageIndex != 0 && position == itemCount-1)) if (pageIndex == viewmodel.lastPage) 2 else 1 else 0
     }
 }

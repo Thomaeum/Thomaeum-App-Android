@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Wird benötigt um Bilder aus dem HTML Code in den Textview to Laden
- * Wurde Programmiert um die Bilder in den Artikeln an zu zeigen
+ * Needed to load images from the HTML code to the textview
+ * Programmed to display images in the articles
  */
 
 // Class to download Images which extends [Html.ImageGetter]
