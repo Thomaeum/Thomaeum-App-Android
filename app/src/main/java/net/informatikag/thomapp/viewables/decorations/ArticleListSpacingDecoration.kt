@@ -5,8 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Diese Decoration wird auf jedes Element im Recyclerview angewendet, vorallem um abstand zwischen
- * den Artikeln und zu den Bildschrimrändern zu haben
+ * This decoration is applied to each element in the recyclerview, mainly to have distance between the items and to the edges of the screen.
  */
 class ArticleListSpacingDecoration: RecyclerView.ItemDecoration(){
 
