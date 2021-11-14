@@ -12,10 +12,10 @@ import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFrag
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 
 /**
- * Viewholder der einen Artikel anzeigt
- * @param itemView Layout des Viewholders
- * @param fragment Fragment in dem der Viewholer angezeigt wird. Das wird für den Context und das
- *  Navigieren zur Detail Ansicht des Artikels benötigt
+ * Viewholder displaying an article
+ * @param itemView Viewholder layout
+ * @param fragment Fragment in which the viewholer is displayed. This is needed for the context and
+ * navigating to the detail view of the article
  */
 class ThomsLineArticleViewHolder constructor(
     itemView: View,
@@ -23,16 +23,16 @@ class ThomsLineArticleViewHolder constructor(
 ): RecyclerView.ViewHolder(itemView){
 
     /**
-     * Diese Methode wird aufgerufen wenn ein Artikel an den Viewholder gebunden wird, hier werden
-     * also die Inhalte in das Layout geladen
+     * This method is called when an article is bound to the viewholder, so here the content is
+     * loaded into the layout
      */
     fun bind(post: ThomsLineWordpressArticle){
 
-        // Artikel und Unterüberschrift setzen
+        // Set article and subheading
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
         itemView.findViewById<TextView>(R.id.thomsline_post_excerpt).setText(post.excerpt)
 
-        // Wenn es eine ImageURL gibt wird diese geladen, ansonsten wird das standard Bild eingefügt
+        // If there is an ImageURL it will be loaded, otherwise the default image will be inserted.
         if (post.imageURL != null)
         Glide.with(itemView.context)
             .applyDefaultRequestOptions(
@@ -48,7 +48,7 @@ class ThomsLineArticleViewHolder constructor(
                 R.drawable.img_thomsline_article_image_default
             ))
 
-        // Ein OnClickListener wird hinzugefügt, um bei einem Click in die Detailansicht wechseln zu können
+        // An OnClickListener is added to be able to switch to the detail view on clicking
         itemView.setOnClickListener(View.OnClickListener {
             fragment.onItemClick(post)
         })

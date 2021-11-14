@@ -4,6 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Viewholder der agezeigt wird wenn das Ende des RecyclerViews erreicht ist
+ * Viewholder that is displayed when the end of the RecyclerView is reached
  */
 class ThomsLineEndViewholder constructor(itemView: View): RecyclerView.ViewHolder(itemView)

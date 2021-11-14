@@ -4,6 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Viewholder der angezeigt wird wenn neue Artikel geladen werden
+ * Viewholder that is displayed when new articles are loaded
  */
 class ThomsLineLoadingViewholder constructor(itemView: View): RecyclerView.ViewHolder(itemView)
