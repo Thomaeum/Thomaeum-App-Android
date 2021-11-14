@@ -24,23 +24,31 @@ import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Ziegt eine Liste von Artikeln die aus der JSON API der Wordpress Instanz der Schülerzeitung ThomsLine läd
+ * Die Artikel werden dynamisch mit einem RecyclerView geladen.
+ */
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
-    private lateinit var viewModel: ThomsLineFragmentViewModel
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter
-    private var _binding: ThomslineMainFragmentBinding? = null
-    private var requestsPending: Int = 0
+    private lateinit var viewModel: ThomsLineFragmentViewModel      // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout     // wird benutz um die Artikel neu zu laden
+    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter  // Hier werden die Artikel angezeigt
+    private var _binding: ThomslineMainFragmentBinding? = null      // Verweis zum Layout
+    private var requestsPending: Int = 0                            // Anzahl der immoment noch nicht beantworteten Netzwerk Requests
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
+    /**
+     * Wird ausgeführt wenn das Fragment geöffnet wird
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate Layout
         _binding = ThomslineMainFragmentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -61,8 +69,12 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             R.color.secondaryColor
         )
 
+        //TODO Probably remove the IF-Statement
         if (viewModel.articles.value == null) swipeRefreshLayout.post {
+            // Display Refresh Indicator
             swipeRefreshLayout.isRefreshing = true
+
+            // Load First Article Page
             loadArticles(0)
         }
         //endregion
@@ -83,60 +95,89 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         _binding = null
     }
 
+    /**
+     * Called when the SwipeRefresh Layout is triggerd
+     */
     override fun onRefresh() {
         loadArticles(0)
     }
 
+    /**
+     * Called when a Article is clicked
+     */
     fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
         val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
         findNavController().navigate(action)
     }
 
+    /**
+     * Loads all Article pages until "page" and removes all cached pages after it
+     */
     fun loadArticles(page:Int){
+
+        // Remove all cached pages after the given one
         viewModel.removeArticlePagesFromIndex(page)
 
+        // Create a new Request Queue
         val requestQueue = Volley.newRequestQueue(this.context)
 
+        // Add requests to load the Pages to the requestQueue
         for (i in 0 until page+1) {
             reloadPage(i, requestQueue)
         }
     }
 
+    // Checks if there are pending Requests at the moment
     fun isLoading():Boolean = this.requestsPending != 0
 
+    // Reload a page without a given Request Queue
     fun reloadPage(id:Int){
         reloadPage(id, Volley.newRequestQueue(this.context))
     }
 
+    // Reload a Page while adding the Requests to a given Request Queue
     fun reloadPage(id: Int, requestQueue:RequestQueue) {
         Log.d("ThomsLine", "Requesting Data for page $id")
+
+        // Add one pending request
         this.requestsPending++
+
+        // Start the Request
         requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded&&page=${id+1}",
             { response ->
                 Log.d("ThomsLine", "Got Data for page $id")
 
+                // A Variable to load the Articles to
                 val data = ArrayList<ThomsLineWordpressArticle>()
 
-                val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
-
+                // Load the Articles from the JSON
                 for (j in 0 until response.length()) data.add(ThomsLineWordpressArticle(response.getJSONObject(j), true))
 
+                // Load Data from the Viewmodel
+                //TODO Remove this, as it does not have any use
+                val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
                 if (id == pages.size) pages.add(data)
                 else if (id < pages.size) pages.set(id, data)
 
+                // Remove one pending Request
                 this.requestsPending--
 
+                // Update the RecyclerView
                 viewModel.setArticlePage(id, data)
                 recyclerAdapter.notifyItemChanged(id)
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request Error while loading Data for page $id")
+
+                // Check if the Error is caused because loading a non Existing Page
                 if (volleyError.networkResponse?.statusCode == 400){
-                    viewModel.lastPage
+
+                    // Update the Last Page Variable
                     viewModel.lastPage = if(id-1<viewModel.lastPage) viewModel.lastPage else id-1
                     Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage})")
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
+                    // Display a Snackbar, stating the Error
                     Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
 
