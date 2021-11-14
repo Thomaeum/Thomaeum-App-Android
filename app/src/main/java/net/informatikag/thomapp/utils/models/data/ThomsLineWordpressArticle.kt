@@ -19,6 +19,23 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.util.*
 
+/**
+ * Stores required information about a Wordpress article. The articles can also be available in the
+ * "lite version", in this case not all parameters are loaded to save bandwidth
+ * @param id must always be specified
+ * @param title Always loaded
+ * @param imageURL Always loaded
+ * @param excerpt Always loaded
+ *
+ * @param content not loaded in lite version
+ * @param authors not loaded in lite version
+ * @param date not loaded in lite version
+ *
+ * @param loaded indicates whether the item is loaded
+ * @param liteVersion
+ *
+ * @author isi_ko
+ */
 data class ThomsLineWordpressArticle(
     var id: Int,
     var title: String?,
@@ -30,12 +47,22 @@ data class ThomsLineWordpressArticle(
     var loaded:Boolean,
     var liteVersion:Boolean
 ) {
-    val LITE_URL = ""
+    // The URLs to load articles from
+    // (it is still specified in the refresh method which article is loaded, these URLs should only filter the fields that are returned)
+    //TODO Make this general Strings
+    val LITE_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
     val FULL_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
 
-    constructor(id:Int,
-                context: Context,
-                callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
+    /**
+     * Loads the article from API
+     * @param id the WordpressID of the article
+     * @param context used for Volley to be able to make the requests
+     * @param callback executed when the item is loaded
+     */
+    constructor(
+        id:Int,
+        context: Context,
+        callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ):this(
         id,
         null,
@@ -48,6 +75,11 @@ data class ThomsLineWordpressArticle(
         false
     ){ refresh(context, callback) }
 
+    /**
+     * Loads the article from a JSONObject
+     * @param json From here the article is loaded
+     * @param liteVersion indicates whether the item is available in the Lite version
+     */
     constructor(json: JSONObject, liteVersion: Boolean): this(
         getIDFromJSON(json),
         getTitleFromJSON(json),
@@ -60,11 +92,16 @@ data class ThomsLineWordpressArticle(
         liteVersion
     )
 
+    /**
+     * Reloads the article
+     * @param context used for Volley to be able to make the requests
+     * @param callback executed when the item is loaded
+     */
     fun refresh(
         context: Context,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ) {
-        val url = (if (this.liteVersion) LITE_URL else FULL_URL) + "&include=$id"
+        val url = (if (this.liteVersion) LITE_URL else FULL_URL) + "&&include=$id"
         Volley.newRequestQueue(context).add(
             JsonArrayRequest(url,
                 { response ->
@@ -96,6 +133,10 @@ data class ThomsLineWordpressArticle(
         )
     }
 
+    /**
+     * Since the authors are in an array of strings, there must be a way to get them into a single string
+     * @return A string that lists the authors
+     */
     fun getAuthorString():String{
         var output = ""
         if (authors != null) {
@@ -113,6 +154,7 @@ data class ThomsLineWordpressArticle(
     }
 
     companion object {
+        //region Get Data from JSON
         fun getIDFromJSON(json: JSONObject):Int = json.getInt("id")
         fun getTitleFromJSON(json: JSONObject):String? = try {
             Html.fromHtml(json.getJSONObject("title").getString("rendered")).toString()
@@ -156,7 +198,13 @@ data class ThomsLineWordpressArticle(
                 dateStrings[5].toInt()
             )
         } catch (e: Exception) {null}
+        //endregion
 
+        /**
+         * Gets a displayable Error String from a VolleyError
+         * @param error the Error to generate from
+         * @param activity needed to get some Conenctivity Stats
+         */
         fun getVolleyError(error: VolleyError, activity: Activity): String {
             var errorMsg = ""
             if (error is NoConnectionError) {

@@ -13,6 +13,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * Needed to load images from the HTML code to the textview
+ * Programmed to display images in the articles
+ */
+
 // Class to download Images which extends [Html.ImageGetter]
 // Copyed from https://www.geeksforgeeks.org/how-to-display-html-in-textview-along-with-images-in-android/
 class DrawableImageGetter(

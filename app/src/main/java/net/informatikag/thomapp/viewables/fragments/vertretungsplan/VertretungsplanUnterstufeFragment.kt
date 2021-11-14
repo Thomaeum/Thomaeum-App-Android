@@ -8,10 +8,14 @@ import androidx.fragment.app.Fragment
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
 
+/**
+ * Displays the lower level substitution plan, where the actual functional parts of this class have
+ * been moved to SubstitutionPlanHandler, since they differ only by the URL to the plan.
+ */
 class VertretungsplanUnterstufeFragment : Fragment() {
 
-    private var _binding: VertretungsplanOberstufeFragmentBinding? = null
-    private lateinit var handler: VertretungsplanHandler
+    private var _binding: VertretungsplanOberstufeFragmentBinding? = null   // Binding to access the layout
+    private lateinit var handler: VertretungsplanHandler                    // The functional parts
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,18 +26,23 @@ class VertretungsplanUnterstufeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate Layout
         _binding = VertretungsplanOberstufeFragmentBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
+        // Add handler
         handler = VertretungsplanHandler(
             "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf",
             binding.fragmentVertretungsplanLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )
 
-        return root
+        // Return layout
+        return binding.root
     }
 
+    /**
+     * If the fragment is no longer used, the binding must also be removed
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
