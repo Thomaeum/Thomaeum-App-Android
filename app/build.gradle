@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdkVersion  31
 
     defaultConfig {
         applicationId "net.informatikag.thomapp"
@@ -75,4 +75,7 @@ dependencies {
 
     // Coroutines dependency to put the downloading
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+
+    //Splash Screen Library
+    implementation 'androidx.core:core-splashscreen:1.0.0-alpha02'
 }
