@@ -48,13 +48,14 @@ class ThomsLineArticleFragment : Fragment() {
         // Initiate Article Loading and hide Content Containers
         binding.thomslineArticleScrollview.visibility = View.GONE
         article = ThomsLineWordpressArticle(args.id,this.requireContext())
-        { article, error -> articleRefreshCallback(error) }
+        { article, error -> articleRefreshCallback(article, error) }
 
         // Initiate Article Loading when a Refresh is triggered
         binding.thomslineArticleSwipeRefreshLayout.setOnRefreshListener {
             binding.thomslineArticleScrollview.visibility = View.GONE
             article.refresh(this.requireContext()) { article, error ->
                 articleRefreshCallback(
+                    article,
                     error
                 )
             }
@@ -68,9 +69,12 @@ class ThomsLineArticleFragment : Fragment() {
     /**
      * Is Called when the Article was refreshed
      */
-    fun articleRefreshCallback(error: VolleyError?){
-        // If there were no Errors just load the Article to the Layout
-        if (error == null) loadArticleToViews()
+    fun articleRefreshCallback(article: ThomsLineWordpressArticle?, error: VolleyError?){
+        if (error == null) {
+            // If there were no Errors just load the Article to the atribute and then to the layout
+            this.article = article!!
+            loadArticleToViews()
+        }
         // If there were Errors, display them in a Snackbar
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
