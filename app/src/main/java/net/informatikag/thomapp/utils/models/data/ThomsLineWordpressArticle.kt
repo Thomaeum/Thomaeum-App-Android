@@ -56,6 +56,7 @@ data class ThomsLineWordpressArticle(
      */
     constructor(
         id:Int,
+        liteVersion: Boolean,
         context: Context,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ):this(
@@ -67,7 +68,7 @@ data class ThomsLineWordpressArticle(
         null,
         null,
         false,
-        false
+        liteVersion
     ){ refresh(context, callback) }
 
     /**

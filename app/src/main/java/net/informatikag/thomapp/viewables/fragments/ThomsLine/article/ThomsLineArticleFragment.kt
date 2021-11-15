@@ -47,7 +47,7 @@ class ThomsLineArticleFragment : Fragment() {
 
         // Initiate Article Loading and hide Content Containers
         binding.thomslineArticleScrollview.visibility = View.GONE
-        article = ThomsLineWordpressArticle(args.id,this.requireContext())
+        article = ThomsLineWordpressArticle(args.id, false,this.requireContext())
         { article, error -> articleRefreshCallback(article, error) }
 
         // Initiate Article Loading when a Refresh is triggered
