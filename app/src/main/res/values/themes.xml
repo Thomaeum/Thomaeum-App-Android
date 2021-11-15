@@ -22,4 +22,17 @@
     <style name="Theme.ThomApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ThomApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.ThomApp.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation duration.-->
+        <item name="windowSplashScreenBackground">@color/primaryColor</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an-->
+        <!-- animated drawable. One of these is required.-->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+<!--        <item name="windowSplashScreenIconBackgroundColor">@color/secondaryColor</item>-->
+
+        <!-- Set the theme of the Activity that directly follows your splash screen. -->
+        <item name="postSplashScreenTheme">@style/Theme.ThomApp.NoActionBar</item>  <!-- Required-->
+    </style>
 </resources>
