@@ -21,6 +21,12 @@ class MainActivity : AppCompatActivity(){
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    companion object {
+        val ARTICLES_PER_PAGE: Int = 10
+        val WORDPRESS_BASE_URL_LITE: String = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
+        val WORDPRESS_BASE_URL_FULL: String = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

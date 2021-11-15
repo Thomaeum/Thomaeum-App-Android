@@ -8,6 +8,7 @@ import android.text.Html
 import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
@@ -47,12 +48,6 @@ data class ThomsLineWordpressArticle(
     var loaded:Boolean,
     var liteVersion:Boolean
 ) {
-    // The URLs to load articles from
-    // (it is still specified in the refresh method which article is loaded, these URLs should only filter the fields that are returned)
-    //TODO Make this general Strings
-    val LITE_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
-    val FULL_URL = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
-
     /**
      * Loads the article from API
      * @param id the WordpressID of the article
@@ -101,7 +96,7 @@ data class ThomsLineWordpressArticle(
         context: Context,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ) {
-        val url = (if (this.liteVersion) LITE_URL else FULL_URL) + "&&include=$id"
+        val url = (if (this.liteVersion) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_LITE) + "&&include=$id"
         Volley.newRequestQueue(context).add(
             JsonArrayRequest(url,
                 { response ->
