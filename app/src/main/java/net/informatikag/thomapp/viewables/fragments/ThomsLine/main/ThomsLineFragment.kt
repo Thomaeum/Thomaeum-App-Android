@@ -69,11 +69,9 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             R.color.secondaryColor
         )
 
-        //TODO Probably remove the IF-Statement
-        if (viewModel.articles.value == null) swipeRefreshLayout.post {
+        swipeRefreshLayout.post {
             // Display Refresh Indicator
             swipeRefreshLayout.isRefreshing = true
-
             // Load First Article Page
             loadArticles(0)
         }
@@ -152,12 +150,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
                 // Load the Articles from the JSON
                 for (j in 0 until response.length()) data.add(ThomsLineWordpressArticle(response.getJSONObject(j), true))
-
-                // Load Data from the Viewmodel
-                //TODO Remove this, as it does not have any use
-                val pages: ArrayList<ArrayList<ThomsLineWordpressArticle>> = if (viewModel.articles.value != null) viewModel.articles.value!! else ArrayList()
-                if (id == pages.size) pages.add(data)
-                else if (id < pages.size) pages.set(id, data)
 
                 // Remove one pending Request
                 this.requestsPending--

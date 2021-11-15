@@ -29,7 +29,6 @@ class ThomsLineArticleFragment : Fragment() {
 
     private val args: ThomsLineArticleFragmentArgs by navArgs()     // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
     private var _binding: ThomslineArticleFragmentBinding? = null   // Binding um das Layout zu erreichen
-    //TODO: Actually use this. At the Moment the Article used is passed through parameters
     private lateinit var article: ThomsLineWordpressArticle         // das WordpressArticle Object, welches angezeigt wird
 
     // This property is only valid between onCreateView and
@@ -48,7 +47,7 @@ class ThomsLineArticleFragment : Fragment() {
 
         // Initiate Article Loading and hide Content Containers
         binding.thomslineArticleScrollview.visibility = View.GONE
-        article = ThomsLineWordpressArticle(args.id,this.requireContext())
+        article = ThomsLineWordpressArticle(args.id, false,this.requireContext())
         { article, error -> articleRefreshCallback(article, error) }
 
         // Initiate Article Loading when a Refresh is triggered
@@ -70,9 +69,12 @@ class ThomsLineArticleFragment : Fragment() {
     /**
      * Is Called when the Article was refreshed
      */
-    fun articleRefreshCallback(article: ThomsLineWordpressArticle, error: VolleyError?){
-        // If there were no Errors just load the Article to the Layout
-        if (error == null) loadArticleToViews(article)
+    fun articleRefreshCallback(article: ThomsLineWordpressArticle?, error: VolleyError?){
+        if (error == null) {
+            // If there were no Errors just load the Article to the atribute and then to the layout
+            this.article = article!!
+            loadArticleToViews()
+        }
         // If there were Errors, display them in a Snackbar
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
@@ -86,33 +88,33 @@ class ThomsLineArticleFragment : Fragment() {
     /**
      *  Loads a given WordpressArticle to the Layout
      */
-    fun loadArticleToViews(wordpressArticle: ThomsLineWordpressArticle) {
+    fun loadArticleToViews() {
         // Make shure the Fragment is still Loaded
         if (this.context == null) return
         
         // Change Title TextView
-        binding.thomslineArtilcleTitle.setText(wordpressArticle.title)
+        binding.thomslineArtilcleTitle.setText(this.article.title)
 
         // Load Author
-        binding.thomslineArticleAuthor.setText(wordpressArticle.getAuthorString())
+        binding.thomslineArticleAuthor.setText(this.article.getAuthorString())
 
         // Load Date
         binding.thomslineArticleDate.setText(
-            "${wordpressArticle.date?.hours}:${wordpressArticle.date?.minutes} - ${wordpressArticle.date?.date}.${wordpressArticle.date?.month}.${wordpressArticle.date?.year}"
+            "${this.article.date?.hours}:${this.article.date?.minutes} - ${this.article.date?.date}.${this.article.date?.month}.${this.article.date?.year}"
         )
 
         // Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
-        if (wordpressArticle.imageURL != null)
+        if (this.article.imageURL != null)
             Glide.with(imageView.context)
-                .load(wordpressArticle.imageURL)
+                .load(this.article.imageURL)
                 .placeholder(R.drawable.img_thomsline_article_image_default)
                 .into(imageView)
         else imageView.visibility = View.GONE
 
         // Load Content
         val contentView: TextView = binding.thomslineArticleContent
-        var content = wordpressArticle.content
+        var content = this.article.content
 
         // Remove multiple Whitespaces
         content = content?.replace("(\\s|&nbsp;)+".toRegex(), " ")

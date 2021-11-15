@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
 
@@ -31,7 +32,7 @@ class VertretungsplanUnterstufeFragment : Fragment() {
 
         // Add handler
         handler = VertretungsplanHandler(
-            "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf",
+            MainActivity.VERTRETUNGSPLAN_UNTERSTUFE_PDF,
             binding.fragmentVertretungsplanLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )

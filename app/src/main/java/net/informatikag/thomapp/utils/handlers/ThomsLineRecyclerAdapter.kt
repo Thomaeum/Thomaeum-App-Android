@@ -3,6 +3,7 @@ package net.informatikag.thomapp.utils.handlers
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
@@ -20,8 +21,6 @@ class ThomsLineRecyclerAdapter(
     val viewmodel:ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //Number of articles per page
-    //TODO dies sollte eine Globale Variable werden
-    private val perPage:Int = 10
 
     /**
      * Called when a new viewholder (without data) is created.
@@ -58,9 +57,9 @@ class ThomsLineRecyclerAdapter(
             // When the viewholder displays an article, it is bound to the corresponding Wordpress article.
             is ThomsLineArticleViewHolder -> {
                 // The page on which the content object is located
-                val pageIndex = position/(perPage)
+                val pageIndex = position/(MainActivity.ARTICLES_PER_PAGE)
                 // The index at which the content object can be found on the page
-                val itemIndex = position%perPage
+                val itemIndex = position%MainActivity.ARTICLES_PER_PAGE
 
                 // The content is bound to the viewHolder
                 holder.bind(viewmodel.articles.value!!
@@ -83,7 +82,7 @@ class ThomsLineRecyclerAdapter(
      */
     override fun getItemCount(): Int {
         if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
-        else return (viewmodel.articles.value!!.size-1) * perPage + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + 1
+        else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + 1
     }
 
     /**
@@ -91,7 +90,7 @@ class ThomsLineRecyclerAdapter(
      * @return 0 = Article Viewholder, 1 = Loading indicator, 2 = End of the RecyclerView
      */
     override fun getItemViewType(position: Int): Int {
-        val pageIndex = position/(perPage)  // The page on which the data model of the article would be located
+        val pageIndex = position/(MainActivity.ARTICLES_PER_PAGE)  // The page on which the data model of the article would be located
         return if ((pageIndex != 0 && position == itemCount-1)) if (pageIndex == viewmodel.lastPage) 2 else 1 else 0
     }
 }
