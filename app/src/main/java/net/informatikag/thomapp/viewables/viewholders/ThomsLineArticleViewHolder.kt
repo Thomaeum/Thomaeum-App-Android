@@ -37,8 +37,8 @@ class ThomsLineArticleViewHolder constructor(
         Glide.with(itemView.context)
             .applyDefaultRequestOptions(
                 RequestOptions()
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background))
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error))
             .load(post.imageURL)
             .placeholder(R.drawable.img_thomsline_article_image_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
