@@ -115,7 +115,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     fun loadArticles(page:Int){
 
         // Remove all cached pages after the given one
-        viewModel.removeArticlePagesFromIndex(page)
+        viewModel.removeArticlePagesFromIndex(page, recyclerAdapter)
 
         // Create a new Request Queue
         val requestQueue = Volley.newRequestQueue(this.context)
@@ -156,8 +156,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 this.requestsPending--
 
                 // Update the RecyclerView
-                recyclerAdapter.notifyItemChanged(id)
-                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()))
+                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()), recyclerAdapter)
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request Error while loading Data for page $id")
@@ -174,7 +173,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                     Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
 
-                recyclerAdapter.notifyItemChanged(id)
+                //recyclerAdapter.notifyItemChanged(id)
             }
         ))
     }
