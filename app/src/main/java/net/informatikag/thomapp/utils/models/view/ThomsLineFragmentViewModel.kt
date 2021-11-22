@@ -2,7 +2,9 @@ package net.informatikag.thomapp.utils.models.view
 
 import android.app.Application
 import androidx.lifecycle.*
+import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 
 /**
  * Saves the Wordpress articles of the ThomsLine fragment
@@ -10,15 +12,15 @@ import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
 
     // The articles
-    private val _articles = MutableLiveData<ArrayList<ArrayList<ThomsLineWordpressArticle>>>()
-    val articles: LiveData<ArrayList<ArrayList<ThomsLineWordpressArticle>>> = _articles
+    private val _articles = MutableLiveData<ArrayList<ThomsLineWordpressArticlePage>>()
+    val articles: LiveData<ArrayList<ThomsLineWordpressArticlePage>> = _articles
 
     // The last page of the articles
     var lastPage: Int = -1
 
     // Sets a Page
-    fun setArticlePage(id: Int, content:ArrayList<ThomsLineWordpressArticle>){
         if (_articles.value == null) _articles.value = ArrayList(0)
+    fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage){
 
         if (id >= _articles.value!!.size) _articles.value?.add(content)
         else if (id < _articles.value!!.size) _articles.value?.set(id, content)

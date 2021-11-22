@@ -63,7 +63,7 @@ class ThomsLineRecyclerAdapter(
 
                 // The content is bound to the viewHolder
                 holder.bind(viewmodel.articles.value!!
-                    .get(pageIndex)
+                    .get(pageIndex).articles
                     .get(itemIndex)
                 )
             }
@@ -82,7 +82,7 @@ class ThomsLineRecyclerAdapter(
      */
     override fun getItemCount(): Int {
         if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
-        else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].size + 1
+        else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articles.size + 1
     }
 
     /**

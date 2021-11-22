@@ -20,6 +20,7 @@ import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -155,8 +156,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 this.requestsPending--
 
                 // Update the RecyclerView
-                viewModel.setArticlePage(id, data)
                 recyclerAdapter.notifyItemChanged(id)
+                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()))
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request Error while loading Data for page $id")
