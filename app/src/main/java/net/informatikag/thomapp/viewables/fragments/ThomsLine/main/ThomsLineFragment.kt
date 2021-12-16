@@ -15,6 +15,7 @@ import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
@@ -113,9 +114,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
      * Loads all Article pages until "page" and removes all cached pages after it
      */
     fun loadArticles(page:Int){
-
         // Remove all cached pages after the given one
-        viewModel.removeArticlePagesFromIndex(page, recyclerAdapter)
+        if(page == 0) viewModel.removeArticlePagesFromIndex(1, recyclerAdapter)
 
         // Create a new Request Queue
         val requestQueue = Volley.newRequestQueue(this.context)
@@ -155,8 +155,13 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 // Remove one pending Request
                 this.requestsPending--
 
+//                if (requestsPending == 0)
+                    for(i in 0..response.length())
+                        recyclerAdapter.notifyItemChanged(id*MainActivity.ARTICLES_PER_PAGE+i);
+
                 // Update the RecyclerView
-                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()), recyclerAdapter)
+                if(viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray())))
+                    recyclerAdapter.notifyItemChanged(id)
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request Error while loading Data for page $id")
