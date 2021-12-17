@@ -15,11 +15,13 @@ import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,7 +36,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout     // wird benutz um die Artikel neu zu laden
     private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter  // Hier werden die Artikel angezeigt
     private var _binding: ThomslineMainFragmentBinding? = null      // Verweis zum Layout
-    private var requestsPending: Int = 0                            // Anzahl der immoment noch nicht beantworteten Netzwerk Requests
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -73,7 +74,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             // Display Refresh Indicator
             swipeRefreshLayout.isRefreshing = true
             // Load First Article Page
-            loadArticles(0)
+            loadArticles(0, true)
         }
         //endregion
 
@@ -97,7 +98,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
      * Called when the SwipeRefresh Layout is triggerd
      */
     override fun onRefresh() {
-        loadArticles(0)
+        loadArticles(0, true)
     }
 
     /**
@@ -111,22 +112,23 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     /**
      * Loads all Article pages until "page" and removes all cached pages after it
      */
-    fun loadArticles(page:Int){
-
+    fun loadArticles(page:Int, reloadAll: Boolean){
         // Remove all cached pages after the given one
-        viewModel.removeArticlePagesFromIndex(page)
+        if(page == 0) {
+            viewModel.removeArticlePagesFromIndex(1, recyclerAdapter)
+            viewModel.lastPage = -1
+        }
 
         // Create a new Request Queue
         val requestQueue = Volley.newRequestQueue(this.context)
 
         // Add requests to load the Pages to the requestQueue
-        for (i in 0 until page+1) {
-            reloadPage(i, requestQueue)
-        }
+        if(reloadAll)
+            for (i in 0 until page+1) {
+                reloadPage(i, requestQueue)
+            }
+        else reloadPage(page)
     }
-
-    // Checks if there are pending Requests at the moment
-    fun isLoading():Boolean = this.requestsPending != 0
 
     // Reload a page without a given Request Queue
     fun reloadPage(id:Int){
@@ -136,9 +138,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     // Reload a Page while adding the Requests to a given Request Queue
     fun reloadPage(id: Int, requestQueue:RequestQueue) {
         Log.d("ThomsLine", "Requesting Data for page $id")
-
-        // Add one pending request
-        this.requestsPending++
 
         // Start the Request
         requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded&&page=${id+1}",
@@ -151,12 +150,9 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 // Load the Articles from the JSON
                 for (j in 0 until response.length()) data.add(ThomsLineWordpressArticle(response.getJSONObject(j), true))
 
-                // Remove one pending Request
-                this.requestsPending--
-
                 // Update the RecyclerView
-                viewModel.setArticlePage(id, data)
-                recyclerAdapter.notifyItemChanged(id)
+                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()), recyclerAdapter)
+
             },
             { volleyError ->
                 Log.d("ThomsLine", "Request Error while loading Data for page $id")
@@ -166,6 +162,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
 
                     // Update the Last Page Variable
                     viewModel.lastPage = if(id-1<viewModel.lastPage) viewModel.lastPage else id-1
+                    recyclerAdapter.notifyItemChanged(recyclerAdapter.itemCount-1)
                     Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage})")
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
@@ -173,7 +170,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                     Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
 
-                recyclerAdapter.notifyItemChanged(id)
+                //recyclerAdapter.notifyItemChanged(id)
             }
         ))
     }
