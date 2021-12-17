@@ -19,6 +19,7 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
+import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
@@ -29,7 +30,7 @@ import kotlin.collections.ArrayList
  * Pulls a list of articles from the JSON API of the Wordpress instance of the ThomsLine student newspaper.
  * The articles are dynamically loaded with a RecyclerView.
  */
-class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
+class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ArticleClickHandler {
 
     private lateinit var viewModel: ThomsLineFragmentViewModel      // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout     // wird benutz um die Artikel neu zu laden
@@ -164,5 +165,13 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 //recyclerAdapter.notifyItemChanged(id)
             }
         ))
+    }
+
+    /**
+     * Called when a Article is clicked
+     */
+    override fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
+        findNavController().navigate(action)
     }
 }

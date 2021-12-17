@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="net.informatikag.thomapp.viewables.fragments.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_thomsline_article_view"
+            app:destination="@id/nav_thomsline_article_view" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_thomsline"
