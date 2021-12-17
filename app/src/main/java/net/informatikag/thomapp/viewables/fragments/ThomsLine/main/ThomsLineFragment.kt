@@ -15,7 +15,6 @@ import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
-import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
@@ -99,14 +98,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
      */
     override fun onRefresh() {
         loadArticles(0, true)
-    }
-
-    /**
-     * Called when a Article is clicked
-     */
-    fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
-        findNavController().navigate(action)
     }
 
     /**

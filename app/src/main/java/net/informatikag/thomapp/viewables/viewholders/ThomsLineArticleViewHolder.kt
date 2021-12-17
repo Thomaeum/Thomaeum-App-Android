@@ -4,12 +4,15 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
 
 /**
  * Viewholder displaying an article
@@ -19,7 +22,7 @@ import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
  */
 class ThomsLineArticleViewHolder constructor(
     itemView: View,
-    val fragment: ThomsLineFragment
+    val fragment: Fragment
 ): RecyclerView.ViewHolder(itemView){
 
     /**
@@ -49,8 +52,14 @@ class ThomsLineArticleViewHolder constructor(
             ))
 
         // An OnClickListener is added to be able to switch to the detail view on clicking
-        itemView.setOnClickListener(View.OnClickListener {
-            fragment.onItemClick(post)
-        })
+        itemView.setOnClickListener {onItemClick(post)}
+    }
+
+    /**
+     * Called when a Article is clicked
+     */
+    fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
+        fragment.findNavController().navigate(action)
     }
 }
