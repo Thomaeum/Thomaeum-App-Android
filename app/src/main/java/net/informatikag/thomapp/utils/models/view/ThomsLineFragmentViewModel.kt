@@ -46,7 +46,7 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
     // Removes pages after the indexed Page
     fun removeArticlePagesFromIndex(index:Int, recyclerAdapter: ThomsLineRecyclerAdapter){
         val previousSize:Int = recyclerAdapter.itemCount
-        recyclerAdapter.notifyItemRangeRemoved(index, (previousSize-index))
+        recyclerAdapter.notifyItemRangeRemoved(index*MainActivity.ARTICLES_PER_PAGE, (previousSize-index))
         if (articles.value != null) {
             while (_articles.value!!.size > index) {
                 _articles.value!!.removeLast()
