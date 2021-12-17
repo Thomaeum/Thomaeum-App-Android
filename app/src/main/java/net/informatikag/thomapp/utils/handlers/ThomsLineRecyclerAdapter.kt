@@ -20,7 +20,6 @@ class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
     val viewmodel:ThomsLineFragmentViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    //Number of articles per page
 
     /**
      * Called when a new viewholder (without data) is created.
@@ -71,7 +70,8 @@ class ThomsLineRecyclerAdapter(
             // loaded, so further artiels must be loaded, in order not to send too many requests,
             // this is only done when there are no requests pending.
             is ThomsLineLoadingViewholder -> {
-                if (!fragment.isLoading()) fragment.loadArticles(viewmodel.articles.value!!.size)
+//                if (!fragment.isLoading())
+                    fragment.loadArticles(viewmodel.articles.value!!.size, false)
             }
         }
     }
@@ -91,6 +91,9 @@ class ThomsLineRecyclerAdapter(
      */
     override fun getItemViewType(position: Int): Int {
         val pageIndex = position/(MainActivity.ARTICLES_PER_PAGE)  // The page on which the data model of the article would be located
-        return if ((pageIndex != 0 && position == itemCount-1)) if (pageIndex == viewmodel.lastPage) 2 else 1 else 0
+        return if (pageIndex >= 0 && position == itemCount-1)
+            if (pageIndex == viewmodel.lastPage) 2
+            else 1
+        else 0
     }
 }

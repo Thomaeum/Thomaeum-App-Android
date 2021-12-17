@@ -2,6 +2,7 @@ package net.informatikag.thomapp.utils.models.view
 
 import android.app.Application
 import androidx.lifecycle.*
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 
@@ -18,20 +19,28 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
     var lastPage: Int = -1
 
     // Sets a Page
-    fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage):Boolean{
-        var changed = false
+    fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage, recyclerAdapter: ThomsLineRecyclerAdapter){
+        val changed = _articles.value == null || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
-        if (_articles.value == null || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))) {
+        if (changed) {
             //If there were no articles previously
-            if (_articles.value == null) _articles.value = arrayListOf(content)
+            val positionStart = id * MainActivity.ARTICLES_PER_PAGE
+            if (_articles.value == null) {
+                _articles.value = arrayListOf(content)
+                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articles.size);
+            }
             //if the Page is completly new
-            else if (id >= _articles.value!!.size) _articles.value?.add(content)
+            else if (id >= _articles.value!!.size) {
+                _articles.value?.add(content)
+                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articles.size);
+            }
             //If it's just a old Page updating
-            else if (id < _articles.value!!.size) _articles.value?.set(id, content)
-            changed = true
+            else if (id < _articles.value!!.size) {
+                _articles.value?.set(id, content)
+                recyclerAdapter.notifyItemRangeChanged(positionStart, content.articles.size);
+            }
         }
         _articles.postValue(_articles.value)
-        return changed
     }
 
     // Removes pages after the indexed Page
