@@ -70,11 +70,13 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
             R.color.secondaryColor
         )
 
-        swipeRefreshLayout.post {
-            // Display Refresh Indicator
-            swipeRefreshLayout.isRefreshing = true
-            // Load First Article Page
-            loadArticles(0, true)
+        if(viewModel.articles.value == null) {
+            swipeRefreshLayout.post {
+                // Display Refresh Indicator
+                swipeRefreshLayout.isRefreshing = true
+                // Load First Article Page
+                loadArticles(0, true)
+            }
         }
         //endregion
 
