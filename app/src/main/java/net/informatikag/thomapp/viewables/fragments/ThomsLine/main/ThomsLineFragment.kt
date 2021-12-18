@@ -20,6 +20,7 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
+import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
@@ -30,7 +31,7 @@ import kotlin.collections.ArrayList
  * Pulls a list of articles from the JSON API of the Wordpress instance of the ThomsLine student newspaper.
  * The articles are dynamically loaded with a RecyclerView.
  */
-class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
+class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ArticleClickHandler {
 
     private lateinit var viewModel: ThomsLineFragmentViewModel      // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout     // wird benutz um die Artikel neu zu laden
@@ -104,14 +105,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
     }
 
     /**
-     * Called when a Article is clicked
-     */
-    fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
-        findNavController().navigate(action)
-    }
-
-    /**
      * Loads all Article pages until "page" and removes all cached pages after it
      */
     fun loadArticles(page:Int, reloadAll: Boolean){
@@ -142,7 +135,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
         Log.d("ThomsLine", "Requesting Data for page $id")
 
         // Start the Request
-        requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded&&page=${id+1}",
+        requestQueue.add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=${id+1}",
             { response ->
                 Log.d("ThomsLine", "Got Data for page $id")
 
@@ -175,5 +168,13 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener{
                 //recyclerAdapter.notifyItemChanged(id)
             }
         ))
+    }
+
+    /**
+     * Called when a Article is clicked
+     */
+    override fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
+        findNavController().navigate(action)
     }
 }

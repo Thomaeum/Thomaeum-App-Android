@@ -63,7 +63,8 @@ class ThomsLineRecyclerAdapter(
                 // The content is bound to the viewHolder
                 holder.bind(viewmodel.articles.value!!
                     .get(pageIndex).articles
-                    .get(itemIndex)
+                    .get(itemIndex),
+                    fragment
                 )
             }
             // If a load viewholder is to be bound, this means that the end of the page has been

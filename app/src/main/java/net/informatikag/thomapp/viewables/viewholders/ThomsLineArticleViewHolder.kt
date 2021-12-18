@@ -4,12 +4,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
 
 /**
  * Viewholder displaying an article
@@ -19,14 +23,14 @@ import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
  */
 class ThomsLineArticleViewHolder constructor(
     itemView: View,
-    val fragment: ThomsLineFragment
+    val fragment: Fragment
 ): RecyclerView.ViewHolder(itemView){
 
     /**
      * This method is called when an article is bound to the viewholder, so here the content is
      * loaded into the layout
      */
-    fun bind(post: ThomsLineWordpressArticle){
+    fun bind(post: ThomsLineWordpressArticle, clickHandler: ArticleClickHandler){
 
         // Set article and subheading
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
@@ -49,8 +53,6 @@ class ThomsLineArticleViewHolder constructor(
             ))
 
         // An OnClickListener is added to be able to switch to the detail view on clicking
-        itemView.setOnClickListener(View.OnClickListener {
-            fragment.onItemClick(post)
-        })
+        itemView.setOnClickListener {clickHandler.onItemClick(post)}
     }
 }
