@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         listView.adapter = listViewAdapter
 
         //ThomsLine
-        val articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
+        val articleViewHolder = ThomsLineArticleViewHolder(thomsLineViewModel.isEmpty(), false, binding.homeArticlePreview.root,this)
         if (thomsLineViewModel.isEmpty())
             Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->

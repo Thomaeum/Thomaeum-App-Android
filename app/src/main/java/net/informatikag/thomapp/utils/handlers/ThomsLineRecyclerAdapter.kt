@@ -29,6 +29,8 @@ class ThomsLineRecyclerAdapter(
         //The layouts are inflated, depending on the viewType
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
+                false,
+                false,
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
                 fragment
             )

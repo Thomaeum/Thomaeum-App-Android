@@ -1,7 +1,9 @@
 package net.informatikag.thomapp.viewables.viewholders
 
+import android.opengl.Visibility
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
+import org.w3c.dom.Text
 
 /**
  * Viewholder displaying an article
@@ -22,16 +25,72 @@ import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFrag
  * navigating to the detail view of the article
  */
 class ThomsLineArticleViewHolder constructor(
+    loading:Boolean,
+    error:Boolean,
     itemView: View,
-    val fragment: Fragment
+    val fragment: Fragment,
 ): RecyclerView.ViewHolder(itemView){
+    private var loading = false
+        set(value) {
+            field = value
+            if(value){
+                titleView.visibility = View.GONE
+                excerptView.visibility = View.GONE
+                imageView.visibility = View.GONE
+                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.VISIBLE
+            } else {
+                titleView.visibility = View.VISIBLE
+                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
+                if(!error){
+                    imageView.visibility = View.VISIBLE
+                    excerptView.visibility = View.VISIBLE
+                }
+            }
+        }
+
+    private var error = false
+        set(value) {
+            field = value
+            if (value){
+                titleView.text = fragment.activity?.getString(R.string.network_error_generic)
+                titleView.visibility = View.VISIBLE
+
+                excerptView.visibility = View.GONE
+                imageView.visibility = View.GONE
+                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
+            } else {
+                if (loading) {
+                    titleView.visibility = View.GONE
+                    excerptView.visibility = View.GONE
+                    imageView.visibility = View.GONE
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.VISIBLE
+                } else {
+                    titleView.visibility = View.VISIBLE
+                    excerptView.visibility = View.VISIBLE
+                    imageView.visibility = View.VISIBLE
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
+                }
+            }
+        }
+    private val titleView:TextView
+        get() = itemView.findViewById(R.id.thomsline_post_title)
+
+    private val excerptView:TextView
+        get() = itemView.findViewById(R.id.thomsline_post_excerpt)
+
+    private val imageView:ImageView
+        get() = itemView.findViewById(R.id.thomsline_post_image)
+
+    init {
+        this.loading = loading
+        this.error = error
+    }
 
     /**
      * This method is called when an article is bound to the viewholder, so here the content is
      * loaded into the layout
      */
     fun bind(post: ThomsLineWordpressArticle, clickHandler: ArticleClickHandler){
-
         // Set article and subheading
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
         itemView.findViewById<TextView>(R.id.thomsline_post_excerpt).setText(post.excerpt)
@@ -54,5 +113,7 @@ class ThomsLineArticleViewHolder constructor(
 
         // An OnClickListener is added to be able to switch to the detail view on clicking
         itemView.setOnClickListener {clickHandler.onItemClick(post)}
+        loading = false
+        error = false
     }
 }
