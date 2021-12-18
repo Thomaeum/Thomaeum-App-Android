@@ -1,6 +1,7 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
@@ -36,20 +42,16 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
 
-        //TODO Load this From API
-        val post:ThomsLineWordpressArticle = ThomsLineWordpressArticle(
-            1843,
-            "ja Moin",
-            "https://cdn.pixabay.com/photo/2013/07/12/17/47/test-pattern-152459_960_720.png",
-            "Voll Nice Hier",
-            null,
-            null,
-            null,
-            true,
-            true
-        )
-        
-        articleViewHolder!!.bind(post, this);
+        Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
+            { response ->
+                articleViewHolder!!.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
+            },
+            { volleyError ->
+                //Todo Add Error Version
+            }
+        ))
+
+//        articleViewHolder!!.bind(post, this);
 
         return binding.root
     }
