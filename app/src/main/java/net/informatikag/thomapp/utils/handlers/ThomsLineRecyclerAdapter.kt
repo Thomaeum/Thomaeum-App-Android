@@ -8,7 +8,7 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
-import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
 /**
@@ -18,7 +18,7 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
  */
 class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
-    val viewmodel:ThomsLineFragmentViewModel
+    val viewmodel:ThomsLineViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**

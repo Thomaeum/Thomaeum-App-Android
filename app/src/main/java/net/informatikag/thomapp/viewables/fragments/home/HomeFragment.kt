@@ -1,27 +1,20 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
-import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
-import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
-import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
 /**
@@ -30,7 +23,7 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 class HomeFragment : Fragment(), ArticleClickHandler{
 
     private var _binding: HomeFragmentBinding? = null                           // Binding um auf das Layout zuzugreifen
-    private val thomsLineViewModel: ThomsLineFragmentViewModel by activityViewModels()   // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
+    private val thomsLineViewModel: ThomsLineViewModel by activityViewModels()   // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
 
     // This property is only valid between onCreateView and
     // onDestroyView.

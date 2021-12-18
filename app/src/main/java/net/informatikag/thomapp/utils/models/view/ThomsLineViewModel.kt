@@ -9,7 +9,7 @@ import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 /**
  * Saves the Wordpress articles of the ThomsLine fragment
  */
-class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
+class ThomsLineViewModel(application: Application): AndroidViewModel(application) {
 
     // The articles
     private val _articles = MutableLiveData<ArrayList<ThomsLineWordpressArticlePage>>()
@@ -18,9 +18,11 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
     // The last page of the articles
     var lastPage: Int = -1
 
+    fun isEmpty():Boolean = articles.value == null
+
     // Sets a Page
     fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage, recyclerAdapter: ThomsLineRecyclerAdapter){
-        val changed = _articles.value == null || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
+        val changed = isEmpty() || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
         if (changed) {
             //If there were no articles previously

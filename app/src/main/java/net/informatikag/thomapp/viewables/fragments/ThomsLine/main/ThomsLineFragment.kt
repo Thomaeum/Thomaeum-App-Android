@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -24,7 +23,7 @@ import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
-import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,7 +34,7 @@ import kotlin.collections.ArrayList
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ArticleClickHandler {
 
     private var _binding: ThomslineMainFragmentBinding? = null                  // Verweis zum Layout
-    private val viewModel: ThomsLineFragmentViewModel by activityViewModels()   // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
+    private val viewModel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
     private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter              // Hier werden die Artikel angezeigt
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout                 // wird benutz um die Artikel neu zu laden
 
