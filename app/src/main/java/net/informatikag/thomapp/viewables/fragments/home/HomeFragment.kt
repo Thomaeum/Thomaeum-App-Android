@@ -50,7 +50,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         //ThomsLine
         val articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
-        if (thomsLineViewModel.articles.value != null)
+        if (thomsLineViewModel.isEmpty())
             Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->
                     articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)

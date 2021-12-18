@@ -72,7 +72,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
             R.color.secondaryColor
         )
 
-        if(viewModel.articles.value == null) {
+        if(viewModel.isEmpty()) {
             swipeRefreshLayout.post {
                 // Display Refresh Indicator
                 swipeRefreshLayout.isRefreshing = true

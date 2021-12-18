@@ -71,8 +71,7 @@ class ThomsLineRecyclerAdapter(
             // loaded, so further artiels must be loaded, in order not to send too many requests,
             // this is only done when there are no requests pending.
             is ThomsLineLoadingViewholder -> {
-//                if (!fragment.isLoading())
-                    fragment.loadArticles(viewmodel.articles.value!!.size, false)
+                fragment.loadArticles(viewmodel.articles.value!!.size, false)
             }
         }
     }
@@ -82,7 +81,7 @@ class ThomsLineRecyclerAdapter(
      * @return viewHolder count
      */
     override fun getItemCount(): Int {
-        if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
+        if (viewmodel.isEmpty() || viewmodel.articles.value?.size == 0) return 0
         else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articles.size + 1
     }
 
