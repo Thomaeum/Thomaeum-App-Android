@@ -15,6 +15,7 @@ import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
@@ -132,7 +133,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         Log.d("ThomsLine", "Requesting Data for page $id")
 
         // Start the Request
-        requestQueue.add(JsonArrayRequest("https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded&&page=${id+1}",
+        requestQueue.add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=${id+1}",
             { response ->
                 Log.d("ThomsLine", "Got Data for page $id")
 
