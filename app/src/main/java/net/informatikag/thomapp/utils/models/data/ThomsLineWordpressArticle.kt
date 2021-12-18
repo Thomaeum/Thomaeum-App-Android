@@ -163,7 +163,7 @@ data class ThomsLineWordpressArticle(
         fun getExcerptFromJSON(json: JSONObject):String? = try {
             Html.fromHtml(
                 json.getJSONObject("excerpt").getString("rendered")
-            ).toString()
+            ).toString().replace("\n", "")
         } catch (e: Exception){null}
 
         fun getAuthorsFromJSON(json: JSONObject):Array<String>? = try {
