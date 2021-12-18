@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
@@ -19,6 +20,7 @@ import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
+import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
@@ -27,7 +29,8 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
  */
 class HomeFragment : Fragment(), ArticleClickHandler{
 
-    private var _binding: HomeFragmentBinding? = null   // Binding um auf das Layout zuzugreifen
+    private var _binding: HomeFragmentBinding? = null                           // Binding um auf das Layout zuzugreifen
+    private val thomsLineViewModel: ThomsLineFragmentViewModel by activityViewModels()   // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -45,17 +48,18 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         val listViewAdapter = HomeListAdapter(this.requireContext())
         listView.adapter = listViewAdapter
 
-
         //ThomsLine
         val articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
-        Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
-            { response ->
-                articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
-            },
-            { volleyError ->
-                //Todo Add Error Version
-            }
-        ))
+        if (thomsLineViewModel.articles.value != null)
+            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
+                { response ->
+                    articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
+                },
+                { volleyError ->
+                    //Todo Add Error Version
+                }
+            ))
+        else articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
 
         return binding.root
     }
