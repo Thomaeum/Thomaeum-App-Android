@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
+import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
@@ -31,7 +32,6 @@ class HomeFragment : Fragment(), ArticleClickHandler{
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var articleViewHolder:ThomsLineArticleViewHolder? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +40,22 @@ class HomeFragment : Fragment(), ArticleClickHandler{
     ): View? {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
-        articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
+        //Vertretungsplan
+        val listView = binding.homeVertretungsplanPreview
+        val listViewAdapter = HomeListAdapter(this.requireContext())
+        listView.adapter = listViewAdapter
 
+
+        //ThomsLine
+        val articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
         Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
             { response ->
-                articleViewHolder!!.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
+                articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
             },
             { volleyError ->
                 //Todo Add Error Version
             }
         ))
-
-//        articleViewHolder!!.bind(post, this);
 
         return binding.root
     }
