@@ -30,7 +30,7 @@ class ThomsLineArticleViewHolder constructor(
     itemView: View,
     val fragment: Fragment,
 ): RecyclerView.ViewHolder(itemView){
-    private var loading = false
+    var loading = false
         set(value) {
             field = value
             if(value){
@@ -48,7 +48,7 @@ class ThomsLineArticleViewHolder constructor(
             }
         }
 
-    private var error = false
+    var error = false
         set(value) {
             field = value
             if (value){

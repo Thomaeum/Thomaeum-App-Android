@@ -56,7 +56,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
                     articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
                 },
                 { volleyError ->
-                    //Todo Add Error Version
+                    articleViewHolder.error = true
                 }
             ))
         else articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
