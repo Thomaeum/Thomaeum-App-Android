@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -15,6 +16,7 @@ import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
+import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
 /**
@@ -22,8 +24,9 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
  */
 class HomeFragment : Fragment(), ArticleClickHandler{
 
-    private var _binding: HomeFragmentBinding? = null                           // Binding um auf das Layout zuzugreifen
-    private val thomsLineViewModel: ThomsLineViewModel by activityViewModels()   // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
+    private var _binding: HomeFragmentBinding? = null                                       // Binding um auf das Layout zuzugreifen
+    private val thomsLineViewModel: ThomsLineViewModel by activityViewModels()              // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
+    private val vertretungsplanViewModel:VertretungsplanViewModel by activityViewModels()   // Viewmodel für den Vertretunsplan
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,8 +41,12 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         //Vertretungsplan
         val listView = binding.homeVertretungsplanPreview
-        val listViewAdapter = HomeListAdapter(this.requireContext())
+        val listViewAdapter = HomeListAdapter(this.requireContext(), vertretungsplanViewModel)
+        vertretungsplanViewModel.entrys.observe(viewLifecycleOwner, Observer {
+            listViewAdapter.notifyDataSetChanged()
+        })
         listView.adapter = listViewAdapter
+        if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan()
 
         //ThomsLine
         val articleViewHolder = ThomsLineArticleViewHolder(thomsLineViewModel.isEmpty(), false, binding.homeArticlePreview.root,this)

@@ -18,7 +18,7 @@ class ThomsLineViewModel(application: Application): AndroidViewModel(application
     // The last page of the articles
     var lastPage: Int = -1
 
-    fun isEmpty():Boolean = articles.value == null
+    fun isEmpty():Boolean = _articles.value == null
 
     // Sets a Page
     fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage, recyclerAdapter: ThomsLineRecyclerAdapter){
@@ -49,7 +49,7 @@ class ThomsLineViewModel(application: Application): AndroidViewModel(application
     fun removeArticlePagesFromIndex(index:Int, recyclerAdapter: ThomsLineRecyclerAdapter){
         val previousSize:Int = recyclerAdapter.itemCount
         recyclerAdapter.notifyItemRangeRemoved(index*MainActivity.ARTICLES_PER_PAGE, (previousSize-index))
-        if (articles.value != null) {
+        if (!isEmpty()) {
             while (_articles.value!!.size > index) {
                 _articles.value!!.removeLast()
             }
