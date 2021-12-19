@@ -49,14 +49,14 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan()
 
         //ThomsLine
-        val articleViewHolder = ThomsLineArticleViewHolder(thomsLineViewModel.isEmpty(), false, binding.homeArticlePreview.root,this)
+        val articleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreview.root,this)
         if (thomsLineViewModel.isEmpty())
             Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->
                     articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
                 },
                 { volleyError ->
-                    articleViewHolder.error = true
+                    articleViewHolder.loadingState = -1
                 }
             ))
         else articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)

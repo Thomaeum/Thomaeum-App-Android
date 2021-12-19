@@ -1,22 +1,17 @@
 package net.informatikag.thomapp.viewables.viewholders
 
-import android.opengl.Visibility
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
-import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
-import org.w3c.dom.Text
 
 /**
  * Viewholder displaying an article
@@ -25,50 +20,50 @@ import org.w3c.dom.Text
  * navigating to the detail view of the article
  */
 class ThomsLineArticleViewHolder constructor(
-    loading:Boolean,
-    error:Boolean,
+    state:Int,
     itemView: View,
     val fragment: Fragment,
 ): RecyclerView.ViewHolder(itemView){
-    var loading = false
-        set(value) {
+    var loadingState:Int = 1
+        set(value:Int) {
             field = value
-            if(value){
-                titleView.visibility = View.GONE
-                excerptView.visibility = View.GONE
-                imageView.visibility = View.GONE
-                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.VISIBLE
-            } else {
-                titleView.visibility = View.VISIBLE
-                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
-                if(!error){
+            when (value) {
+                -1 -> {
                     imageView.visibility = View.VISIBLE
-                    excerptView.visibility = View.VISIBLE
-                }
-            }
-        }
+                    imageView.setImageDrawable(
+                        AppCompatResources.getDrawable(
+                            fragment.requireContext(),
+                            R.drawable.img_error
+                        )
+                    )
 
-    var error = false
-        set(value) {
-            field = value
-            if (value){
-                titleView.text = fragment.activity?.getString(R.string.network_error_generic)
-                titleView.visibility = View.VISIBLE
-
-                excerptView.visibility = View.GONE
-                imageView.visibility = View.GONE
-                itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
-            } else {
-                if (loading) {
-                    titleView.visibility = View.GONE
-                    excerptView.visibility = View.GONE
-                    imageView.visibility = View.GONE
-                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.VISIBLE
-                } else {
                     titleView.visibility = View.VISIBLE
-                    excerptView.visibility = View.VISIBLE
+                    titleView.text = fragment.activity?.getString(R.string.network_error_generic)
+
+                    excerptView.visibility = View.GONE
+
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
+                        View.GONE
+                }
+                0 -> {
+                    imageView.visibility = View.GONE
+
+                    titleView.visibility = View.GONE
+
+                    excerptView.visibility = View.GONE
+
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
+                        View.VISIBLE
+                }
+                1 -> {
                     imageView.visibility = View.VISIBLE
-                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility = View.GONE
+
+                    titleView.visibility = View.VISIBLE
+
+                    excerptView.visibility = View.VISIBLE
+
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
+                        View.GONE
                 }
             }
         }
@@ -82,8 +77,7 @@ class ThomsLineArticleViewHolder constructor(
         get() = itemView.findViewById(R.id.thomsline_post_image)
 
     init {
-        this.loading = loading
-        this.error = error
+        this.loadingState = state
     }
 
     /**
@@ -113,7 +107,6 @@ class ThomsLineArticleViewHolder constructor(
 
         // An OnClickListener is added to be able to switch to the detail view on clicking
         itemView.setOnClickListener {clickHandler.onItemClick(post)}
-        loading = false
-        error = false
+        loadingState = 1
     }
 }
