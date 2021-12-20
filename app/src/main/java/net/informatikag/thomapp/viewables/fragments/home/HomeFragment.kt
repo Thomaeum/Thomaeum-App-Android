@@ -1,6 +1,7 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,13 +54,18 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         if (thomsLineViewModel.isEmpty())
             Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->
+                    TransitionManager.beginDelayedTransition(binding.homeArticlePreview.root)
                     articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
                 },
                 { volleyError ->
+                    TransitionManager.beginDelayedTransition(binding.homeArticlePreview.root)
                     articleViewHolder.loadingState = -1
                 }
             ))
-        else articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
+        else {
+            TransitionManager.beginDelayedTransition(binding.homeArticlePreview.root)
+            articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
+        }
 
         return binding.root
     }

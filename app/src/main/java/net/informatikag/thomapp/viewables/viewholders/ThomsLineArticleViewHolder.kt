@@ -1,5 +1,6 @@
 package net.informatikag.thomapp.viewables.viewholders
 
+import android.transition.TransitionManager
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
