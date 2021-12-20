@@ -31,7 +31,8 @@ class ThomsLineRecyclerAdapter(
             0 -> return ThomsLineArticleViewHolder(
                 1,
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
-                fragment
+                fragment,
+                true
             )
             1 -> return ThomsLineLoadingViewholder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)

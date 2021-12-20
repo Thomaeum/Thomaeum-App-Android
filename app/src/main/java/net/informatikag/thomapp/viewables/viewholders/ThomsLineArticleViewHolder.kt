@@ -24,6 +24,7 @@ class ThomsLineArticleViewHolder constructor(
     state:Int,
     itemView: View,
     val fragment: Fragment,
+    val showExcerpt: Boolean,
 ): RecyclerView.ViewHolder(itemView){
     var loadingState:Int = 1
         set(value:Int) {
@@ -67,6 +68,7 @@ class ThomsLineArticleViewHolder constructor(
                         View.GONE
                 }
             }
+            if (!showExcerpt) excerptView.visibility = View.GONE
         }
     private val titleView:TextView
         get() = itemView.findViewById(R.id.thomsline_post_title)
