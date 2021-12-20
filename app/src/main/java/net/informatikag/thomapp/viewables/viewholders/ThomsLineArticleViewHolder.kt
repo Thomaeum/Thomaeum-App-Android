@@ -2,10 +2,12 @@ package net.informatikag.thomapp.viewables.viewholders
 
 import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,9 +27,11 @@ class ThomsLineArticleViewHolder constructor(
     itemView: View,
     val fragment: Fragment,
     val showExcerpt: Boolean,
+
 ): RecyclerView.ViewHolder(itemView){
-    var loadingState:Int = 1
-        set(value:Int) {
+    var loadingState:Int = 0
+        set(value) {
+            TransitionManager.beginDelayedTransition(itemView as ViewGroup?)
             field = value
             when (value) {
                 -1 -> {
@@ -40,7 +44,8 @@ class ThomsLineArticleViewHolder constructor(
                     )
 
                     titleView.visibility = View.VISIBLE
-                    titleView.text = fragment.activity?.getString(R.string.network_error_generic)
+                    titleView.text =
+                        fragment.activity?.getString(R.string.network_error_generic)
 
                     excerptView.visibility = View.GONE
 
