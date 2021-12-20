@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.text.BoringLayout
 import android.text.Html
 import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
@@ -69,7 +70,7 @@ data class ThomsLineWordpressArticle(
         null,
         false,
         liteVersion
-    ){ refresh(context, callback) }
+    ){ refresh(context, liteVersion, callback) }
 
     /**
      * Loads the article from a JSONObject
@@ -95,9 +96,10 @@ data class ThomsLineWordpressArticle(
      */
     fun refresh(
         context: Context,
+        lite:Boolean,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ) {
-        val url = (if (this.liteVersion) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
+        val url = (if (lite) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
         Volley.newRequestQueue(context).add(
             JsonArrayRequest(url,
                 { response ->
@@ -106,13 +108,14 @@ data class ThomsLineWordpressArticle(
                     this.imageURL = getImageURLFromJSON(json)
                     this.excerpt = getExcerptFromJSON(json)
 
-                    if(!this.liteVersion){
+                    if(!lite){
                         this.content = getContentFromJSON(json)
                         this.authors = getAuthorsFromJSON(json)
                         this.date = getDateFromJSON(json)
                     }
 
                     this.loaded = false
+                    this.liteVersion = lite
                     callback(this, null)
                 },
                 { volleyError ->

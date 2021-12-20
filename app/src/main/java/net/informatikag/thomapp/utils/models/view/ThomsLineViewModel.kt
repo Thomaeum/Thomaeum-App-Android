@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 
 /**
@@ -54,5 +55,15 @@ class ThomsLineViewModel(application: Application): AndroidViewModel(application
                 _articles.value!!.removeLast()
             }
         }
+    }
+
+    fun getByID(id:Int):ThomsLineWordpressArticle?{
+        if (!isEmpty()) {
+            for (p in 0.._articles.value!!.size) {
+                val tempReturn = _articles.value!![p].getByID(id)
+                if (tempReturn != null) return tempReturn
+            }
+        }
+        return null
     }
 }
