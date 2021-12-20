@@ -1,14 +1,14 @@
 package net.informatikag.thomapp.viewables.fragments.ThomsLine.article
 
+import android.content.Intent
 import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.transition.TransitionManager
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
@@ -38,6 +38,11 @@ class ThomsLineArticleFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     /**
      * Will be executed when the fragment is opened
@@ -158,5 +163,29 @@ class ThomsLineArticleFragment : Fragment() {
 
         // Hide the Refresh Indicator
         binding.thomslineArticleSwipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.thomsline_article, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.thomsline_article_share -> {
+                if (!article.loaded) {
+                    Log.d("ThomsLine Article", "Trying to Share")
+                    val shareIntent = Intent.createChooser(Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, "Boa gug mal ich kann teilen")
+                        type = "text/plain"
+                    }, null)
+                    startActivity(shareIntent)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
     }
 }

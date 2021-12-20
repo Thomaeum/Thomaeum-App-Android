@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/thomsline_article_share"
+        android:icon="@drawable/ic_thomsline_share"
+        android:title="@string/share_title"
+        app:showAsAction="ifRoom" />
+</menu>
