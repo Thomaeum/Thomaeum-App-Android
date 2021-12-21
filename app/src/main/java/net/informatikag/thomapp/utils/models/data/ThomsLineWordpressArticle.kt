@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.text.BoringLayout
 import android.text.Html
 import com.android.volley.*
 import com.android.volley.toolbox.JsonArrayRequest
@@ -42,6 +41,7 @@ data class ThomsLineWordpressArticle(
     var id: Int,
     var title: String?,
     var imageURL: String?,
+    var link: String?,
     var excerpt: String?,
     var content: String?,
     var authors: Array<String>?,
@@ -68,6 +68,7 @@ data class ThomsLineWordpressArticle(
         null,
         null,
         null,
+        null,
         false,
         liteVersion
     ){ refresh(context, liteVersion, callback) }
@@ -81,6 +82,7 @@ data class ThomsLineWordpressArticle(
         getIDFromJSON(json),
         getTitleFromJSON(json),
         getImageURLFromJSON(json),
+        getLinkFromJSON(json),
         getExcerptFromJSON(json),
         if (!liteVersion) getContentFromJSON(json) else null,
         if (!liteVersion) getAuthorsFromJSON(json) else null,
@@ -107,6 +109,7 @@ data class ThomsLineWordpressArticle(
                     this.title = getTitleFromJSON(json)
                     this.imageURL = getImageURLFromJSON(json)
                     this.excerpt = getExcerptFromJSON(json)
+                    this.link = getLinkFromJSON(json)
 
                     if(!lite){
                         this.content = getContentFromJSON(json)
@@ -121,6 +124,7 @@ data class ThomsLineWordpressArticle(
                 { volleyError ->
                     this.title = null
                     this.content = null
+                    this.link = null
                     this.excerpt = null
                     this.authors = null
                     this.imageURL = null
@@ -157,6 +161,10 @@ data class ThomsLineWordpressArticle(
         fun getIDFromJSON(json: JSONObject):Int = json.getInt("id")
         fun getTitleFromJSON(json: JSONObject):String? = try {
             Html.fromHtml(json.getJSONObject("title").getString("rendered")).toString()
+        } catch (e: Exception){null}
+
+        fun getLinkFromJSON(json: JSONObject):String? = try {
+            json.getJSONObject("title").getString("rendered")
         } catch (e: Exception){null}
 
         fun getContentFromJSON(json: JSONObject):String? = try {
