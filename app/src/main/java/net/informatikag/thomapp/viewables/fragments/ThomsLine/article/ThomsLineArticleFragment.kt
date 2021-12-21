@@ -173,11 +173,11 @@ class ThomsLineArticleFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.thomsline_article_share -> {
-                if (!article.loaded) {
+                if (article.link != null) {
                     Log.d("ThomsLine Article", "Trying to Share")
                     val shareIntent = Intent.createChooser(Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, "Boa gug mal ich kann teilen")
+                        putExtra(Intent.EXTRA_TEXT, article.link)
                         type = "text/plain"
                     }, null)
                     startActivity(shareIntent)
