@@ -154,10 +154,6 @@ class ThomsLineArticleFragment : Fragment() {
             )
         )
 
-        // Since Android 8 (O) Block-Text is possible
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) contentView.justificationMode =
-            JUSTIFICATION_MODE_INTER_WORD
-
         // Make the Article visible
         binding.thomslineArticleContent.visibility = View.VISIBLE
 
