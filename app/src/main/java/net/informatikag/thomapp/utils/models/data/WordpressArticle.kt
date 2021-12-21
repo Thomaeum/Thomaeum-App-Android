@@ -47,7 +47,8 @@ data class WordpressArticle(
     var authors: Array<String>?,
     var date: Date?,
     var loaded:Boolean,
-    var liteVersion:Boolean
+    var liteVersion:Boolean,
+    val base_url:String
 ) {
     /**
      * Loads the article from API
@@ -58,6 +59,7 @@ data class WordpressArticle(
     constructor(
         id:Int,
         liteVersion: Boolean,
+        base_url: String,
         context: Context,
         callback: (WordpressArticle, VolleyError?) -> Unit
     ):this(
@@ -70,7 +72,8 @@ data class WordpressArticle(
         null,
         null,
         false,
-        liteVersion
+        liteVersion,
+        base_url
     ){ refresh(context, liteVersion, callback) }
 
     /**
@@ -78,7 +81,7 @@ data class WordpressArticle(
      * @param json From here the article is loaded
      * @param liteVersion indicates whether the item is available in the Lite version
      */
-    constructor(json: JSONObject, liteVersion: Boolean): this(
+    constructor(json: JSONObject, liteVersion: Boolean, base_url: String): this(
         getIDFromJSON(json),
         getTitleFromJSON(json),
         getImageURLFromJSON(json),
@@ -88,7 +91,8 @@ data class WordpressArticle(
         if (!liteVersion) getAuthorsFromJSON(json) else null,
         if (!liteVersion) getDateFromJSON(json) else null,
         true,
-        liteVersion
+        liteVersion,
+        base_url
     )
 
     /**
@@ -101,7 +105,7 @@ data class WordpressArticle(
         lite:Boolean,
         callback: (WordpressArticle, VolleyError?) -> Unit
     ) {
-        val url = (if (lite) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
+        val url = base_url + (if (lite) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
         Volley.newRequestQueue(context).add(
             JsonArrayRequest(url,
                 { response ->

@@ -51,9 +51,9 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         //ThomsLine
         val articleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreview.root,this, false)
         if (thomsLineViewModel.isEmpty())
-            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
+            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.THOMSLINE_BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->
-                    articleViewHolder.bind(WordpressArticle(response.getJSONObject(0), true), this)
+                    articleViewHolder.bind(WordpressArticle(response.getJSONObject(0), true, thomsLineViewModel.BASE_URL), this)
                 },
                 { volleyError ->
                     articleViewHolder.loadingState = -1

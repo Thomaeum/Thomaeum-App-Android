@@ -64,7 +64,7 @@ class ThomsLineArticleFragment : Fragment() {
             }
         }
         else {
-            article = WordpressArticle(args.id, false, this.requireContext())
+            article = WordpressArticle(args.id, false, viewmodel.BASE_URL, this.requireContext())
             { article, error -> articleRefreshCallback(article, error) }
             binding.thomslineArticleSwipeRefreshLayout.isRefreshing = true
         }

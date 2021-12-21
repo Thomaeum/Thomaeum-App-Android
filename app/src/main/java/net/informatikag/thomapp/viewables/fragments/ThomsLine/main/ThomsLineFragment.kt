@@ -135,7 +135,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         Log.d("ThomsLine", "Requesting Data for page $id")
 
         // Start the Request
-        requestQueue.add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=${id+1}",
+        requestQueue.add(JsonArrayRequest(viewModel.BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=${id+1}",
             { response ->
                 Log.d("ThomsLine", "Got Data for page $id")
 
@@ -143,7 +143,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
                 val data = ArrayList<WordpressArticle>()
 
                 // Load the Articles from the JSON
-                for (j in 0 until response.length()) data.add(WordpressArticle(response.getJSONObject(j), true))
+                for (j in 0 until response.length()) data.add(WordpressArticle(response.getJSONObject(j), true, viewModel.BASE_URL))
 
                 // Update the RecyclerView
                 viewModel.setArticlePage(id, WordpressPage(data.toTypedArray()), recyclerAdapter)
