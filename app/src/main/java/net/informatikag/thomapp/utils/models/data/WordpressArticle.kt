@@ -37,7 +37,7 @@ import java.util.*
  *
  * @author isi_ko
  */
-data class ThomsLineWordpressArticle(
+data class WordpressArticle(
     var id: Int,
     var title: String?,
     var imageURL: String?,
@@ -59,7 +59,7 @@ data class ThomsLineWordpressArticle(
         id:Int,
         liteVersion: Boolean,
         context: Context,
-        callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
+        callback: (WordpressArticle, VolleyError?) -> Unit
     ):this(
         id,
         null,
@@ -99,7 +99,7 @@ data class ThomsLineWordpressArticle(
     fun refresh(
         context: Context,
         lite:Boolean,
-        callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
+        callback: (WordpressArticle, VolleyError?) -> Unit
     ) {
         val url = (if (lite) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
         Volley.newRequestQueue(context).add(

@@ -21,8 +21,8 @@ import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
+import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressPage
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -140,13 +140,13 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
                 Log.d("ThomsLine", "Got Data for page $id")
 
                 // A Variable to load the Articles to
-                val data = ArrayList<ThomsLineWordpressArticle>()
+                val data = ArrayList<WordpressArticle>()
 
                 // Load the Articles from the JSON
-                for (j in 0 until response.length()) data.add(ThomsLineWordpressArticle(response.getJSONObject(j), true))
+                for (j in 0 until response.length()) data.add(WordpressArticle(response.getJSONObject(j), true))
 
                 // Update the RecyclerView
-                viewModel.setArticlePage(id, ThomsLineWordpressArticlePage(data.toTypedArray()), recyclerAdapter)
+                viewModel.setArticlePage(id, WordpressPage(data.toTypedArray()), recyclerAdapter)
 
             },
             { volleyError ->
@@ -162,7 +162,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
                     // Display a Snackbar, stating the Error
-                    Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), ThomsLineWordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), WordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
 
                 //recyclerAdapter.notifyItemChanged(id)
@@ -173,8 +173,8 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
     /**
      * Called when a Article is clicked
      */
-    override fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(thomsLineWordpressArticle.id)
+    override fun onItemClick(wordpressArticle: WordpressArticle) {
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(wordpressArticle.id)
         findNavController().navigate(action)
     }
 }

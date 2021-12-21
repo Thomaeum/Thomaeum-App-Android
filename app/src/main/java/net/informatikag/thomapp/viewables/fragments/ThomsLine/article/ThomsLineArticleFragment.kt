@@ -1,8 +1,6 @@
 package net.informatikag.thomapp.viewables.fragments.ThomsLine.article
 
 import android.content.Intent
-import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.transition.TransitionManager
@@ -11,18 +9,16 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
 import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 
 /**
@@ -32,7 +28,7 @@ class ThomsLineArticleFragment : Fragment() {
 
     private val args: ThomsLineArticleFragmentArgs by navArgs()         // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
     private var _binding: ThomslineArticleFragmentBinding? = null       // Binding um das Layout zu erreichen
-    private lateinit var article: ThomsLineWordpressArticle             // das WordpressArticle Object, welches angezeigt wird
+    private lateinit var article: WordpressArticle             // das WordpressArticle Object, welches angezeigt wird
     private val viewmodel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem alle Artikel gespeichert sind
 
     // This property is only valid between onCreateView and
@@ -68,7 +64,7 @@ class ThomsLineArticleFragment : Fragment() {
             }
         }
         else {
-            article = ThomsLineWordpressArticle(args.id, false, this.requireContext())
+            article = WordpressArticle(args.id, false, this.requireContext())
             { article, error -> articleRefreshCallback(article, error) }
             binding.thomslineArticleSwipeRefreshLayout.isRefreshing = true
         }
@@ -90,7 +86,7 @@ class ThomsLineArticleFragment : Fragment() {
     /**
      * Is Called when the Article was refreshed
      */
-    fun articleRefreshCallback(article: ThomsLineWordpressArticle?, error: VolleyError?){
+    fun articleRefreshCallback(article: WordpressArticle?, error: VolleyError?){
         if (error == null) {
             // If there were no Errors just load the Article to the atribute and then to the layout
             this.article = article!!
@@ -99,7 +95,7 @@ class ThomsLineArticleFragment : Fragment() {
         // If there were Errors, display them in a Snackbar
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
-            ThomsLineWordpressArticle.getVolleyError(error, this.requireActivity()),
+            WordpressArticle.getVolleyError(error, this.requireActivity()),
             Snackbar.LENGTH_LONG
         ).show()
         binding.thomslineArticleSwipeRefreshLayout.isRefreshing = false

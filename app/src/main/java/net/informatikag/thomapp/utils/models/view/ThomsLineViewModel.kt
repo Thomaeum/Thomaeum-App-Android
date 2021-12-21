@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
+import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressPage
 
 /**
  * Saves the Wordpress articles of the ThomsLine fragment
@@ -13,8 +13,8 @@ import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 class ThomsLineViewModel(application: Application): AndroidViewModel(application) {
 
     // The articles
-    private val _articles = MutableLiveData<ArrayList<ThomsLineWordpressArticlePage>>()
-    val articles: LiveData<ArrayList<ThomsLineWordpressArticlePage>> = _articles
+    private val _articles = MutableLiveData<ArrayList<WordpressPage>>()
+    val articles: LiveData<ArrayList<WordpressPage>> = _articles
 
     // The last page of the articles
     var lastPage: Int = -1
@@ -22,7 +22,7 @@ class ThomsLineViewModel(application: Application): AndroidViewModel(application
     fun isEmpty():Boolean = _articles.value == null
 
     // Sets a Page
-    fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage, recyclerAdapter: ThomsLineRecyclerAdapter){
+    fun setArticlePage(id: Int, content:WordpressPage, recyclerAdapter: ThomsLineRecyclerAdapter){
         val changed = isEmpty() || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
         if (changed) {
@@ -57,7 +57,7 @@ class ThomsLineViewModel(application: Application): AndroidViewModel(application
         }
     }
 
-    fun getByID(id:Int):ThomsLineWordpressArticle?{
+    fun getByID(id:Int):WordpressArticle?{
         if (!isEmpty()) {
             for (p in 0.._articles.value!!.size) {
                 val tempReturn = _articles.value!![p].getByID(id)

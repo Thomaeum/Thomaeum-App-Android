@@ -1,7 +1,6 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticle
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
@@ -54,7 +53,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         if (thomsLineViewModel.isEmpty())
             Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                 { response ->
-                    articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
+                    articleViewHolder.bind(WordpressArticle(response.getJSONObject(0), true), this)
                 },
                 { volleyError ->
                     articleViewHolder.loadingState = -1
@@ -73,8 +72,8 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = null
     }
 
-    override fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(thomsLineWordpressArticle.id)
+    override fun onItemClick(wordpressArticle: WordpressArticle) {
+        val action = HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(wordpressArticle.id)
         findNavController().navigate(action)
     }
 }
