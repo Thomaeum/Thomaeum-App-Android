@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
-import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
+import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
@@ -35,7 +35,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
 
     private var _binding: ThomslineMainFragmentBinding? = null                  // Verweis zum Layout
     private val viewModel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
-    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter              // Hier werden die Artikel angezeigt
+    private lateinit var recyclerAdapter: WordpressRecyclerAdapter              // Hier werden die Artikel angezeigt
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout                 // wird benutz um die Artikel neu zu laden
 
     // This property is only valid between onCreateView and
@@ -56,7 +56,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
 
         //Instantiate Variables
 //        viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
-        recyclerAdapter =  ThomsLineRecyclerAdapter(this, viewModel)
+        recyclerAdapter =  WordpressRecyclerAdapter(this, viewModel)
 
         //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {

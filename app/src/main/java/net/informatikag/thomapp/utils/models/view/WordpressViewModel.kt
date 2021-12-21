@@ -3,7 +3,7 @@ package net.informatikag.thomapp.utils.models.view
 import android.app.Application
 import androidx.lifecycle.*
 import net.informatikag.thomapp.MainActivity
-import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
+import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
 import net.informatikag.thomapp.utils.models.data.WordpressPage
 
@@ -24,7 +24,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
     fun isEmpty():Boolean = _articles.value == null
 
     // Sets a Page
-    fun setArticlePage(id: Int, content:WordpressPage, recyclerAdapter: ThomsLineRecyclerAdapter){
+    fun setArticlePage(id: Int, content:WordpressPage, recyclerAdapter: WordpressRecyclerAdapter){
         val changed = isEmpty() || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
         if (changed) {
@@ -49,7 +49,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
     }
 
     // Removes pages after the indexed Page
-    fun removeArticlePagesFromIndex(index:Int, recyclerAdapter: ThomsLineRecyclerAdapter){
+    fun removeArticlePagesFromIndex(index:Int, recyclerAdapter: WordpressRecyclerAdapter){
         val previousSize:Int = recyclerAdapter.itemCount
         recyclerAdapter.notifyItemRangeRemoved(index*MainActivity.ARTICLES_PER_PAGE, (previousSize-index))
         if (!isEmpty()) {
