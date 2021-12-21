@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,7 +23,7 @@ import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
-import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,10 +33,10 @@ import kotlin.collections.ArrayList
  */
 class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ArticleClickHandler {
 
-    private lateinit var viewModel: ThomsLineFragmentViewModel      // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout     // wird benutz um die Artikel neu zu laden
-    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter  // Hier werden die Artikel angezeigt
-    private var _binding: ThomslineMainFragmentBinding? = null      // Verweis zum Layout
+    private var _binding: ThomslineMainFragmentBinding? = null                  // Verweis zum Layout
+    private val viewModel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
+    private lateinit var recyclerAdapter: ThomsLineRecyclerAdapter              // Hier werden die Artikel angezeigt
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout                 // wird benutz um die Artikel neu zu laden
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -55,7 +55,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         val root: View = binding.root
 
         //Instantiate Variables
-        viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
+//        viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
         recyclerAdapter =  ThomsLineRecyclerAdapter(this, viewModel)
 
         //Add Observer to articles to update Recyclerview
@@ -71,7 +71,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
             R.color.secondaryColor
         )
 
-        if(viewModel.articles.value == null) {
+        if(viewModel.isEmpty()) {
             swipeRefreshLayout.post {
                 // Display Refresh Indicator
                 swipeRefreshLayout.isRefreshing = true

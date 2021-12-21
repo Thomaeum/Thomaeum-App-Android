@@ -1,16 +1,18 @@
 package net.informatikag.thomapp.viewables.fragments.ThomsLine.article
 
+import android.content.Intent
 import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.transition.TransitionManager
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isGone
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
 import com.bumptech.glide.Glide
@@ -21,19 +23,26 @@ import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
 import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 
 /**
  * Loads an article from the WordpressAPI and displays title, cover image and content
  */
 class ThomsLineArticleFragment : Fragment() {
 
-    private val args: ThomsLineArticleFragmentArgs by navArgs()     // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
-    private var _binding: ThomslineArticleFragmentBinding? = null   // Binding um das Layout zu erreichen
-    private lateinit var article: ThomsLineWordpressArticle         // das WordpressArticle Object, welches angezeigt wird
+    private val args: ThomsLineArticleFragmentArgs by navArgs()         // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
+    private var _binding: ThomslineArticleFragmentBinding? = null       // Binding um das Layout zu erreichen
+    private lateinit var article: ThomsLineWordpressArticle             // das WordpressArticle Object, welches angezeigt wird
+    private val viewmodel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem alle Artikel gespeichert sind
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     /**
      * Will be executed when the fragment is opened
@@ -47,22 +56,34 @@ class ThomsLineArticleFragment : Fragment() {
 
         // Initiate Article Loading and hide Content Containers
         binding.thomslineArticleScrollview.visibility = View.GONE
-        article = ThomsLineWordpressArticle(args.id, false,this.requireContext())
-        { article, error -> articleRefreshCallback(article, error) }
+        val possiblePost = viewmodel.getByID(args.id)
+        if (possiblePost!=null) {
+            article = possiblePost
+            if(article.liteVersion) {
+                article.refresh(this.requireContext(), false)
+                { article, error -> articleRefreshCallback(article, error) }
+                binding.thomslineArticleSwipeRefreshLayout.isRefreshing = true
+            } else {
+                loadArticleToViews()
+            }
+        }
+        else {
+            article = ThomsLineWordpressArticle(args.id, false, this.requireContext())
+            { article, error -> articleRefreshCallback(article, error) }
+            binding.thomslineArticleSwipeRefreshLayout.isRefreshing = true
+        }
 
         // Initiate Article Loading when a Refresh is triggered
         binding.thomslineArticleSwipeRefreshLayout.setOnRefreshListener {
-            binding.thomslineArticleScrollview.visibility = View.GONE
-            article.refresh(this.requireContext()) { article, error ->
+            TransitionManager.beginDelayedTransition(binding.thomslineArticleScrollview)
+            binding.thomslineArticleScrollview.visibility = View.INVISIBLE
+            article.refresh(this.requireContext(),false) { article, error ->
                 articleRefreshCallback(
                     article,
                     error
                 )
             }
         }
-
-        binding.thomslineArticleSwipeRefreshLayout.isRefreshing = true
-
         return binding.root
     }
 
@@ -81,7 +102,6 @@ class ThomsLineArticleFragment : Fragment() {
             ThomsLineWordpressArticle.getVolleyError(error, this.requireActivity()),
             Snackbar.LENGTH_LONG
         ).show()
-        // Hide the Refresh Indicator
         binding.thomslineArticleSwipeRefreshLayout.isRefreshing = false
     }
 
@@ -91,17 +111,15 @@ class ThomsLineArticleFragment : Fragment() {
     fun loadArticleToViews() {
         // Make shure the Fragment is still Loaded
         if (this.context == null) return
-        
+        binding.thomslineArticleScrollview.visibility = View.VISIBLE
+
         // Change Title TextView
-        binding.thomslineArtilcleTitle.setText(this.article.title)
+        binding.thomslineArticleTitle.text = this.article.title
+        binding.thomslineArticleTitle.visibility = View.VISIBLE
 
         // Load Author
-        binding.thomslineArticleAuthor.setText(this.article.getAuthorString())
-
-        // Load Date
-        binding.thomslineArticleDate.setText(
-            "${this.article.date?.hours}:${this.article.date?.minutes} - ${this.article.date?.date}.${this.article.date?.month}.${this.article.date?.year}"
-        )
+        binding.thomslineArticleAuthor.text = this.article.getAuthorString()
+        binding.thomslineArticleAuthor.visibility = View.VISIBLE
 
         // Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
@@ -111,6 +129,10 @@ class ThomsLineArticleFragment : Fragment() {
                 .placeholder(R.drawable.img_thomsline_article_image_default)
                 .into(imageView)
         else imageView.visibility = View.GONE
+
+        // Load Date
+        binding.thomslineArticleDate.text = "${this.article.date?.hours}:${this.article.date?.minutes} - ${this.article.date?.date}.${this.article.date?.month}.${this.article.date?.year}"
+        binding.thomslineArticleDate.visibility = View.VISIBLE
 
         // Load Content
         val contentView: TextView = binding.thomslineArticleContent
@@ -132,10 +154,34 @@ class ThomsLineArticleFragment : Fragment() {
             )
         )
 
-        // Since Android 8 (O) Block-Text is possible
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) contentView.justificationMode = JUSTIFICATION_MODE_INTER_WORD
-
         // Make the Article visible
-        binding.thomslineArticleScrollview.visibility = View.VISIBLE
+        binding.thomslineArticleContent.visibility = View.VISIBLE
+
+        // Hide the Refresh Indicator
+        binding.thomslineArticleSwipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.thomsline_article, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.thomsline_article_share -> {
+                if (article.link != null) {
+                    Log.d("ThomsLine Article", "Trying to Share")
+                    val shareIntent = Intent.createChooser(Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, article.link)
+                        type = "text/plain"
+                    }, null)
+                    startActivity(shareIntent)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+
+        }
     }
 }

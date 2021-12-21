@@ -9,27 +9,24 @@ import android.widget.TextView
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.data.VertretungsplanEintrag
+import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 import org.w3c.dom.Text
 
 class HomeListAdapter(
-    context: Context
+    context: Context,
+    viewModel: VertretungsplanViewModel
 ): BaseAdapter() {
 
     private val mContext:Context
-    private val arrayList:ArrayList<VertretungsplanEintrag> = ArrayList()
+    private val viewModel:VertretungsplanViewModel
 
     init {
         this.mContext = context
-        loadVertretunsplan()
-    }
-
-    fun loadVertretunsplan(){
-        for (i in 1..MainActivity.VERTRETUNGSPLAN_PREVIEW_AMOUNT) arrayList.add(VertretungsplanEintrag("Test Eintrag Nr. ${i}"))
-        this.notifyDataSetChanged()
+        this.viewModel = viewModel
     }
 
     override fun getCount(): Int {
-        return arrayList.size
+        return viewModel.getSize()
     }
 
     override fun getItem(position: Int): Any {
@@ -42,7 +39,7 @@ class HomeListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = LayoutInflater.from(mContext).inflate(R.layout.vertretungsplan_list_item, parent, false)
-        view.findViewById<TextView>(R.id.test_text).text = arrayList[position].text
+        view.findViewById<TextView>(R.id.test_text).text = viewModel.entrys.value!![position].text
         return view
     }
 }

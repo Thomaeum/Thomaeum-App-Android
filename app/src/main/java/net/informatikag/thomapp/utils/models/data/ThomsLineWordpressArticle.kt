@@ -41,6 +41,7 @@ data class ThomsLineWordpressArticle(
     var id: Int,
     var title: String?,
     var imageURL: String?,
+    var link: String?,
     var excerpt: String?,
     var content: String?,
     var authors: Array<String>?,
@@ -67,9 +68,10 @@ data class ThomsLineWordpressArticle(
         null,
         null,
         null,
+        null,
         false,
         liteVersion
-    ){ refresh(context, callback) }
+    ){ refresh(context, liteVersion, callback) }
 
     /**
      * Loads the article from a JSONObject
@@ -80,6 +82,7 @@ data class ThomsLineWordpressArticle(
         getIDFromJSON(json),
         getTitleFromJSON(json),
         getImageURLFromJSON(json),
+        getLinkFromJSON(json),
         getExcerptFromJSON(json),
         if (!liteVersion) getContentFromJSON(json) else null,
         if (!liteVersion) getAuthorsFromJSON(json) else null,
@@ -95,9 +98,10 @@ data class ThomsLineWordpressArticle(
      */
     fun refresh(
         context: Context,
+        lite:Boolean,
         callback: (ThomsLineWordpressArticle, VolleyError?) -> Unit
     ) {
-        val url = (if (this.liteVersion) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
+        val url = (if (lite) MainActivity.WORDPRESS_BASE_URL_LITE else MainActivity.WORDPRESS_BASE_URL_FULL) + "&&include=$id"
         Volley.newRequestQueue(context).add(
             JsonArrayRequest(url,
                 { response ->
@@ -105,19 +109,22 @@ data class ThomsLineWordpressArticle(
                     this.title = getTitleFromJSON(json)
                     this.imageURL = getImageURLFromJSON(json)
                     this.excerpt = getExcerptFromJSON(json)
+                    this.link = getLinkFromJSON(json)
 
-                    if(!this.liteVersion){
+                    if(!lite){
                         this.content = getContentFromJSON(json)
                         this.authors = getAuthorsFromJSON(json)
                         this.date = getDateFromJSON(json)
                     }
 
                     this.loaded = false
+                    this.liteVersion = lite
                     callback(this, null)
                 },
                 { volleyError ->
                     this.title = null
                     this.content = null
+                    this.link = null
                     this.excerpt = null
                     this.authors = null
                     this.imageURL = null
@@ -154,6 +161,10 @@ data class ThomsLineWordpressArticle(
         fun getIDFromJSON(json: JSONObject):Int = json.getInt("id")
         fun getTitleFromJSON(json: JSONObject):String? = try {
             Html.fromHtml(json.getJSONObject("title").getString("rendered")).toString()
+        } catch (e: Exception){null}
+
+        fun getLinkFromJSON(json: JSONObject):String? = try {
+            json.getString("link")
         } catch (e: Exception){null}
 
         fun getContentFromJSON(json: JSONObject):String? = try {

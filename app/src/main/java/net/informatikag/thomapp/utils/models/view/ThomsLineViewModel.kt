@@ -4,12 +4,13 @@ import android.app.Application
 import androidx.lifecycle.*
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.utils.handlers.ThomsLineRecyclerAdapter
+import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
 
 /**
  * Saves the Wordpress articles of the ThomsLine fragment
  */
-class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(application) {
+class ThomsLineViewModel(application: Application): AndroidViewModel(application) {
 
     // The articles
     private val _articles = MutableLiveData<ArrayList<ThomsLineWordpressArticlePage>>()
@@ -18,9 +19,11 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
     // The last page of the articles
     var lastPage: Int = -1
 
+    fun isEmpty():Boolean = _articles.value == null
+
     // Sets a Page
     fun setArticlePage(id: Int, content:ThomsLineWordpressArticlePage, recyclerAdapter: ThomsLineRecyclerAdapter){
-        val changed = _articles.value == null || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
+        val changed = isEmpty() || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
         if (changed) {
             //If there were no articles previously
@@ -47,10 +50,20 @@ class ThomsLineFragmentViewModel(application: Application): AndroidViewModel(app
     fun removeArticlePagesFromIndex(index:Int, recyclerAdapter: ThomsLineRecyclerAdapter){
         val previousSize:Int = recyclerAdapter.itemCount
         recyclerAdapter.notifyItemRangeRemoved(index*MainActivity.ARTICLES_PER_PAGE, (previousSize-index))
-        if (articles.value != null) {
+        if (!isEmpty()) {
             while (_articles.value!!.size > index) {
                 _articles.value!!.removeLast()
             }
         }
+    }
+
+    fun getByID(id:Int):ThomsLineWordpressArticle?{
+        if (!isEmpty()) {
+            for (p in 0.._articles.value!!.size) {
+                val tempReturn = _articles.value!![p].getByID(id)
+                if (tempReturn != null) return tempReturn
+            }
+        }
+        return null
     }
 }

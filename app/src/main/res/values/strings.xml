@@ -22,4 +22,5 @@
 
     <!-- Vertretungsplan -->
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
+    <string name="share_title">Share</string>
 </resources>

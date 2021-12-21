@@ -10,4 +10,11 @@ data class ThomsLineWordpressArticlePage(
         }
         return true
     }
+
+    fun getByID(id:Int):ThomsLineWordpressArticle?{
+        for (article in articles) {
+            if (article.id == id) return article
+        }
+        return null
+    }
 }

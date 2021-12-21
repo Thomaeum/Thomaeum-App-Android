@@ -8,7 +8,7 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
-import net.informatikag.thomapp.utils.models.view.ThomsLineFragmentViewModel
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
 /**
@@ -18,7 +18,7 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
  */
 class ThomsLineRecyclerAdapter(
     val fragment: ThomsLineFragment,
-    val viewmodel:ThomsLineFragmentViewModel
+    val viewmodel:ThomsLineViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     /**
@@ -29,8 +29,10 @@ class ThomsLineRecyclerAdapter(
         //The layouts are inflated, depending on the viewType
         when(viewType) {
             0 -> return ThomsLineArticleViewHolder(
+                1,
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
-                fragment
+                fragment,
+                true
             )
             1 -> return ThomsLineLoadingViewholder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
@@ -71,8 +73,7 @@ class ThomsLineRecyclerAdapter(
             // loaded, so further artiels must be loaded, in order not to send too many requests,
             // this is only done when there are no requests pending.
             is ThomsLineLoadingViewholder -> {
-//                if (!fragment.isLoading())
-                    fragment.loadArticles(viewmodel.articles.value!!.size, false)
+                fragment.loadArticles(viewmodel.articles.value!!.size, false)
             }
         }
     }
@@ -82,7 +83,7 @@ class ThomsLineRecyclerAdapter(
      * @return viewHolder count
      */
     override fun getItemCount(): Int {
-        if (viewmodel.articles.value == null || viewmodel.articles.value?.size == 0) return 0
+        if (viewmodel.isEmpty() || viewmodel.articles.value?.size == 0) return 0
         else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articles.size + 1
     }
 

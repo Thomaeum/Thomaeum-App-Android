@@ -1,25 +1,23 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
-import android.util.Log
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
-import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticlePage
-import net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragmentDirections
+import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
+import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
 /**
@@ -27,7 +25,9 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
  */
 class HomeFragment : Fragment(), ArticleClickHandler{
 
-    private var _binding: HomeFragmentBinding? = null   // Binding um auf das Layout zuzugreifen
+    private var _binding: HomeFragmentBinding? = null                                       // Binding um auf das Layout zuzugreifen
+    private val thomsLineViewModel: ThomsLineViewModel by activityViewModels()              // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
+    private val vertretungsplanViewModel:VertretungsplanViewModel by activityViewModels()   // Viewmodel für den Vertretunsplan
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -42,20 +42,27 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         //Vertretungsplan
         val listView = binding.homeVertretungsplanPreview
-        val listViewAdapter = HomeListAdapter(this.requireContext())
+        val listViewAdapter = HomeListAdapter(this.requireContext(), vertretungsplanViewModel)
+        vertretungsplanViewModel.entrys.observe(viewLifecycleOwner, Observer {
+            listViewAdapter.notifyDataSetChanged()
+        })
         listView.adapter = listViewAdapter
-
+        if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan()
 
         //ThomsLine
-        val articleViewHolder = ThomsLineArticleViewHolder(binding.homeArticlePreview.root, this)
-        Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
-            { response ->
-                articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
-            },
-            { volleyError ->
-                //Todo Add Error Version
-            }
-        ))
+        val articleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreview.root,this, false)
+        if (thomsLineViewModel.isEmpty())
+            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
+                { response ->
+                    articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
+                },
+                { volleyError ->
+                    articleViewHolder.loadingState = -1
+                }
+            ))
+        else {
+            articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
+        }
 
         return binding.root
     }
