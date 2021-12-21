@@ -164,7 +164,7 @@ data class ThomsLineWordpressArticle(
         } catch (e: Exception){null}
 
         fun getLinkFromJSON(json: JSONObject):String? = try {
-            json.getJSONObject("title").getString("rendered")
+            json.getString("link")
         } catch (e: Exception){null}
 
         fun getContentFromJSON(json: JSONObject):String? = try {
