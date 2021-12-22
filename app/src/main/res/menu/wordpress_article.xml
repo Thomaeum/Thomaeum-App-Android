@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/thomsline_article_share"
+        android:id="@+id/wordpress_article_share"
         android:icon="@drawable/ic_thomsline_share"
         android:title="@string/share_title"
         app:showAsAction="ifRoom" />

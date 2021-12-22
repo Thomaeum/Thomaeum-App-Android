@@ -104,12 +104,12 @@ class ThomsLineArticleViewHolder constructor(
                     .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.img_error))
             .load(post.imageURL)
-            .placeholder(R.drawable.img_thomsline_article_image_default)
+            .placeholder(R.drawable.img_article_image_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
         else itemView.findViewById<ImageView>(R.id.thomsline_post_image).setImageDrawable(
             AppCompatResources.getDrawable(
                 fragment.requireContext(),
-                R.drawable.img_thomsline_article_image_default
+                R.drawable.img_article_image_default
             ))
 
         // An OnClickListener is added to be able to switch to the detail view on clicking

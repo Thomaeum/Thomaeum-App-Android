@@ -92,9 +92,9 @@ class ThomaeumFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Artic
      * Called when a Article is clicked
      */
     override fun onItemClick(wordpressArticle: WordpressArticle) {
-//        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
-//            wordpressArticle.id
-//        )
-//        findNavController().navigate(action)
+        val action = ThomaeumFragmentDirections.actionNavThomaeumToThomaeumArticleFragment(
+            wordpressArticle.id
+        )
+        findNavController().navigate(action)
     }
 }

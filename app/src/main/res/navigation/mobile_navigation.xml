@@ -49,5 +49,16 @@
         android:id="@+id/nav_thomaeum"
         android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumFragment"
         android:label="@string/menu_thomaeum"
-        tools:layout="@layout/thomaeum_main_fragment" />
+        tools:layout="@layout/thomaeum_main_fragment" >
+        <action
+            android:id="@+id/action_nav_thomaeum_to_thomaeumArticleFragment"
+            app:destination="@id/thomaeumArticleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thomaeumArticleFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumArticleFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
