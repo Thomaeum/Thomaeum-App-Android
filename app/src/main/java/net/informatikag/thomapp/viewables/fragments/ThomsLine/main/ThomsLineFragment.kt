@@ -119,54 +119,9 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         // Add requests to load the Pages to the requestQueue
         if(reloadAll)
             for (i in 0 until page+1) {
-                reloadPage(i, requestQueue)
+                viewModel.reloadPage(i, requestQueue, recyclerAdapter)
             }
-        else reloadPage(page)
-    }
-
-    // Reload a page without a given Request Queue
-    fun reloadPage(id:Int){
-        reloadPage(id, Volley.newRequestQueue(this.context))
-    }
-
-    // Reload a Page while adding the Requests to a given Request Queue
-    fun reloadPage(id: Int, requestQueue:RequestQueue) {
-        Log.d("ThomsLine", "Requesting Data for page $id")
-
-        // Start the Request
-        requestQueue.add(JsonArrayRequest(viewModel.BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=${id+1}",
-            { response ->
-                Log.d("ThomsLine", "Got Data for page $id")
-
-                // A Variable to load the Articles to
-                val data = ArrayList<WordpressArticle>()
-
-                // Load the Articles from the JSON
-                for (j in 0 until response.length()) data.add(WordpressArticle(response.getJSONObject(j), true, viewModel.BASE_URL))
-
-                // Update the RecyclerView
-                viewModel.setArticlePage(id, WordpressPage(data.toTypedArray()), recyclerAdapter)
-
-            },
-            { volleyError ->
-                Log.d("ThomsLine", "Request Error while loading Data for page $id")
-
-                // Check if the Error is caused because loading a non Existing Page
-                if (volleyError.networkResponse?.statusCode == 400){
-
-                    // Update the Last Page Variable
-                    viewModel.lastPage = if(id-1<viewModel.lastPage) viewModel.lastPage else id-1
-                    recyclerAdapter.notifyItemChanged(recyclerAdapter.itemCount-1)
-                    Log.d("ThomsLine", "Page does not exist (last page: ${viewModel.lastPage})")
-                } else {
-                    Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
-                    // Display a Snackbar, stating the Error
-                    Snackbar.make(requireActivity().findViewById(R.id.app_bar_main), WordpressArticle.getVolleyError(volleyError, requireActivity()), Snackbar.LENGTH_LONG).show()
-                }
-
-                //recyclerAdapter.notifyItemChanged(id)
-            }
-        ))
+        else viewModel.reloadPage(page, recyclerAdapter)
     }
 
     /**
