@@ -2,11 +2,13 @@ package net.informatikag.thomapp.utils.handlers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.view.WordpressViewModel
-import net.informatikag.thomapp.viewables.fragments.ThomsLine.ThomsLineFragment
+import net.informatikag.thomapp.viewables.fragments.thomsline.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
@@ -17,7 +19,8 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
  * @param viewmodel The viewmodel belonging to the fragment, from which the articles are queried
  */
 class WordpressRecyclerAdapter(
-    val fragment: ThomsLineFragment,
+    val fragment: Fragment,
+    val articleClickHandler: ArticleClickHandler,
     val viewmodel:WordpressViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -66,14 +69,14 @@ class WordpressRecyclerAdapter(
                 holder.bind(viewmodel.articles.value!!
                     .get(pageIndex).articles
                     .get(itemIndex),
-                    fragment
+                    articleClickHandler
                 )
             }
             // If a load viewholder is to be bound, this means that the end of the page has been
             // loaded, so further artiels must be loaded, in order not to send too many requests,
             // this is only done when there are no requests pending.
             is ThomsLineLoadingViewholder -> {
-                fragment.loadArticles(viewmodel.articles.value!!.size, false)
+                viewmodel.loadArticles(viewmodel.articles.value!!.size, false, fragment.requireContext(), this)
             }
         }
     }

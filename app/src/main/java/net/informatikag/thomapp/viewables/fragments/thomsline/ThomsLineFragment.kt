@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments.ThomsLine
+package net.informatikag.thomapp.viewables.fragments.thomsline
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,10 +17,8 @@ import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
-import net.informatikag.thomapp.utils.models.data.WordpressPage
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Pulls a list of articles from the JSON API of the Wordpress instance of the ThomsLine student newspaper.
@@ -50,7 +48,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         val root: View = binding.root
 
         //Instantiate Variables
-        recyclerAdapter =  WordpressRecyclerAdapter(this, viewModel)
+        recyclerAdapter =  WordpressRecyclerAdapter(this, this, viewModel)
 
         //Add Observer to articles to update Recyclerview
         viewModel.articles.observe(viewLifecycleOwner, Observer {

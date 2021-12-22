@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments.ThomsLine
+package net.informatikag.thomapp.viewables.fragments.thomsline
 
 import android.content.Intent
 import android.os.Bundle
@@ -28,7 +28,7 @@ class ThomsLineArticleFragment : Fragment() {
 
     private val args: ThomsLineArticleFragmentArgs by navArgs()         // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
     private var _binding: ThomslineArticleFragmentBinding? = null       // Binding um das Layout zu erreichen
-    private lateinit var article: WordpressArticle             // das WordpressArticle Object, welches angezeigt wird
+    private lateinit var article: WordpressArticle                      // das WordpressArticle Object, welches angezeigt wird
     private val viewmodel: ThomsLineViewModel by activityViewModels()   // Das Viewmodel in dem alle Artikel gespeichert sind
 
     // This property is only valid between onCreateView and

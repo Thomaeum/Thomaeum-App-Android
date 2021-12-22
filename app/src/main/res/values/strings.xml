@@ -9,6 +9,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_thomsline">Thomsline</string>
+    <string name="menu_thomaeum">Rundbriefe</string>
     <string name="menu_vertretungsplan_oberstufe">Oberstufe</string>
     <string name="menu_vertretungsplan_unterstufe">Unterstufe</string>
 
@@ -23,4 +24,6 @@
     <!-- Vertretungsplan -->
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

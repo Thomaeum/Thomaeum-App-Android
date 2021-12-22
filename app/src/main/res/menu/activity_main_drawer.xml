@@ -13,6 +13,11 @@
             android:icon="@drawable/ic_menu_thomsline"
             android:title="@string/menu_thomsline" />
         <item
+            android:id="@+id/nav_thomaeum"
+            android:icon="@drawable/ic_menu_thomaeum"
+            android:title="@string/menu_thomaeum" />
+
+        <item
             android:id="@+id/nav_vertretungsplan_oberstufe"
             android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"
             android:title="@string/menu_vertretungsplan_oberstufe" />
