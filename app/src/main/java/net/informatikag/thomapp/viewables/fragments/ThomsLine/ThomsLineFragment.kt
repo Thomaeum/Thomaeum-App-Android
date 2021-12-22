@@ -1,7 +1,6 @@
-package net.informatikag.thomapp.viewables.fragments.ThomsLine.main
+package net.informatikag.thomapp.viewables.fragments.ThomsLine
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.*
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
-import com.google.android.material.snackbar.Snackbar
-import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
@@ -100,33 +95,16 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
      * Called when the SwipeRefresh Layout is triggerd
      */
     override fun onRefresh() {
-
-    /**
-     * Loads all Article pages until "page" and removes all cached pages after it
-     */
-    fun loadArticles(page:Int, reloadAll: Boolean){
-        // Remove all cached pages after the given one
-        if(page == 0) {
-            viewModel.removeArticlePagesFromIndex(1, recyclerAdapter)
-            viewModel.lastPage = -1
-        }
-
-        // Create a new Request Queue
-        val requestQueue = Volley.newRequestQueue(this.context)
-
-        // Add requests to load the Pages to the requestQueue
-        if(reloadAll)
-            for (i in 0 until page+1) {
-                viewModel.reloadPage(i, requestQueue, recyclerAdapter)
-            }
-        else viewModel.reloadPage(page, recyclerAdapter)
+        viewModel.loadArticles(0, true, requireContext(), recyclerAdapter)
     }
 
     /**
      * Called when a Article is clicked
      */
     override fun onItemClick(wordpressArticle: WordpressArticle) {
-        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(wordpressArticle.id)
+        val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
+                wordpressArticle.id
+            )
         findNavController().navigate(action)
     }
 }

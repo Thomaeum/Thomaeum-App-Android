@@ -1,6 +1,7 @@
 package net.informatikag.thomapp.utils.models.view
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*

@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments.ThomsLine.article
+package net.informatikag.thomapp.viewables.fragments.ThomsLine
 
 import android.content.Intent
 import android.os.Bundle

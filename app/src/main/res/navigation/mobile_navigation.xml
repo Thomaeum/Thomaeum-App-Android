@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/nav_thomsline"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.ThomsLineFragment"
         android:label="@string/menu_thomsline"
         tools:layout="@layout/thomsline_main_fragment" >
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/nav_thomsline_article_view"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
+        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.ThomsLineArticleFragment">
         <argument
             android:name="id"
             app:argType="integer" />
