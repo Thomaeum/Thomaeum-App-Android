@@ -75,7 +75,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
                 // Display Refresh Indicator
                 swipeRefreshLayout.isRefreshing = true
                 // Load First Article Page
-                loadArticles(0, true)
+                viewModel.loadArticles(0, true, requireContext(), recyclerAdapter)
             }
         }
         //endregion
@@ -100,8 +100,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
      * Called when the SwipeRefresh Layout is triggerd
      */
     override fun onRefresh() {
-        loadArticles(0, true)
-    }
 
     /**
      * Loads all Article pages until "page" and removes all cached pages after it

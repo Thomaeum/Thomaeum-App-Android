@@ -115,9 +115,28 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                     // Display a Snackbar, stating the Error
                     Snackbar.make(recyclerAdapter.fragment.requireActivity().findViewById(R.id.app_bar_main), WordpressArticle.getVolleyError(volleyError, recyclerAdapter. fragment.requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
-
-                //recyclerAdapter.notifyItemChanged(id)
             }
         ))
+    }
+
+    /**
+     * Loads all Article pages until "page" and removes all cached pages after it
+     */
+    fun loadArticles(page:Int, reloadAll: Boolean, context: Context, recyclerAdapter:WordpressRecyclerAdapter){
+        // Remove all cached pages after the given one
+        if(page == 0) {
+            removeArticlePagesFromIndex(1, recyclerAdapter)
+            lastPage = -1
+        }
+
+        // Create a new Request Queue
+        val requestQueue = Volley.newRequestQueue(context)
+
+        // Add requests to load the Pages to the requestQueue
+        if(reloadAll)
+            for (i in 0 until page+1) {
+                reloadPage(i, requestQueue, recyclerAdapter)
+            }
+        else reloadPage(page, recyclerAdapter)
     }
 }
