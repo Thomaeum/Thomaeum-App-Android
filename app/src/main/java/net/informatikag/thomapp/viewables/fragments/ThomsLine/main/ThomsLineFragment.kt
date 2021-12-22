@@ -55,7 +55,6 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         val root: View = binding.root
 
         //Instantiate Variables
-//        viewModel = ViewModelProvider(this).get(ThomsLineFragmentViewModel::class.java)
         recyclerAdapter =  WordpressRecyclerAdapter(this, viewModel)
 
         //Add Observer to articles to update Recyclerview
