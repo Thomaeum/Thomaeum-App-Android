@@ -8,9 +8,7 @@ import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.view.WordpressViewModel
-import net.informatikag.thomapp.viewables.fragments.thomsline.ThomsLineFragment
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
-import net.informatikag.thomapp.viewables.viewholders.ThomsLineLoadingViewholder
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineEndViewholder
 
 /**
@@ -37,16 +35,17 @@ class WordpressRecyclerAdapter(
                 fragment,
                 true
             )
-            1 -> return ThomsLineLoadingViewholder(
-                LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
-            )
+            1 -> {/* This Case is the same as if the type was unknown*/}
             2 -> return ThomsLineEndViewholder(
                 LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_end, parent, false)
             )
         }
-        //If the viewtype is not known a simple loading symbol is loaded
-        return ThomsLineLoadingViewholder(
-            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_loading, parent, false)
+
+        return ThomsLineArticleViewHolder(
+            0,
+            LayoutInflater.from(parent.context).inflate(R.layout.thomsline_main_recyclerview_article, parent, false),
+            fragment,
+            true
         )
     }
 
@@ -66,17 +65,18 @@ class WordpressRecyclerAdapter(
                 val itemIndex = position%MainActivity.ARTICLES_PER_PAGE
 
                 // The content is bound to the viewHolder
-                holder.bind(viewmodel.articles.value!!
-                    .get(pageIndex).articles
-                    .get(itemIndex),
-                    articleClickHandler
-                )
-            }
-            // If a load viewholder is to be bound, this means that the end of the page has been
-            // loaded, so further artiels must be loaded, in order not to send too many requests,
-            // this is only done when there are no requests pending.
-            is ThomsLineLoadingViewholder -> {
-                viewmodel.loadArticles(viewmodel.articles.value!!.size, false, fragment.requireContext(), this)
+                if (holder.loadingState == 1)
+                    holder.bind(viewmodel.articles.value!!
+                        .get(pageIndex).articles
+                        .get(itemIndex),
+                        articleClickHandler
+                    )
+                else if (holder.loadingState == 0){
+                    // If a loading viewholder is to be bound, this means that the end of the page has been
+                    // loaded, so further artiels must be loaded, in order not to send too many requests,
+                    // this is only done when there are no requests pending.
+                    viewmodel.loadArticles(viewmodel.articles.value!!.size, false, fragment.requireContext(), this)
+                }
             }
         }
     }
@@ -86,7 +86,7 @@ class WordpressRecyclerAdapter(
      * @return viewHolder count
      */
     override fun getItemCount(): Int {
-        if (viewmodel.isEmpty() || viewmodel.articles.value?.size == 0) return 0
+        if (viewmodel.isEmpty()) return 0
         else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articles.size + 1
     }
 
