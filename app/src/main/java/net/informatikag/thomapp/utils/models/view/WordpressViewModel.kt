@@ -34,7 +34,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
     var lastPage: Int = -1
 
     //Checks if there are Articles
-    fun isEmpty():Boolean = _articles.value == null
+    fun isEmpty():Boolean = _articles.value == null || _articles.value?.size == 0
 
     // Sets a Page
     fun postArticlePage(id: Int, content:WordpressPage, recyclerAdapter: WordpressRecyclerAdapter){

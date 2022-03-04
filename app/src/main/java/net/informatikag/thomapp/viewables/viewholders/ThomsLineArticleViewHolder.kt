@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.facebook.shimmer.ShimmerFrameLayout
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
@@ -34,6 +35,8 @@ class ThomsLineArticleViewHolder constructor(
             field = value
             when (value) {
                 -1 -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.hideShimmer()
                     imageView.visibility = View.VISIBLE
                     imageView.setImageDrawable(
                         AppCompatResources.getDrawable(
@@ -43,37 +46,50 @@ class ThomsLineArticleViewHolder constructor(
                     )
 
                     titleView.visibility = View.VISIBLE
-                    titleView.text =
-                        fragment.activity?.getString(R.string.network_error_generic)
+                    titleView.background = null
+                    titleView.text = fragment.activity?.getString(R.string.network_error_generic)
 
                     excerptView.visibility = View.GONE
+                    excerptView.background = null
 
                     itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
                         View.GONE
                 }
                 0 -> {
-                    imageView.visibility = View.GONE
+                    shimmerLayout.showShimmer(true)
 
-                    titleView.visibility = View.GONE
-
-                    excerptView.visibility = View.GONE
-
-                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
-                        View.VISIBLE
-                }
-                1 -> {
                     imageView.visibility = View.VISIBLE
 
                     titleView.visibility = View.VISIBLE
+                    titleView.background = fragment.requireContext().resources.getDrawable(R.color.secondaryDarkColor)
 
                     excerptView.visibility = View.VISIBLE
+                    excerptView.background = fragment.requireContext().resources.getDrawable(R.color.secondaryDarkColor)
 
                     itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
+                        View.INVISIBLE
+                }
+                1 -> {
+                    shimmerLayout.stopShimmer()
+                    shimmerLayout.hideShimmer()
+                    imageView.visibility = View.VISIBLE
+
+                    titleView.visibility = View.VISIBLE
+                    titleView.background = null
+
+                    excerptView.visibility = View.VISIBLE
+                    excerptView.background = null
+
+                        itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
                         View.GONE
                 }
             }
             if (!showExcerpt) excerptView.visibility = View.GONE
         }
+
+    private val shimmerLayout: ShimmerFrameLayout
+        get() = itemView.findViewById(R.id.thomsline_post_shimmerLayout)
+
     private val titleView:TextView
         get() = itemView.findViewById(R.id.thomsline_post_title)
 
