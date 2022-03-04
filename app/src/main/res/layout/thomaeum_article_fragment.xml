@@ -2,14 +2,14 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/thomsline_article_swipe_refresh_layout"
+    android:id="@+id/thomaeum_article_swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".viewables.fragments.thomsline.ThomsLineArticleFragment">
+    tools:context=".viewables.fragments.thomaeum.ThomaeumArticleFragment">
 
     <ScrollView
-        android:id="@+id/thomsline_article_scrollview"
+        android:id="@+id/thomaeum_article_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -18,10 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/thomsline_article_container">
+            android:id="@+id/thomaeum_article_container">
 
             <TextView
-                android:id="@+id/thomsline_article_title"
+                android:id="@+id/thomaeum_article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -37,7 +37,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/thomsline_article_author"
+                    android:id="@+id/thomaeum_article_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -48,7 +48,7 @@
                     tools:text="Author" />
 
                 <TextView
-                    android:id="@+id/thomsline_article_date"
+                    android:id="@+id/thomaeum_article_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -60,7 +60,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/thomsline_article_image"
+                android:id="@+id/thomaeum_article_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_margin="10dp"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/thomsline_article_content"
+                android:id="@+id/thomaeum_article_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />

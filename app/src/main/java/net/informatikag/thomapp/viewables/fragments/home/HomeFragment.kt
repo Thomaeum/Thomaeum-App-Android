@@ -1,7 +1,6 @@
 package net.informatikag.thomapp.viewables.fragments.home
 
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,8 @@ import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.ThomsLineWordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
@@ -27,6 +27,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
     private var _binding: HomeFragmentBinding? = null                                       // Binding um auf das Layout zuzugreifen
     private val thomsLineViewModel: ThomsLineViewModel by activityViewModels()              // Viewmodel um auf die Artikel der ThomsLine zuzugreifen
+    private val rundbriefViewModel: ThomaeumViewModel by activityViewModels()               // Das Viewmodel in dem die wichtigen Daten des Fragments gespeichert werden
     private val vertretungsplanViewModel:VertretungsplanViewModel by activityViewModels()   // Viewmodel für den Vertretunsplan
 
     // This property is only valid between onCreateView and
@@ -37,7 +38,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         //Vertretungsplan
@@ -49,20 +50,13 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         listView.adapter = listViewAdapter
         if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan()
 
-        //ThomsLine
-        val articleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreview.root,this, false)
-        if (thomsLineViewModel.isEmpty())
-            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
-                { response ->
-                    articleViewHolder.bind(ThomsLineWordpressArticle(response.getJSONObject(0), true), this)
-                },
-                { volleyError ->
-                    articleViewHolder.loadingState = -1
-                }
-            ))
-        else {
-            articleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
-        }
+        // ThomsLine
+        val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)
+        thomsLineViewModel.loadFirstArticleToViewHolder(thomslineArticleViewHolder, requireContext(), this)
+
+        // Rundbrief
+        val rundbriefArticleViewHolder = ThomsLineArticleViewHolder(if(rundbriefViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewNews.root,this, true)
+        rundbriefViewModel.loadFirstArticleToViewHolder(rundbriefArticleViewHolder, requireContext(), this)
 
         return binding.root
     }
@@ -73,8 +67,10 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = null
     }
 
-    override fun onItemClick(thomsLineWordpressArticle: ThomsLineWordpressArticle) {
-        val action = HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(thomsLineWordpressArticle.id)
-        findNavController().navigate(action)
+    override fun onItemClick(wordpressArticle: WordpressArticle) {
+        if(wordpressArticle.base_url.equals(MainActivity.THOMSLINE_BASE_URL))
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(wordpressArticle.id))
+        else if(wordpressArticle.base_url.equals(MainActivity.THOMAEUM_BASE_URL))
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToThomaeumArticleFragment(wordpressArticle.id))
     }
 }

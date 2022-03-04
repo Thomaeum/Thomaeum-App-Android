@@ -2,10 +2,10 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/thomsline_swipe_container"
+    android:id="@+id/thomaeum_swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".viewables.fragments.thomsline.ThomsLineFragment">
+    tools:context=".viewables.fragments.thomaeum.ThomaeumFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -14,6 +14,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/thomsline_recycler_view"/>
+        android:id="@+id/thomaeum_recycler_view"/>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

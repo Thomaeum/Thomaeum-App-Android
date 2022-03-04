@@ -25,14 +25,20 @@ class MainActivity : AppCompatActivity(){
     companion object {
         //Vertretungsplan
         val VERTRETUNGSPLAN_PREVIEW_AMOUNT = 10
-
-        //ThomsLine
-        val ARTICLES_PER_PAGE: Int = 10
-        val WORDPRESS_BASE_URL_LITE: String = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
-        val WORDPRESS_BASE_URL_FULL: String = "https://thoms-line.thomaeum.de/wp-json/wp/v2/posts?_embed"
-        val THOMSLINE_LIST_ARTICLE_PADDING: Int = 30
         val VERTRETUNGSPLAN_OBERSTUFE_PDF: String = "https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf"
         val VERTRETUNGSPLAN_UNTERSTUFE_PDF: String = "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf"
+
+        //Thomsline
+        val THOMSLINE_BASE_URL = "https://thoms-line.thomaeum.de/"
+
+        //Thomaeum News
+        val THOMAEUM_BASE_URL = "https://thomaeum.de/"
+
+        //WORDPRESS
+        val ARTICLES_PER_PAGE: Int = 10
+        val WORDPRESS_BASE_URL_LITE: String = "wp-json/wp/v2/posts?_embed=wp:featuredmedia&_fields=id,title.rendered, excerpt.rendered, _links, _embedded"
+        val WORDPRESS_BASE_URL_FULL: String = "wp-json/wp/v2/posts?_embed"
+        val THOMSLINE_LIST_ARTICLE_PADDING: Int = 30
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +59,11 @@ class MainActivity : AppCompatActivity(){
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_thomsline, R.id.nav_vertretungsplan_oberstufe, R.id.nav_vertretungsplan_unterstufe
+                R.id.nav_home,
+                R.id.nav_thomsline,
+                R.id.nav_thomaeum,
+                R.id.nav_vertretungsplan_oberstufe,
+                R.id.nav_vertretungsplan_unterstufe
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

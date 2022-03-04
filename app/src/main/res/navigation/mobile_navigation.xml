@@ -12,23 +12,26 @@
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_nav_home_to_nav_thomsline_article_view"
-            app:destination="@id/nav_thomsline_article_view" />
+            app:destination="@id/nav_thomsline_article" />
+        <action
+            android:id="@+id/action_nav_home_to_thomaeumArticleFragment"
+            app:destination="@id/nav_thomaeum_article" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_thomsline"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.main.ThomsLineFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.thomsline.ThomsLineFragment"
         android:label="@string/menu_thomsline"
         tools:layout="@layout/thomsline_main_fragment" >
         <action
             android:id="@+id/action_nav_thomsline_to_nav_thomsline_article_view"
-            app:destination="@id/nav_thomsline_article_view" />
+            app:destination="@id/nav_thomsline_article" />
 
     </fragment>
 
     <fragment
-        android:id="@+id/nav_thomsline_article_view"
-        android:name="net.informatikag.thomapp.viewables.fragments.ThomsLine.article.ThomsLineArticleFragment">
+        android:id="@+id/nav_thomsline_article"
+        android:name="net.informatikag.thomapp.viewables.fragments.thomsline.ThomsLineArticleFragment">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -45,4 +48,20 @@
         android:name="net.informatikag.thomapp.viewables.fragments.vertretungsplan.VertretungsplanUnterstufeFragment"
         android:label="@string/menu_vertretungsplan_unterstufe"
         tools:layout="@layout/vertretungsplan_unterstufe_fragment" />
+    <fragment
+        android:id="@+id/nav_thomaeum"
+        android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumFragment"
+        android:label="@string/menu_thomaeum"
+        tools:layout="@layout/thomaeum_main_fragment" >
+        <action
+            android:id="@+id/action_nav_thomaeum_to_thomaeumArticleFragment"
+            app:destination="@id/nav_thomaeum_article" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_thomaeum_article"
+        android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumArticleFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

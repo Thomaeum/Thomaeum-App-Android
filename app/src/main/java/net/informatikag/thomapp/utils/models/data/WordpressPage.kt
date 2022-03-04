@@ -1,9 +1,9 @@
 package net.informatikag.thomapp.utils.models.data
 
-data class ThomsLineWordpressArticlePage(
-    val articles:Array<ThomsLineWordpressArticle>
+data class WordpressPage(
+    val articles:Array<WordpressArticle>
 ){
-    fun equals(page:ThomsLineWordpressArticlePage):Boolean {
+    fun equals(page:WordpressPage):Boolean {
         if (articles.size != page.articles.size) return false
         for(i in page.articles){
             if (!articles.contains(i)) return false
@@ -11,7 +11,7 @@ data class ThomsLineWordpressArticlePage(
         return true
     }
 
-    fun getByID(id:Int):ThomsLineWordpressArticle?{
+    fun getByID(id:Int):WordpressArticle?{
         for (article in articles) {
             if (article.id == id) return article
         }
