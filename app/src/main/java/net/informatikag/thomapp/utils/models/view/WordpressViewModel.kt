@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import androidx.navigation.fragment.findNavController
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -12,8 +13,11 @@ import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
+import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
 import net.informatikag.thomapp.utils.models.data.WordpressPage
+import net.informatikag.thomapp.viewables.fragments.home.HomeFragmentDirections
+import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
 /**
  * Saves the Wordpress articles of the ThomsLine fragment
@@ -139,5 +143,30 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 reloadPage(i, requestQueue, recyclerAdapter)
             }
         else reloadPage(page, recyclerAdapter)
+    }
+
+    fun loadFirstArticleToViewHolder(thomslineArticleViewHolder: ThomsLineArticleViewHolder, context: Context, clickHandler: ArticleClickHandler) {
+        if (this.isEmpty())
+            Volley.newRequestQueue(context)
+                .add(JsonArrayRequest(BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
+                    { response ->
+                        thomslineArticleViewHolder.bind(
+                            WordpressArticle(
+                                response.getJSONObject(0),
+                                true,
+                                BASE_URL
+                            ), clickHandler
+                        )
+                    },
+                    { volleyError ->
+                        thomslineArticleViewHolder.loadingState = -1
+                    }
+                ))
+        else {
+            thomslineArticleViewHolder.bind(
+                articles.value!![0].articles[0],
+                clickHandler
+            )
+        }
     }
 }

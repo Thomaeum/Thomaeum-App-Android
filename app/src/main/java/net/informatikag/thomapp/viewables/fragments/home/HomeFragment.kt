@@ -38,7 +38,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         //Vertretungsplan
@@ -52,33 +52,11 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         // ThomsLine
         val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)
-        if (thomsLineViewModel.isEmpty())
-            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.THOMSLINE_BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
-                { response ->
-                    thomslineArticleViewHolder.bind(WordpressArticle(response.getJSONObject(0), true, thomsLineViewModel.BASE_URL), this)
-                },
-                { volleyError ->
-                    thomslineArticleViewHolder.loadingState = -1
-                }
-            ))
-        else {
-            thomslineArticleViewHolder.bind(thomsLineViewModel.articles.value!![0].articles[0], this)
-        }
+        thomsLineViewModel.loadFirstArticleToViewHolder(thomslineArticleViewHolder, requireContext(), this)
 
         // Rundbrief
         val rundbriefArticleViewHolder = ThomsLineArticleViewHolder(if(rundbriefViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewNews.root,this, true)
-        if (rundbriefViewModel.isEmpty())
-            Volley.newRequestQueue(this.context).add(JsonArrayRequest(MainActivity.THOMAEUM_BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
-                { response ->
-                    rundbriefArticleViewHolder.bind(WordpressArticle(response.getJSONObject(0), true, rundbriefViewModel.BASE_URL), this)
-                },
-                { volleyError ->
-                    rundbriefArticleViewHolder.loadingState = -1
-                }
-            ))
-        else {
-            rundbriefArticleViewHolder.bind(rundbriefViewModel.articles.value!![0].articles[0], this)
-        }
+        rundbriefViewModel.loadFirstArticleToViewHolder(rundbriefArticleViewHolder, requireContext(), this)
 
         return binding.root
     }
