@@ -43,18 +43,19 @@
             app:layout_constraintLeft_toLeftOf="parent">
 
             <TextView
+                android:id="@+id/thomsline_post_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:textSize="19sp"
-                android:id="@+id/thomsline_post_title"
-                tools:text="Article Title"/>
-
+                tools:text="Article Title" />
 
             <TextView
                 android:id="@+id/thomsline_post_excerpt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:maxLines="2"
                 android:textAllCaps="false"
                 android:textSize="12.5sp"
                 tools:text="Post Excerpt" />
