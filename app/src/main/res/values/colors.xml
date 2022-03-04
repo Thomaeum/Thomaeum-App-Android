@@ -13,6 +13,8 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
 
+    <color name="articleBackgroundError">#ff0000</color>
+
     <!--This is not acually used-->
     <color name="articleTextColor">#888888</color>
 </resources>
