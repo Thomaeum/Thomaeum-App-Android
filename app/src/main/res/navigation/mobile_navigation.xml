@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_thomsline_article_view"
             app:destination="@id/nav_thomsline_article" />
+        <action
+            android:id="@+id/action_nav_home_to_thomaeumArticleFragment"
+            app:destination="@id/nav_thomaeum_article" />
     </fragment>
 
     <fragment
@@ -52,10 +55,10 @@
         tools:layout="@layout/thomaeum_main_fragment" >
         <action
             android:id="@+id/action_nav_thomaeum_to_thomaeumArticleFragment"
-            app:destination="@id/thomaeumArticleFragment" />
+            app:destination="@id/nav_thomaeum_article" />
     </fragment>
     <fragment
-        android:id="@+id/thomaeumArticleFragment"
+        android:id="@+id/nav_thomaeum_article"
         android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumArticleFragment">
         <argument
             android:name="id"
