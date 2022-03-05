@@ -41,7 +41,7 @@ class ThomsLineArticleViewHolder constructor(
                     imageView.setImageDrawable(
                         AppCompatResources.getDrawable(
                             fragment.requireContext(),
-                            R.drawable.img_error
+                            R.drawable.ic_wordpress_article_error
                         )
                     )
 
@@ -80,8 +80,8 @@ class ThomsLineArticleViewHolder constructor(
                     excerptView.visibility = View.VISIBLE
                     excerptView.background = null
 
-                        itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
-                        View.GONE
+                    itemView.findViewById<ProgressBar>(R.id.thomsline_post_loading_indicator).visibility =
+                    View.GONE
                 }
             }
             if (!showExcerpt) excerptView.visibility = View.GONE
@@ -117,15 +117,15 @@ class ThomsLineArticleViewHolder constructor(
         Glide.with(itemView.context)
             .applyDefaultRequestOptions(
                 RequestOptions()
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error))
+                    .placeholder(R.drawable.ic_wordpress_article_default)
+                    .error(R.drawable.ic_wordpress_article_error))
             .load(post.imageURL)
-            .placeholder(R.drawable.img_article_image_default)
+            .placeholder(R.drawable.ic_wordpress_article_default)
             .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
         else itemView.findViewById<ImageView>(R.id.thomsline_post_image).setImageDrawable(
             AppCompatResources.getDrawable(
                 fragment.requireContext(),
-                R.drawable.img_article_image_default
+                R.drawable.ic_wordpress_article_default
             ))
 
         // An OnClickListener is added to be able to switch to the detail view on clicking
