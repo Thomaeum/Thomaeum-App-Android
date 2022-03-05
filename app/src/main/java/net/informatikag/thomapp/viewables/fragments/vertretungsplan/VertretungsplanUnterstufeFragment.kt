@@ -32,7 +32,7 @@ class VertretungsplanUnterstufeFragment : Fragment() {
 
         // Add handler
         handler = VertretungsplanHandler(
-            MainActivity.VERTRETUNGSPLAN_UNTERSTUFE_PDF,
+            "preferences_substitution_legacy_url_unterstufe",
             binding.fragmentVertretungsplanLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )
