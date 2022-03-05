@@ -20,8 +20,6 @@ class VertretungsplanHandler(
     val snackbarView: CoordinatorLayout
 ): WebViewClient() {
 
-    private lateinit var sharedPreferences: SharedPreferences
-
     private var loadingError:Boolean = false
 
     init {
@@ -34,7 +32,7 @@ class VertretungsplanHandler(
         }
 
         // Get URL from Preferences
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(layout.root.context)
+        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(layout.root.context)
 
         // Setup Webview and Load Page
         layout.vertretungsplanPdfView.settings.loadWithOverviewMode = true
