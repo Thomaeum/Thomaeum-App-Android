@@ -2,64 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:title="@string/preferences_general">
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="false"
+        app:summary="@string/preferences_substitution_legacy_summary"
+        app:title="@string/preferences_substitution_legacy">
 
-        <ListPreference
-            android:entries="@array/preference_refresh_interval_values"
-            android:entryValues="@array/preference_refresh_interval_values"
-            android:key="preference_refresh_interval"
-            android:title="@string/preferences_general_refresh_timer"
-            android:summary="Currently not used"
-            android:icon="@drawable/ic_preferences_timer"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:title="@string/preferences_wordpress">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preferences_wordpress_notifications"
-            android:title="@string/preferences_wordpress_notifications"
-            android:summary="Currently not used"
-            android:icon="@drawable/ic_preferences_notifications"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:title="@string/preferences_substitution">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preferences_substitution_notifications"
-            android:title="@string/preferences_substitution_notifications"
-            android:summary="Currently not used"
-            android:icon="@drawable/ic_preferences_notifications"/>
-
-        <Preference
-            android:title="@string/preferences_substitution_login"
-            android:key="preferences_substitution_login"
-        />
-
-        <PreferenceCategory
-            app:title="@string/preferences_substitution_legacy"
-            app:summary="@string/preferences_substitution_legacy_summary"
-            app:allowDividerAbove="false"
-            app:allowDividerBelow="false">
-
-            <EditTextPreference
-                android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf"
-                android:key="preferences_substitution_legacy_url_unterstufe"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="@string/preferences_substitution_legacy_url_unterstufe"
-                android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"/>
-            <EditTextPreference
-                android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf"
-                android:key="preferences_substitution_legacy_url_oberstufe"
-                android:selectAllOnFocus="true"
-                android:singleLine="true"
-                android:title="@string/preferences_substitution_legacy_url_oberstufe"
-                android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"/>
-        </PreferenceCategory>
+        <EditTextPreference
+            android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf"
+            android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"
+            android:key="preferences_substitution_legacy_url_unterstufe"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/preferences_substitution_legacy_url_unterstufe" />
+        <EditTextPreference
+            android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf"
+            android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"
+            android:key="preferences_substitution_legacy_url_oberstufe"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/preferences_substitution_legacy_url_oberstufe" />
     </PreferenceCategory>
 
 </PreferenceScreen>
