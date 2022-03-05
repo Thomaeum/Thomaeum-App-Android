@@ -12,6 +12,7 @@
     <string name="menu_thomaeum">Rundbriefe</string>
     <string name="menu_vertretungsplan_oberstufe">Oberstufe</string>
     <string name="menu_vertretungsplan_unterstufe">Unterstufe</string>
+    <string name="menu_preferences">Settings</string>
 
     <!-- Network Error Messages -->
     <string name="network_error_not_connected">Du bist nicht mit dem Internet verbunden</string>
@@ -24,6 +25,11 @@
     <!-- Vertretungsplan -->
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Preferences-->
+    <string name="preferences_substitution_legacy">Legacy URLs</string>
+    <string name="preferences_substitution_legacy_summary">Die URLs für die PDFs auf der offiziellen Thomaeum Website zuzugreifen</string>
+    <string name="preferences_substitution_legacy_url_unterstufe">Unterstufe</string>
+    <string name="preferences_substitution_legacy_url_oberstufe">Oberstufen</string>
+
 </resources>

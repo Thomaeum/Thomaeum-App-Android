@@ -26,5 +26,10 @@
             android:id="@+id/nav_vertretungsplan_unterstufe"
             android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"
             android:title="@string/menu_vertretungsplan_unterstufe" />
+
+        <item
+            android:id="@+id/nav_preferences"
+            android:icon="@drawable/ic_menu_preferences"
+            android:title="@string/menu_preferences" />
     </group>
 </menu>

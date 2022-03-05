@@ -1,11 +1,13 @@
 package net.informatikag.thomapp.viewables.fragments.vertretungsplan
 
+import android.content.SharedPreferences
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.databinding.VertretungsplanTemplateFragmentBinding
 
@@ -13,7 +15,7 @@ import net.informatikag.thomapp.databinding.VertretungsplanTemplateFragmentBindi
  * Handles a Substitution plan View
  */
 class VertretungsplanHandler(
-    pdfURL: String,
+    val urlPreferencesKey: String,
     val layout: VertretungsplanTemplateFragmentBinding,
     val snackbarView: CoordinatorLayout
 ): WebViewClient() {
@@ -29,10 +31,13 @@ class VertretungsplanHandler(
             loadingError = false
         }
 
+        // Get URL from Preferences
+        val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(layout.root.context)
+
         // Setup Webview and Load Page
         layout.vertretungsplanPdfView.settings.loadWithOverviewMode = true
         layout.vertretungsplanPdfView.settings.javaScriptEnabled = true
-        layout.vertretungsplanPdfView.loadUrl("https://docs.google.com/gview?embedded=true&url=$pdfURL")
+        layout.vertretungsplanPdfView.loadUrl("https://docs.google.com/gview?embedded=true&url=${sharedPreferences.getString(urlPreferencesKey, "")}")
         layout.vertretungsplanPdfView.webViewClient = this
     }
 
