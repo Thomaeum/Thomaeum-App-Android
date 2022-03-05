@@ -26,18 +26,11 @@
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
 
-<!--    &lt;!&ndash; Preference Titles &ndash;&gt;-->
-<!--    <string name="messages_header">Messages</string>-->
-<!--    <string name="sync_header">Sync</string>-->
+    <!-- Preferences-->
+    <string name="preferences_wordpress">Artikel</string>
+    <string name="preferences_wordpress_notifications">Benachrichtigungen</string>
+    <string name="preferences_wordpress_refresh_timer">Abfrage Interval</string>
 
-<!--    &lt;!&ndash; Messages Preferences &ndash;&gt;-->
-<!--    <string name="signature_title">Your signature</string>-->
-<!--    <string name="reply_title">Default reply action</string>-->
+    <string name="preferences_substitution">Vertretungsplan</string>
 
-<!--    &lt;!&ndash; Sync Preferences &ndash;&gt;-->
-<!--    <string name="sync_title">Sync email periodically</string>-->
-<!--    <string name="attachment_title">Download incoming attachments</string>-->
-<!--    <string name="attachment_summary_on">Automatically download attachments for incoming emails-->
-<!--    </string>-->
-<!--    <string name="attachment_summary_off">Only download attachments when manually requested</string>-->
 </resources>

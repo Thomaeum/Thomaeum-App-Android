@@ -1,6 +1,24 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <PreferenceCategory app:title="@string/messages_header">-->
+    <PreferenceCategory app:title="@string/preferences_wordpress">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preferences_wordpress_notifications_switch"
+            android:title="@string/preferences_wordpress_notifications"
+            android:summary="Currently not used"/>
+
+        <ListPreference
+            android:key="preference_refresh_interval"
+            android:title="@string/preferences_wordpress_refresh_timer"
+            android:entries="@array/preference_refresh_interval_values"
+            android:entryValues="@array/preference_refresh_interval_values"
+            android:summary="Currently not used"/>
+
+    </PreferenceCategory>
+
+    <!--    <PreferenceCategory app:title="@string/messages_header">-->
 
 <!--        <EditTextPreference-->
 <!--            app:key="signature"-->
