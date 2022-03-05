@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.utils.models.data.VertretungsplanEintrag
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
-import org.w3c.dom.Text
 
 class HomeListAdapter(
     context: Context,
@@ -39,7 +36,14 @@ class HomeListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = LayoutInflater.from(mContext).inflate(R.layout.vertretungsplan_list_item, parent, false)
-        view.findViewById<TextView>(R.id.test_text).text = viewModel.entrys.value!![position].text
+
+        val substitutionEntryData = viewModel.entrys.value!![position]
+        if (substitutionEntryData.range == 1)
+            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = "${substitutionEntryData.start}. Stunde"
+        else
+            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = "${substitutionEntryData.start}-${substitutionEntryData.start + substitutionEntryData.range - 1}. Stunde"
+
+        view.findViewById<TextView>(R.id.substitution_room_textview).text = substitutionEntryData.room
         return view
     }
 }

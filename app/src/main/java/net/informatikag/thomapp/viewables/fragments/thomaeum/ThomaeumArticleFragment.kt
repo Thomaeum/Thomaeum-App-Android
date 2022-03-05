@@ -18,7 +18,7 @@ import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomaeumArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
 import net.informatikag.thomapp.utils.handlers.WordpressHtmlTagHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
 
 /**
@@ -28,7 +28,7 @@ class ThomaeumArticleFragment : Fragment() {
 
     private val args: ThomaeumArticleFragmentArgs by navArgs()         // Die Argumente die beim Wechseln zu diesem Fragment übergeben werden
     private var _binding: ThomaeumArticleFragmentBinding? = null       // Binding um das Layout zu erreichen
-    private lateinit var article: WordpressArticle                      // das WordpressArticle Object, welches angezeigt wird
+    private lateinit var articleData: WordpressArticleData                      // das WordpressArticle Object, welches angezeigt wird
     private val viewmodel: ThomaeumViewModel by activityViewModels()   // Das Viewmodel in dem alle Artikel gespeichert sind
 
     // This property is only valid between onCreateView and
@@ -54,9 +54,9 @@ class ThomaeumArticleFragment : Fragment() {
         binding.thomaeumArticleScrollview.visibility = View.GONE
         val possiblePost = viewmodel.getByID(args.id)
         if (possiblePost!=null) {
-            article = possiblePost
-            if(article.liteVersion) {
-                article.refresh(this.requireContext(), false)
+            articleData = possiblePost
+            if(articleData.liteVersion) {
+                articleData.refresh(this.requireContext(), false)
                 { article, error -> articleRefreshCallback(article, error) }
                 binding.thomaeumArticleSwipeRefreshLayout.isRefreshing = true
             } else {
@@ -64,7 +64,7 @@ class ThomaeumArticleFragment : Fragment() {
             }
         }
         else {
-            article = WordpressArticle(args.id, false, viewmodel.BASE_URL, this.requireContext())
+            articleData = WordpressArticleData(args.id, false, viewmodel.BASE_URL, this.requireContext())
             { article, error -> articleRefreshCallback(article, error) }
             binding.thomaeumArticleSwipeRefreshLayout.isRefreshing = true
         }
@@ -73,7 +73,7 @@ class ThomaeumArticleFragment : Fragment() {
         binding.thomaeumArticleSwipeRefreshLayout.setOnRefreshListener {
             TransitionManager.beginDelayedTransition(binding.thomaeumArticleScrollview)
             binding.thomaeumArticleScrollview.visibility = View.INVISIBLE
-            article.refresh(this.requireContext(),false) { article, error ->
+            articleData.refresh(this.requireContext(),false) { article, error ->
                 articleRefreshCallback(
                     article,
                     error
@@ -86,16 +86,16 @@ class ThomaeumArticleFragment : Fragment() {
     /**
      * Is Called when the Article was refreshed
      */
-    fun articleRefreshCallback(article: WordpressArticle?, error: VolleyError?){
+    fun articleRefreshCallback(articleData: WordpressArticleData?, error: VolleyError?){
         if (error == null) {
             // If there were no Errors just load the Article to the atribute and then to the layout
-            this.article = article!!
+            this.articleData = articleData!!
             loadArticleToViews()
         }
         // If there were Errors, display them in a Snackbar
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
-            WordpressArticle.getVolleyError(error, this.requireActivity()),
+            WordpressArticleData.getVolleyError(error, this.requireActivity()),
             Snackbar.LENGTH_LONG
         ).show()
         binding.thomaeumArticleSwipeRefreshLayout.isRefreshing = false
@@ -110,29 +110,29 @@ class ThomaeumArticleFragment : Fragment() {
         binding.thomaeumArticleScrollview.visibility = View.VISIBLE
 
         // Change Title TextView
-        binding.thomaeumArticleTitle.text = this.article.title
+        binding.thomaeumArticleTitle.text = this.articleData.title
         binding.thomaeumArticleTitle.visibility = View.VISIBLE
 
         // Load Author
-        binding.thomaeumArticleAuthor.text = this.article.getAuthorString()
+        binding.thomaeumArticleAuthor.text = this.articleData.getAuthorString()
         binding.thomaeumArticleAuthor.visibility = View.VISIBLE
 
         // Load Title Image
         val imageView: ImageView = binding.thomaeumArticleImage
-        if (this.article.imageURL != null)
+        if (this.articleData.imageURL != null)
             Picasso.get()
-                .load(this.article.imageURL)
+                .load(this.articleData.imageURL)
                 .placeholder(R.drawable.ic_wordpress_article_default)
                 .into(imageView)
         else imageView.visibility = View.GONE
 
         // Load Date
-        binding.thomaeumArticleDate.text = "${this.article.date?.hours}:${this.article.date?.minutes} - ${this.article.date?.date}.${this.article.date?.month}.${this.article.date?.year}"
+        binding.thomaeumArticleDate.text = "${this.articleData.date?.hours}:${this.articleData.date?.minutes} - ${this.articleData.date?.date}.${this.articleData.date?.month}.${this.articleData.date?.year}"
         binding.thomaeumArticleDate.visibility = View.VISIBLE
 
         // Load Content
         val contentView: TextView = binding.thomaeumArticleContent
-        var content = this.article.content
+        var content = this.articleData.content
 
         // Remove multiple Whitespaces
         content = content?.replace("(\\s|&nbsp;)+".toRegex(), " ")
@@ -165,11 +165,11 @@ class ThomaeumArticleFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.wordpress_article_share -> {
-                if (article.link != null) {
+                if (articleData.link != null) {
                     Log.d("Thomaeum Article", "Trying to Share")
                     val shareIntent = Intent.createChooser(Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, article.link)
+                        putExtra(Intent.EXTRA_TEXT, articleData.link)
                         type = "text/plain"
                     }, null)
                     startActivity(shareIntent)

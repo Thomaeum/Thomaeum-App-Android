@@ -3,9 +3,7 @@ package net.informatikag.thomapp.utils.models.view
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import androidx.navigation.fragment.findNavController
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
@@ -14,9 +12,8 @@ import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
-import net.informatikag.thomapp.utils.models.data.WordpressPage
-import net.informatikag.thomapp.viewables.fragments.home.HomeFragmentDirections
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
+import net.informatikag.thomapp.utils.models.data.WordpressPageData
 import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 
 /**
@@ -25,8 +22,8 @@ import net.informatikag.thomapp.viewables.viewholders.ThomsLineArticleViewHolder
 abstract class WordpressViewModel(application: Application): AndroidViewModel(application) {
 
     // The articles
-    private val _articles = MutableLiveData<ArrayList<WordpressPage>>()
-    val articles: LiveData<ArrayList<WordpressPage>> = _articles
+    private val _articles = MutableLiveData<ArrayList<WordpressPageData>>()
+    val articles: LiveData<ArrayList<WordpressPageData>> = _articles
 
     abstract val BASE_URL:String
 
@@ -37,7 +34,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
     fun isEmpty():Boolean = _articles.value == null || _articles.value?.size == 0
 
     // Sets a Page
-    fun postArticlePage(id: Int, content:WordpressPage, recyclerAdapter: WordpressRecyclerAdapter){
+    fun postArticlePage(id: Int, content:WordpressPageData, recyclerAdapter: WordpressRecyclerAdapter){
         val changed = isEmpty() || id >= _articles.value!!.size || (id < _articles.value!!.size && !_articles.value!!.get(id).equals(content))
         //Check If actually something Changed
         if (changed) {
@@ -45,17 +42,17 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
             val positionStart = id * MainActivity.ARTICLES_PER_PAGE
             if (_articles.value == null) {
                 _articles.value = arrayListOf(content)
-                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articles.size);
+                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articleData.size);
             }
             //if the Page is completly new
             else if (id >= _articles.value!!.size) {
                 _articles.value?.add(content)
-                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articles.size);
+                recyclerAdapter.notifyItemRangeInserted(positionStart, content.articleData.size);
             }
             //If it's just a old Page updating
             else if (id < _articles.value!!.size) {
                 _articles.value?.set(id, content)
-                recyclerAdapter.notifyItemRangeChanged(positionStart, content.articles.size);
+                recyclerAdapter.notifyItemRangeChanged(positionStart, content.articleData.size);
             }
         }
         _articles.postValue(_articles.value)
@@ -72,7 +69,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
         }
     }
 
-    fun getByID(id:Int):WordpressArticle?{
+    fun getByID(id:Int):WordpressArticleData?{
         if (!isEmpty()) {
             for (p in 0.._articles.value!!.size) {
                 val tempReturn = _articles.value!![p].getByID(id)
@@ -96,13 +93,13 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 Log.d("ThomsLine", "Got Data for page $id")
 
                 // A Variable to load the Articles to
-                val data = ArrayList<WordpressArticle>()
+                val data = ArrayList<WordpressArticleData>()
 
                 // Load the Articles from the JSON
-                for (j in 0 until response.length()) data.add(WordpressArticle(response.getJSONObject(j), true, BASE_URL))
+                for (j in 0 until response.length()) data.add(WordpressArticleData(response.getJSONObject(j), true, BASE_URL))
 
                 // Update the RecyclerView
-                postArticlePage(id, WordpressPage(data.toTypedArray()), recyclerAdapter)
+                postArticlePage(id, WordpressPageData(data.toTypedArray()), recyclerAdapter)
 
             },
             { volleyError ->
@@ -118,7 +115,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
                     // Display a Snackbar, stating the Error
-                    Snackbar.make(recyclerAdapter.fragment.requireActivity().findViewById(R.id.app_bar_main), WordpressArticle.getVolleyError(volleyError, recyclerAdapter. fragment.requireActivity()), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(recyclerAdapter.fragment.requireActivity().findViewById(R.id.app_bar_main), WordpressArticleData.getVolleyError(volleyError, recyclerAdapter. fragment.requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
             }
         ))
@@ -151,7 +148,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 .add(JsonArrayRequest(BASE_URL + MainActivity.WORDPRESS_BASE_URL_LITE + "&&page=1&&per_page=1",
                     { response ->
                         thomslineArticleViewHolder.bind(
-                            WordpressArticle(
+                            WordpressArticleData(
                                 response.getJSONObject(0),
                                 true,
                                 BASE_URL
@@ -164,7 +161,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 ))
         else {
             thomslineArticleViewHolder.bind(
-                articles.value!![0].articles[0],
+                articles.value!![0].articleData[0],
                 clickHandler
             )
         }

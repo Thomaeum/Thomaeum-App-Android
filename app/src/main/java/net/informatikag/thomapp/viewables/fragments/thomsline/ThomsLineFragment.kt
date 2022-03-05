@@ -16,7 +16,7 @@ import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import java.util.*
 
@@ -99,9 +99,9 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
     /**
      * Called when a Article is clicked
      */
-    override fun onItemClick(wordpressArticle: WordpressArticle) {
+    override fun onItemClick(wordpressArticleData: WordpressArticleData) {
         val action = ThomsLineFragmentDirections.actionNavThomslineToNavThomslineArticleView(
-                wordpressArticle.id
+                wordpressArticleData.id
             )
         findNavController().navigate(action)
     }

@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
 import net.informatikag.thomapp.utils.handlers.HomeListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
@@ -67,10 +65,10 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = null
     }
 
-    override fun onItemClick(wordpressArticle: WordpressArticle) {
-        if(wordpressArticle.base_url.equals(MainActivity.THOMSLINE_BASE_URL))
-            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(wordpressArticle.id))
-        else if(wordpressArticle.base_url.equals(MainActivity.THOMAEUM_BASE_URL))
-            findNavController().navigate(HomeFragmentDirections.actionNavHomeToThomaeumArticleFragment(wordpressArticle.id))
+    override fun onItemClick(wordpressArticleData: WordpressArticleData) {
+        if(wordpressArticleData.base_url.equals(MainActivity.THOMSLINE_BASE_URL))
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToNavThomslineArticleView(wordpressArticleData.id))
+        else if(wordpressArticleData.base_url.equals(MainActivity.THOMAEUM_BASE_URL))
+            findNavController().navigate(HomeFragmentDirections.actionNavHomeToThomaeumArticleFragment(wordpressArticleData.id))
     }
 }
