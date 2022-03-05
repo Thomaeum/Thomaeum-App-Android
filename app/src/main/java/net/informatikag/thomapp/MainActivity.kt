@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity(){
                 R.id.nav_thomsline,
                 R.id.nav_thomaeum,
                 R.id.nav_vertretungsplan_oberstufe,
-                R.id.nav_vertretungsplan_unterstufe
+                R.id.nav_vertretungsplan_unterstufe,
+                R.id.nav_preferences
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

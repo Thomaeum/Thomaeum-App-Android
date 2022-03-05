@@ -12,6 +12,7 @@
     <string name="menu_thomaeum">Rundbriefe</string>
     <string name="menu_vertretungsplan_oberstufe">Oberstufe</string>
     <string name="menu_vertretungsplan_unterstufe">Unterstufe</string>
+    <string name="menu_preferences">Settings</string>
 
     <!-- Network Error Messages -->
     <string name="network_error_not_connected">Du bist nicht mit dem Internet verbunden</string>
@@ -24,6 +25,19 @@
     <!-- Vertretungsplan -->
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!--    &lt;!&ndash; Preference Titles &ndash;&gt;-->
+<!--    <string name="messages_header">Messages</string>-->
+<!--    <string name="sync_header">Sync</string>-->
+
+<!--    &lt;!&ndash; Messages Preferences &ndash;&gt;-->
+<!--    <string name="signature_title">Your signature</string>-->
+<!--    <string name="reply_title">Default reply action</string>-->
+
+<!--    &lt;!&ndash; Sync Preferences &ndash;&gt;-->
+<!--    <string name="sync_title">Sync email periodically</string>-->
+<!--    <string name="attachment_title">Download incoming attachments</string>-->
+<!--    <string name="attachment_summary_on">Automatically download attachments for incoming emails-->
+<!--    </string>-->
+<!--    <string name="attachment_summary_off">Only download attachments when manually requested</string>-->
 </resources>
