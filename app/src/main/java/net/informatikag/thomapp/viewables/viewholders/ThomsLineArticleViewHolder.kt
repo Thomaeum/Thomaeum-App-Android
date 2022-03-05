@@ -9,9 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.squareup.picasso.Picasso
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticle
@@ -114,14 +113,19 @@ class ThomsLineArticleViewHolder constructor(
 
         // If there is an ImageURL it will be loaded, otherwise the default image will be inserted.
         if (post.imageURL != null)
-        Glide.with(itemView.context)
-            .applyDefaultRequestOptions(
-                RequestOptions()
-                    .placeholder(R.drawable.ic_wordpress_article_default)
-                    .error(R.drawable.ic_wordpress_article_error))
-            .load(post.imageURL)
-            .placeholder(R.drawable.ic_wordpress_article_default)
-            .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
+            Picasso.get()
+                .load(post.imageURL)
+                .placeholder(R.drawable.ic_wordpress_article_default)
+                .error(R.drawable.ic_wordpress_article_error)
+                .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
+//        Glide.with(itemView.context)
+//            .applyDefaultRequestOptions(
+//                RequestOptions()
+//                    .placeholder(R.drawable.ic_wordpress_article_default)
+//                    .error(R.drawable.ic_wordpress_article_error))
+//            .load(post.imageURL)
+//            .placeholder(R.drawable.ic_wordpress_article_default)
+//            .into(itemView.findViewById<ImageView>(R.id.thomsline_post_image))
         else itemView.findViewById<ImageView>(R.id.thomsline_post_image).setImageDrawable(
             AppCompatResources.getDrawable(
                 fragment.requireContext(),

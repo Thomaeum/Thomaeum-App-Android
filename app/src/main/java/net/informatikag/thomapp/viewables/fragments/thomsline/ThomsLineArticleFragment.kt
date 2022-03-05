@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
@@ -120,7 +120,7 @@ class ThomsLineArticleFragment : Fragment() {
         // Load Title Image
         val imageView: ImageView = binding.thomslineArticleImage
         if (this.article.imageURL != null)
-            Glide.with(imageView.context)
+            Picasso.get()
                 .load(this.article.imageURL)
                 .placeholder(R.drawable.img_article_image_default)
                 .into(imageView)
