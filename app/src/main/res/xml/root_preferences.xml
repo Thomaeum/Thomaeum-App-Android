@@ -1,53 +1,68 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/preferences_wordpress">
+    <PreferenceCategory
+        app:title="@string/preferences_general"
+        android:iconSpaceReserved="false">
+
+        <ListPreference
+            android:entries="@array/preference_refresh_interval_values"
+            android:entryValues="@array/preference_refresh_interval_values"
+            android:key="preference_refresh_interval"
+            android:title="@string/preferences_general_refresh_timer"
+            android:summary="Currently not used"
+            android:icon="@drawable/ic_preferences_general_interval_timer"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/preferences_wordpress"
+        android:iconSpaceReserved="false">
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="preferences_wordpress_notifications_switch"
             android:title="@string/preferences_wordpress_notifications"
-            android:summary="Currently not used"/>
-
-        <ListPreference
-            android:key="preference_refresh_interval"
-            android:title="@string/preferences_wordpress_refresh_timer"
-            android:entries="@array/preference_refresh_interval_values"
-            android:entryValues="@array/preference_refresh_interval_values"
-            android:summary="Currently not used"/>
-
+            android:summary="Currently not used"
+            android:icon="@drawable/ic_preferences_notifications"/>
     </PreferenceCategory>
 
-    <!--    <PreferenceCategory app:title="@string/messages_header">-->
+    <PreferenceCategory
+        app:title="@string/preferences_substitution"
+        android:iconSpaceReserved="false">
 
-<!--        <EditTextPreference-->
-<!--            app:key="signature"-->
-<!--            app:title="@string/signature_title"-->
-<!--            app:useSimpleSummaryProvider="true" />-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preferences_substitution_notifications_switch"
+            android:title="@string/preferences_substitution_notifications"
+            android:summary="Currently not used"
+            android:icon="@drawable/ic_preferences_notifications"/>
 
-<!--        <ListPreference-->
-<!--            app:defaultValue="reply"-->
-<!--            app:entries="@array/reply_entries"-->
-<!--            app:entryValues="@array/reply_values"-->
-<!--            app:key="reply"-->
-<!--            app:title="@string/reply_title"-->
-<!--            app:useSimpleSummaryProvider="true" />-->
+        <Preference
+            android:title="@string/preferences_substitution_login"
+            android:key="preferences_substitution_login"
+        />
 
-<!--    </PreferenceCategory>-->
+        <PreferenceCategory
+            app:title="@string/preferences_substitution_legacy"
+            app:summary="@string/preferences_substitution_legacy_summary"
+            app:allowDividerAbove="false"
+            app:allowDividerBelow="false">
 
-<!--    <PreferenceCategory app:title="@string/sync_header">-->
-
-<!--        <SwitchPreferenceCompat-->
-<!--            app:key="sync"-->
-<!--            app:title="@string/sync_title" />-->
-
-<!--        <SwitchPreferenceCompat-->
-<!--            app:dependency="sync"-->
-<!--            app:key="attachment"-->
-<!--            app:summaryOff="@string/attachment_summary_off"-->
-<!--            app:summaryOn="@string/attachment_summary_on"-->
-<!--            app:title="@string/attachment_title" />-->
-
-<!--    </PreferenceCategory>-->
+            <EditTextPreference
+                android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf"
+                android:key="preferences_substitution_legacy_url_unterstufe"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/preferences_substitution_legacy_url_unterstufe"
+                android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"/>
+            <EditTextPreference
+                android:defaultValue="https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf"
+                android:key="preferences_substitution_legacy_url_oberstufe"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:title="@string/preferences_substitution_legacy_url_oberstufe"
+                android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"/>
+        </PreferenceCategory>
+    </PreferenceCategory>
 
 </PreferenceScreen>
