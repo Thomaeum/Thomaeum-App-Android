@@ -66,6 +66,6 @@
     </fragment>
     <fragment
         android:id="@+id/nav_preferences"
-        android:name="net.informatikag.thomapp.SettingsFragment"
+        android:name="net.informatikag.thomapp.viewables.fragments.settings.SettingsFragment"
         android:label="@string/menu_preferences" />
 </navigation>

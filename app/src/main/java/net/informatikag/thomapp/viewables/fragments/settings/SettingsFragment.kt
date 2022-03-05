@@ -1,9 +1,10 @@
-package net.informatikag.thomapp
+package net.informatikag.thomapp.viewables.fragments.settings
 
 import android.os.Bundle
 import android.util.Log
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import net.informatikag.thomapp.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 

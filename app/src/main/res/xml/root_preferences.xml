@@ -2,8 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:title="@string/preferences_general"
-        android:iconSpaceReserved="false">
+        app:title="@string/preferences_general">
 
         <ListPreference
             android:entries="@array/preference_refresh_interval_values"
@@ -11,28 +10,26 @@
             android:key="preference_refresh_interval"
             android:title="@string/preferences_general_refresh_timer"
             android:summary="Currently not used"
-            android:icon="@drawable/ic_preferences_general_interval_timer"/>
+            android:icon="@drawable/ic_preferences_timer"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/preferences_wordpress"
-        android:iconSpaceReserved="false">
+        app:title="@string/preferences_wordpress">
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="preferences_wordpress_notifications_switch"
+            android:key="preferences_wordpress_notifications"
             android:title="@string/preferences_wordpress_notifications"
             android:summary="Currently not used"
             android:icon="@drawable/ic_preferences_notifications"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/preferences_substitution"
-        android:iconSpaceReserved="false">
+        app:title="@string/preferences_substitution">
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="preferences_substitution_notifications_switch"
+            android:key="preferences_substitution_notifications"
             android:title="@string/preferences_substitution_notifications"
             android:summary="Currently not used"
             android:icon="@drawable/ic_preferences_notifications"/>
