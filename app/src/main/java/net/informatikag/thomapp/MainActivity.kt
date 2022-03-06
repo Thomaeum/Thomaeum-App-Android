@@ -23,8 +23,11 @@ class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
 
     companion object {
-        //Vertretungsplan
-        val VERTRETUNGSPLAN_PREVIEW_AMOUNT = 10
+        // Substitution plan
+        val SUBSTITUTION_PLAN_PREVIEW_AMOUNT = 10
+        val SUBSTITUTION_PLAN_BASE_URL = "http://isiko404.codes:4000"   //TODO switch to HTTPS
+
+        //Legacy substitution plan
         val VERTRETUNGSPLAN_OBERSTUFE_PDF: String = "https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf"
         val VERTRETUNGSPLAN_UNTERSTUFE_PDF: String = "https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf"
 

@@ -6,4 +6,9 @@
             <certificates src="system"/>
         </trust-anchors>
     </base-config>
+
+    <!-- TODO switch to HTTPS -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">isiko404.codes</domain>
+    </domain-config>
 </network-security-config>

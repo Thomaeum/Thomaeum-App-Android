@@ -46,7 +46,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
             listViewAdapter.notifyDataSetChanged()
         })
         listView.adapter = listViewAdapter
-        if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan()
+        if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan(requireContext())
 
         // ThomsLine
         val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)

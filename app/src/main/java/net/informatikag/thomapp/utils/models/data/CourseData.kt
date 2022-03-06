@@ -8,7 +8,7 @@ data class CourseData(
     val courseType: Boolean
 ) {
     constructor(jsonObject: JSONObject): this(
-        jsonObject.getString("Politics"),
+        jsonObject.getString("subject"),
         jsonObject.getInt("courseID"),
         jsonObject.getBoolean("courseType")
     )
