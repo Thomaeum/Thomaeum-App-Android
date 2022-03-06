@@ -23,6 +23,8 @@
     <string name="network_error_out_of_memory">Du hast zu wenig WAM installiet :)</string>
 
     <!-- Vertretungsplan -->
+    <string name="substitution_legacy_url_oberstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf</string>
+    <string name="substitution_legacy_url_unterstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf</string>
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
 
