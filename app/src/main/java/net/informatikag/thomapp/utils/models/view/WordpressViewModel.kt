@@ -115,7 +115,7 @@ abstract class WordpressViewModel(application: Application): AndroidViewModel(ap
                 } else {
                     Log.d("ThomsLine", "Request failed: ${volleyError.message.toString()}")
                     // Display a Snackbar, stating the Error
-                    Snackbar.make(recyclerAdapter.fragment.requireActivity().findViewById(R.id.app_bar_main), WordpressArticleData.getVolleyError(volleyError, recyclerAdapter. fragment.requireActivity()), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(recyclerAdapter.fragment.requireActivity().findViewById(R.id.app_bar_main), MainActivity.getVolleyError(volleyError, recyclerAdapter. fragment.requireActivity()), Snackbar.LENGTH_LONG).show()
                 }
             }
         ))

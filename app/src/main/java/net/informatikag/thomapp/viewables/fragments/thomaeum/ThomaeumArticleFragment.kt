@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.android.volley.VolleyError
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomaeumArticleFragmentBinding
 import net.informatikag.thomapp.utils.handlers.DrawableImageGetter
@@ -95,7 +96,7 @@ class ThomaeumArticleFragment : Fragment() {
         // If there were Errors, display them in a Snackbar
         else Snackbar.make(
             requireActivity().findViewById(R.id.app_bar_main),
-            WordpressArticleData.getVolleyError(error, this.requireActivity()),
+            MainActivity.getVolleyError(error, this.requireActivity()),
             Snackbar.LENGTH_LONG
         ).show()
         binding.thomaeumArticleSwipeRefreshLayout.isRefreshing = false

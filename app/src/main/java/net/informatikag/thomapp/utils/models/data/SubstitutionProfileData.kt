@@ -26,7 +26,11 @@ class SubstitutionProfileData (
             Volley.newRequestQueue(context).add(
                 JsonObjectRequest(url,
                     { response ->
-                        callback(SubstitutionRequstResultData(response), null)
+                        try {
+                            callback(SubstitutionRequstResultData(response), null)
+                        } catch (e: Exception) {
+                            callback(null, null)
+                        }
                     },
                     { volleyError ->
                         callback(null, volleyError)

@@ -14,13 +14,14 @@
     <string name="menu_vertretungsplan_unterstufe">Unterstufe</string>
     <string name="menu_preferences">Settings</string>
 
-    <!-- Network Error Messages -->
+    <!-- Error Messages -->
     <string name="network_error_not_connected">Du bist nicht mit dem Internet verbunden</string>
     <string name="network_error_server_error">Der Server ist gerade nicht erreichbar, versuch es doch später nochmal</string>
     <string name="network_error_generic">Irgendwas ist schief gelaufen, versuchs später nochmal…</string>
     <string name="network_error_weired_response">Irgendwas ist schief gelaufen, sag uns bitte bescheid damit wir den Fehler im nächsten Update entfernen können</string>
     <string name="network_error_timeout">Die Antwort vom Server hat zu lange gedauert</string>
     <string name="network_error_out_of_memory">Du hast zu wenig WAM installiet :)</string>
+    <string name="network_unexpected_result">Der Server hat eine unerwartete Antwort geliefert, versuch es später nochmal</string>
 
     <!-- Vertretungsplan -->
     <string name="substitution_legacy_url_oberstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf</string>

@@ -210,47 +210,5 @@ data class WordpressArticleData(
             )
         } catch (e: Exception) {null}
         //endregion
-
-        /**
-         * Gets a displayable Error String from a VolleyError
-         * @param error the Error to generate from
-         * @param activity needed to get some Conenctivity Stats
-         */
-        fun getVolleyError(error: VolleyError, activity: Activity): String {
-            var errorMsg = ""
-            if (error is NoConnectionError) {
-                val cm = activity.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-                var activeNetwork: NetworkInfo? = null
-                activeNetwork = cm.activeNetworkInfo
-                errorMsg = if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
-                    activity.getString(R.string.network_error_server_error)
-                } else {
-                    activity.getString(R.string.network_error_not_connected)
-                }
-            } else if (error is NetworkError || error.cause is ConnectException) {
-                errorMsg = activity.getString(R.string.network_error_not_connected)
-            } else if (error.cause is MalformedURLException) {
-                errorMsg = activity.getString(R.string.network_error_weired_response)
-            } else if (error is ParseError || error.cause is IllegalStateException || error.cause is JSONException || error.cause is XmlPullParserException) {
-                errorMsg = activity.getString(R.string.network_error_weired_response)
-            } else if (error.cause is OutOfMemoryError) {
-                errorMsg = activity.getString(R.string.network_error_out_of_memory)
-            } else if (error is AuthFailureError) {
-                errorMsg = activity.getString(R.string.network_error_generic)
-            } else if (error is ServerError || error.cause is ServerError) {
-                activity.getString(R.string.network_error_server_error)
-            } else if (
-                error is TimeoutError ||
-                error.cause is SocketTimeoutException ||
-                error.cause is ConnectTimeoutException ||
-                error.cause is SocketException ||
-                (error.cause!!.message != null && error.cause!!.message!!.contains("Your connection has timed out, please try again"))
-            ) {
-                errorMsg = activity.getString(R.string.network_error_timeout)
-            } else {
-                errorMsg = activity.getString(R.string.network_error_generic)
-            }
-            return errorMsg
-        }
     }
 }
