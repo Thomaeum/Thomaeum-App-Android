@@ -42,9 +42,9 @@ class SubstitutionListAdapter(
 
         val substitutionEntryData = viewModel.getByDay(this.day)!![position]
         if (substitutionEntryData.range == 1)
-            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = "${substitutionEntryData.start}. Stunde"
+            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = mContext.getString(R.string.substitution_item_lesson_time_single, substitutionEntryData.start)
         else
-            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = "${substitutionEntryData.start}-${substitutionEntryData.start + substitutionEntryData.range - 1}. Stunde"
+            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = mContext.getString(R.string.substitution_item_lesson_time_double, substitutionEntryData.start, substitutionEntryData.start + substitutionEntryData.range - 1)
 
         view.findViewById<TextView>(R.id.substitution_room_textview).text = substitutionEntryData.room
         return view

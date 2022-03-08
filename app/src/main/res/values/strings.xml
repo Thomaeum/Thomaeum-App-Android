@@ -33,6 +33,8 @@
     <string name="substitution_tab_title_1">Morgen</string>
     <string name="substitution_tab_title_2">Übermorgen</string>
     <string name="substitution_tag_title_default">In %1$d Tagen</string>
+    <string name="substitution_item_lesson_time_single">%1$d. Stunde</string>
+    <string name="substitution_item_lesson_time_double">%1$d-%2$d. Stunde</string>
 
     <!-- Preferences-->
     <string name="preferences_substitution_legacy">Legacy URLs</string>
