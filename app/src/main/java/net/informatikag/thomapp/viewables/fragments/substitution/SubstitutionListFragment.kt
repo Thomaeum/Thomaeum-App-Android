@@ -36,7 +36,7 @@ class SubstitutionListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey("day") }?.apply {
             // TODO Update Layout from Viewmodel
-            viewModel.getByDay(getInt("day"))
+            viewModel.getByDay(getInt("day"), requireContext(), requireActivity())
 
         }
     }

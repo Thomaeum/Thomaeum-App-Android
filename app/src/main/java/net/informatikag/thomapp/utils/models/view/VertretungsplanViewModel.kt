@@ -24,7 +24,9 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun isEmpty():Boolean = _entrys.value == null
 
-    fun getByDay(day:Int):Array<SubstitutionEntryData>?{
+    fun getByDay(day:Int, context: Context, activity: Activity):Array<SubstitutionEntryData>?{
+        if (isEmpty()) loadVertretunsplan(context, activity)
+        //TODO Filter by Date
         return _entrys.value
     }
 
@@ -45,7 +47,9 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
         _profile.value!!.getSubstitutionPlan(context){results, error ->
             if (error != null || results == null){
-                Snackbar.make(mainActivity.findViewById(R.id.app_bar_main), MainActivity.getVolleyError(error, mainActivity), Snackbar.LENGTH_LONG).show()
+                try {
+                    Snackbar.make(mainActivity.findViewById(R.id.app_bar_main), MainActivity.getVolleyError(error, mainActivity), Snackbar.LENGTH_LONG).show()
+                } catch (e: Exception) {}
             } else {
                 _entrys.value = results.entryData
             }
