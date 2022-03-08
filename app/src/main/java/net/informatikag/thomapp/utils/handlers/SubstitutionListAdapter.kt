@@ -29,9 +29,7 @@ class SubstitutionListAdapter(
         return viewModel.getSize(day)
     }
 
-    override fun getItem(position: Int): Any {
-        TODO("Not yet implemented")
-    }
+    override fun getItem(position: Int): Any = viewModel.getByDay(this.day)!![position]
 
     override fun getItemId(position: Int): Long {
         return position.toLong()

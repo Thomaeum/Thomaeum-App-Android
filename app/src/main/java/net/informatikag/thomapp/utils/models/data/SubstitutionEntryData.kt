@@ -22,11 +22,4 @@ data class SubstitutionEntryData(
         jsonObject.getString("annotations"),
         jsonObject.getString("type")
     )
-
-    //TODO this just provides a dummy version, this should be removed ASAP
-    constructor(): this(1,2,
-        CourseData("Computer Scienece",0,true),
-        CourseData("Computer Scienece",1,true),
-        "Zimmermann","N002","LUL Text","EVA"
-    )
 }
