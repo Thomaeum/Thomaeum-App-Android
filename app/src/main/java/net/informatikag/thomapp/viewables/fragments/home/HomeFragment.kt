@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
-import net.informatikag.thomapp.utils.handlers.SubstitutionListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
@@ -40,7 +38,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         //Vertretungsplan
-        vertretungsplanViewModel.initListView(binding.homeVertretungsplanPreview, requireContext(), viewLifecycleOwner, requireActivity())
+        vertretungsplanViewModel.initListView(binding.homeVertretungsplanPreview, requireContext(), viewLifecycleOwner, requireActivity(), 0)
 
         // ThomsLine
         val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)

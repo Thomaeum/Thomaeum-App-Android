@@ -11,7 +11,7 @@ class SubstitutionPagerAdapter(fm: FragmentManager): FragmentStatePagerAdapter(f
     override fun getItem(position: Int): Fragment {
         val fragment = SubstitutionListFragment()
         fragment.arguments = Bundle().apply {
-            putInt("day", position+1)
+            putInt("day", position)
         }
         return fragment
     }

@@ -26,6 +26,10 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun getByDay(day:Int, context: Context, activity: Activity):Array<SubstitutionEntryData>?{
         if (isEmpty()) loadVertretunsplan(context, activity)
+        return getByDay(day)
+    }
+
+    fun getByDay(day:Int):Array<SubstitutionEntryData>?{
         //TODO Filter by Date
         return _entrys.value
     }
@@ -56,10 +60,10 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
-    fun getSize():Int = if (isEmpty()) 0 else _entrys.value!!.size
+    fun getSize(day:Int):Int = if (isEmpty()) 0 else if (day == 2) _entrys.value!!.size/2 else _entrys.value!!.size
 
-    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity){
-        val listViewAdapter = SubstitutionListAdapter(context, this)
+    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int){
+        val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
         })
