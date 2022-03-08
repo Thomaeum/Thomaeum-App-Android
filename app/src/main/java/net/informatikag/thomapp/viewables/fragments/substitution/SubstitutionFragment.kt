@@ -30,6 +30,6 @@ class SubstitutionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.substitutionTabLayout.setupWithViewPager(binding.substitutionViewPager)
-        binding.substitutionViewPager.adapter = SubstitutionPagerAdapter(childFragmentManager)
+        binding.substitutionViewPager.adapter = SubstitutionPagerAdapter(childFragmentManager, requireContext())
     }
 }

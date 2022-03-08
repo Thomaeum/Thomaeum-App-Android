@@ -29,6 +29,10 @@
     <string name="substitution_legacy_url_unterstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf</string>
     <string name="vertretungsplan_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
+    <string name="substitution_tab_title_0">Heute</string>
+    <string name="substitution_tab_title_1">Morgen</string>
+    <string name="substitution_tab_title_2">Übermorgen</string>
+    <string name="substitution_tag_title_default">In %1$d Tagen</string>
 
     <!-- Preferences-->
     <string name="preferences_substitution_legacy">Legacy URLs</string>
