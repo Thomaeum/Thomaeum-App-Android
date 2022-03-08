@@ -3,12 +3,13 @@ package net.informatikag.thomapp.utils.models.view
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.widget.ListView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.lifecycle.*
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.utils.handlers.SubstitutionListAdapter
 import net.informatikag.thomapp.utils.models.data.SubstitutionEntryData
 import net.informatikag.thomapp.utils.models.data.SubstitutionProfileData
 
@@ -53,4 +54,12 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun getSize():Int = if (isEmpty()) 0 else _entrys.value!!.size
 
+    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity){
+        val listViewAdapter = SubstitutionListAdapter(context, this)
+        entrys.observe(viewLifecycleOwner, Observer {
+            listViewAdapter.notifyDataSetChanged()
+        })
+        listView.adapter = listViewAdapter
+        if(isEmpty()) loadVertretunsplan(context, activity)
+    }
 }

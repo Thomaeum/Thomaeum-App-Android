@@ -40,13 +40,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         //Vertretungsplan
-        val listView = binding.homeVertretungsplanPreview
-        val listViewAdapter = SubstitutionListAdapter(this.requireContext(), vertretungsplanViewModel)
-        vertretungsplanViewModel.entrys.observe(viewLifecycleOwner, Observer {
-            listViewAdapter.notifyDataSetChanged()
-        })
-        listView.adapter = listViewAdapter
-        if(vertretungsplanViewModel.isEmpty()) vertretungsplanViewModel.loadVertretunsplan(requireContext(), this.requireActivity())
+        vertretungsplanViewModel.initListView(binding.homeVertretungsplanPreview, requireContext(), viewLifecycleOwner, requireActivity())
 
         // ThomsLine
         val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)

@@ -28,13 +28,7 @@ class SubstitutionListFragment: Fragment() {
         _binding = SubstitutionFragmentPageBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         //Vertretungsplan
-        val listView = binding.substitutionListView
-        val listViewAdapter = SubstitutionListAdapter(this.requireContext(), viewModel)
-        viewModel.entrys.observe(viewLifecycleOwner, Observer {
-            listViewAdapter.notifyDataSetChanged()
-        })
-        listView.adapter = listViewAdapter
-        if(viewModel.isEmpty()) viewModel.loadVertretunsplan(requireContext(), this.requireActivity())
+        viewModel.initListView(binding.substitutionListView, requireContext(), viewLifecycleOwner, requireActivity())
 
         return binding.root
     }
