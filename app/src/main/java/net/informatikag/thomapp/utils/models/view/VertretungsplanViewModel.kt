@@ -4,14 +4,15 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.widget.ListView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
+import com.android.volley.VolleyError
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.handlers.SubstitutionListAdapter
 import net.informatikag.thomapp.utils.models.data.SubstitutionEntryData
 import net.informatikag.thomapp.utils.models.data.SubstitutionProfileData
+import net.informatikag.thomapp.utils.models.data.SubstitutionRequstResultData
 
 class VertretungsplanViewModel(application: Application): AndroidViewModel(application) {
     // The Entries
@@ -25,7 +26,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
     fun isEmpty():Boolean = _entrys.value == null
 
     fun getByDay(day:Int, context: Context, activity: Activity):Array<SubstitutionEntryData>?{
-        if (isEmpty()) loadVertretunsplan(context, activity)
+        if (isEmpty()) loadVertretungsplan(context, activity)
         return getByDay(day)
     }
 
@@ -34,7 +35,11 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         return _entrys.value
     }
 
-    fun loadVertretunsplan(context: Context, mainActivity: Activity){
+    fun loadVertretungsplan(context: Context, mainActivity: Activity){
+        loadVertretungsplan(context, mainActivity) { res, err -> }
+    }
+
+    fun loadVertretungsplan(context: Context, mainActivity: Activity, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit){
         // TODO replace this with letting the user Choose a Profile
         _profile.value = SubstitutionProfileData(
             -1,
@@ -57,6 +62,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             } else {
                 _entrys.value = results.entryData
             }
+            callback(results, error)
         }
     }
 
@@ -68,6 +74,6 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             listViewAdapter.notifyDataSetChanged()
         })
         listView.adapter = listViewAdapter
-        if(isEmpty()) loadVertretunsplan(context, activity)
+        if(isEmpty()) loadVertretungsplan(context, activity)
     }
 }

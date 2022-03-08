@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.informatikag.thomapp.databinding.SubstitutionFragmentPageBinding
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 
-class SubstitutionListFragment: Fragment() {
+class SubstitutionListFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private var _binding: SubstitutionFragmentPageBinding? = null
-    private val viewModel: VertretungsplanViewModel by activityViewModels()   // Viewmodel für den Vertretungsplan
+    private val viewModel: VertretungsplanViewModel by activityViewModels() // Viewmodel für den Vertretungsplan
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,7 +26,7 @@ class SubstitutionListFragment: Fragment() {
     ): View? {
         _binding = SubstitutionFragmentPageBinding.inflate(inflater, container, false)  //Layout aufbauen
 
-        viewModel.loadVertretunsplan(requireContext(), requireActivity())
+        binding.root.setOnRefreshListener(this)
 
         return binding.root
     }
@@ -34,5 +35,9 @@ class SubstitutionListFragment: Fragment() {
         arguments?.takeIf { it.containsKey("day") }?.apply {
             viewModel.initListView(binding.substitutionListView, requireContext(), viewLifecycleOwner, requireActivity(), getInt("day"))
         }
+    }
+
+    override fun onRefresh() {
+        viewModel.loadVertretungsplan(requireContext(),requireActivity()){res, err -> binding.root.isRefreshing = false}
     }
 }
