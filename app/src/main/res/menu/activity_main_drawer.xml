@@ -18,6 +18,11 @@
             android:title="@string/menu_thomaeum" />
 
         <item
+            android:id="@+id/nav_substitution"
+            android:icon="@drawable/ic_menu_substitution"
+            android:title="@string/menu_substitution" />
+
+        <item
             android:id="@+id/nav_vertretungsplan_oberstufe"
             android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"
             android:title="@string/menu_vertretungsplan_oberstufe" />

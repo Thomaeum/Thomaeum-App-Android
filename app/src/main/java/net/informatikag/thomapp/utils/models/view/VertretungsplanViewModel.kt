@@ -14,14 +14,18 @@ import net.informatikag.thomapp.utils.models.data.SubstitutionProfileData
 
 class VertretungsplanViewModel(application: Application): AndroidViewModel(application) {
     // The Entries
-    private val _entrys = MutableLiveData<ArrayList<SubstitutionEntryData>>()
-    val entrys: LiveData<ArrayList<SubstitutionEntryData>> = _entrys
+    private val _entrys = MutableLiveData<Array<SubstitutionEntryData>>()
+    val entrys: LiveData<Array<SubstitutionEntryData>> = _entrys
 
     // Profile Data
     private val _profile = MutableLiveData<SubstitutionProfileData>()
     val profile: LiveData<SubstitutionProfileData> = _profile
 
     fun isEmpty():Boolean = _entrys.value == null
+
+    fun getByDay(day:Int):Array<SubstitutionEntryData>?{
+        return _entrys.value
+    }
 
     fun loadVertretunsplan(context: Context, mainActivity: Activity){
         // TODO replace this with letting the user Choose a Profile
@@ -42,12 +46,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             if (error != null || results == null){
                 Snackbar.make(mainActivity.findViewById(R.id.app_bar_main), MainActivity.getVolleyError(error, mainActivity), Snackbar.LENGTH_LONG).show()
             } else {
-                for (entry in results!!.entryData) {
-                    if (!isEmpty())
-                        _entrys.value!!.add(entry)
-                    else
-                        _entrys.value = arrayListOf(entry)
-                }
+                _entrys.value = results.entryData
             }
         }
     }

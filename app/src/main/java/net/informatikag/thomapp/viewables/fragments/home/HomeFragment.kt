@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.databinding.HomeFragmentBinding
-import net.informatikag.thomapp.utils.handlers.HomeListAdapter
+import net.informatikag.thomapp.utils.handlers.SubstitutionListAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
@@ -41,7 +41,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
 
         //Vertretungsplan
         val listView = binding.homeVertretungsplanPreview
-        val listViewAdapter = HomeListAdapter(this.requireContext(), vertretungsplanViewModel)
+        val listViewAdapter = SubstitutionListAdapter(this.requireContext(), vertretungsplanViewModel)
         vertretungsplanViewModel.entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
         })

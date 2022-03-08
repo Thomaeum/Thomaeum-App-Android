@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/vertretungsplan_list_item"/>
+        tools:listitem="@layout/substitution_list_item"/>
 
     <HorizontalScrollView
         android:layout_weight="0"

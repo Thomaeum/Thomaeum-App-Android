@@ -9,7 +9,7 @@ import android.widget.TextView
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
 
-class HomeListAdapter(
+class SubstitutionListAdapter(
     context: Context,
     viewModel: VertretungsplanViewModel
 ): BaseAdapter() {
@@ -35,7 +35,7 @@ class HomeListAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.vertretungsplan_list_item, parent, false)
+        val view = LayoutInflater.from(mContext).inflate(R.layout.substitution_list_item, parent, false)
 
         val substitutionEntryData = viewModel.entrys.value!![position]
         if (substitutionEntryData.range == 1)

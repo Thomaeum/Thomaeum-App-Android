@@ -68,4 +68,12 @@
         android:id="@+id/nav_preferences"
         android:name="net.informatikag.thomapp.viewables.fragments.settings.SettingsFragment"
         android:label="@string/menu_preferences" />
+    <fragment
+        android:id="@+id/nav_substitution"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution.SubstitutionFragment"
+        android:label="@string/menu_substitution"
+        tools:layout="@layout/substitution_fragment_main" />
+    <fragment
+        android:id="@+id/substitutionChildFragment"
+        tools:layout="@layout/substitution_fragment_page" />
 </navigation>
