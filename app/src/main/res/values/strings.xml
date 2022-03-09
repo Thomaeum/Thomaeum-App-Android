@@ -8,11 +8,13 @@
     <string name="nav_drawer_close">Menü schließen</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_thomsline">Thomsline</string>
-    <string name="menu_thomaeum">Rundbriefe</string>
-    <string name="menu_substitution">Vertretungsplan</string>
-    <string name="menu_vertretungsplan_oberstufe">Oberstufe</string>
-    <string name="menu_vertretungsplan_unterstufe">Unterstufe</string>
+    <string name="menu_news_group_title">Nachrichten</string>
+    <string name="menu_news_thomsline">Thomsline</string>
+    <string name="menu_news_thomaeum">Rundbriefe</string>
+    <string name="menu_substitution_group_title">Vertretungspläne</string>
+    <string name="menu_substitution_normal">Vertretungsplan</string>
+    <string name="menu_substitution_legacy_oberstufe">Oberstufe</string>
+    <string name="menu_substitution_legacy_unterstufe">Unterstufe</string>
     <string name="menu_preferences">Settings</string>
 
     <!-- Error Messages -->
