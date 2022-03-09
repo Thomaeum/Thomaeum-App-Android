@@ -15,9 +15,8 @@ import net.informatikag.thomapp.databinding.ThomaeumMainFragmentBinding
 import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomaeumViewModel
-import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
 
 class ThomaeumFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, ArticleClickHandler {
 
@@ -91,9 +90,9 @@ class ThomaeumFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Artic
     /**
      * Called when a Article is clicked
      */
-    override fun onItemClick(wordpressArticle: WordpressArticle) {
+    override fun onItemClick(wordpressArticleData: WordpressArticleData) {
         val action = ThomaeumFragmentDirections.actionNavThomaeumToThomaeumArticleFragment(
-            wordpressArticle.id
+            wordpressArticleData.id
         )
         findNavController().navigate(action)
     }

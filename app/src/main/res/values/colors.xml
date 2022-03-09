@@ -17,4 +17,5 @@
     <color name="articleTextColor">#888888</color> <!--This is not acually used-->
 
     <color name="articleBackgroundError">#ff0000</color>
+    <color name="ic_launcher_background">#B61F2B</color>
 </resources>

@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ThomApp"
         android:networkSecurityConfig="@xml/network_security_config">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

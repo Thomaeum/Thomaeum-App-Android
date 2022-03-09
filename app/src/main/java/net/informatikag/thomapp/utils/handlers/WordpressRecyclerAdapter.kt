@@ -67,7 +67,7 @@ class WordpressRecyclerAdapter(
                 // The content is bound to the viewHolder
                 if (holder.loadingState == 1)
                     holder.bind(viewmodel.articles.value!!
-                        .get(pageIndex).articles
+                        .get(pageIndex).articleData
                         .get(itemIndex),
                         articleClickHandler
                     )
@@ -87,7 +87,7 @@ class WordpressRecyclerAdapter(
      */
     override fun getItemCount(): Int {
         if (viewmodel.isEmpty()) return 0
-        else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articles.size + 1
+        else return (viewmodel.articles.value!!.size-1) * MainActivity.ARTICLES_PER_PAGE + viewmodel.articles.value!![viewmodel.articles.value!!.size-1].articleData.size + 1
     }
 
     /**

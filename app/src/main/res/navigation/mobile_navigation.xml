@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/nav_thomsline"
         android:name="net.informatikag.thomapp.viewables.fragments.thomsline.ThomsLineFragment"
-        android:label="@string/menu_thomsline"
+        android:label="@string/menu_news_thomsline"
         tools:layout="@layout/thomsline_main_fragment" >
         <action
             android:id="@+id/action_nav_thomsline_to_nav_thomsline_article_view"
@@ -38,20 +38,20 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_vertretungsplan_oberstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.vertretungsplan.VertretungsplanOberstufeFragment"
-        android:label="@string/menu_vertretungsplan_oberstufe"
-        tools:layout="@layout/vertretungsplan_oberstufe_fragment" />
+        android:id="@+id/nav_substitution_legacy_oberstufe"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionOberstufeFragment"
+        android:label="@string/menu_substitution_legacy_oberstufe"
+        tools:layout="@layout/substitution_legacy_oberstufe_fragment" />
 
     <fragment
-        android:id="@+id/nav_vertretungsplan_unterstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.vertretungsplan.VertretungsplanUnterstufeFragment"
-        android:label="@string/menu_vertretungsplan_unterstufe"
-        tools:layout="@layout/vertretungsplan_unterstufe_fragment" />
+        android:id="@+id/nav_substitution_legacy_unterstufe"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionUnterstufeFragment"
+        android:label="@string/menu_substitution_legacy_unterstufe"
+        tools:layout="@layout/substitution_legacy_unterstufe_fragment" />
     <fragment
         android:id="@+id/nav_thomaeum"
         android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumFragment"
-        android:label="@string/menu_thomaeum"
+        android:label="@string/menu_news_thomaeum"
         tools:layout="@layout/thomaeum_main_fragment" >
         <action
             android:id="@+id/action_nav_thomaeum_to_thomaeumArticleFragment"
@@ -68,4 +68,12 @@
         android:id="@+id/nav_preferences"
         android:name="net.informatikag.thomapp.viewables.fragments.settings.SettingsFragment"
         android:label="@string/menu_preferences" />
+    <fragment
+        android:id="@+id/nav_substitution"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution.SubstitutionFragment"
+        android:label="@string/menu_substitution_normal"
+        tools:layout="@layout/substitution_fragment_main" />
+    <fragment
+        android:id="@+id/substitutionChildFragment"
+        tools:layout="@layout/substitution_fragment_page" />
 </navigation>

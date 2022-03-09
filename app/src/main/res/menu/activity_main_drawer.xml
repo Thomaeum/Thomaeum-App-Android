@@ -3,33 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_home"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_thomsline"
-            android:icon="@drawable/ic_menu_thomsline"
-            android:title="@string/menu_thomsline" />
-        <item
-            android:id="@+id/nav_thomaeum"
-            android:icon="@drawable/ic_menu_thomaeum"
-            android:title="@string/menu_thomaeum" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_menu_home"
+        android:title="@string/menu_home" />
 
-        <item
-            android:id="@+id/nav_vertretungsplan_oberstufe"
-            android:icon="@drawable/ic_menu_vertretungsplan_oberstufe"
-            android:title="@string/menu_vertretungsplan_oberstufe" />
+    <item android:title="@string/menu_news_group_title">
+        <menu>
+            <item
+                android:id="@+id/nav_thomsline"
+                android:icon="@drawable/ic_menu_thomsline"
+                android:title="@string/menu_news_thomsline" />
+            <item
+                android:id="@+id/nav_thomaeum"
+                android:icon="@drawable/ic_menu_thomaeum"
+                android:title="@string/menu_news_thomaeum" />
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/nav_vertretungsplan_unterstufe"
-            android:icon="@drawable/ic_menu_vertretungsplan_unterstufe"
-            android:title="@string/menu_vertretungsplan_unterstufe" />
+    <item android:title="@string/menu_substitution_group_title">
+        <menu>
+            <item
+                android:id="@+id/nav_substitution"
+                android:icon="@drawable/ic_menu_substitution"
+                android:title="@string/menu_substitution_normal" />
 
-        <item
-            android:id="@+id/nav_preferences"
-            android:icon="@drawable/ic_menu_preferences"
-            android:title="@string/menu_preferences" />
-    </group>
+            <item
+                android:id="@+id/nav_substitution_legacy_oberstufe"
+                android:icon="@drawable/ic_menu_substitution_legacy_oberstufe"
+                android:title="@string/menu_substitution_legacy_oberstufe" />
+
+            <item
+                android:id="@+id/nav_substitution_legacy_unterstufe"
+                android:icon="@drawable/ic_menu_substitution_legacy_unterstufe"
+                android:title="@string/menu_substitution_legacy_unterstufe" />
+
+            <item
+                android:id="@+id/nav_preferences"
+                android:icon="@drawable/ic_menu_preferences"
+                android:title="@string/menu_preferences" />
+        </menu>
+    </item>
 </menu>

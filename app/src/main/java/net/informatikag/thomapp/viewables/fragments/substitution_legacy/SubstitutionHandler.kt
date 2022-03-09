@@ -1,4 +1,4 @@
-package net.informatikag.thomapp.viewables.fragments.vertretungsplan
+package net.informatikag.thomapp.viewables.fragments.substitution_legacy
 
 import android.content.SharedPreferences
 import android.view.View
@@ -9,14 +9,14 @@ import android.webkit.WebViewClient
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
-import net.informatikag.thomapp.databinding.VertretungsplanTemplateFragmentBinding
+import net.informatikag.thomapp.databinding.SubstitutionLegacyTemplateFragmentBinding
 
 /**
  * Handles a Substitution plan View
  */
-class VertretungsplanHandler(
+class SubstitutionHandler(
     val urlPreferencesKey: String,
-    val layout: VertretungsplanTemplateFragmentBinding,
+    val layout: SubstitutionLegacyTemplateFragmentBinding,
     val snackbarView: CoordinatorLayout
 ): WebViewClient() {
 
@@ -24,10 +24,10 @@ class VertretungsplanHandler(
 
     init {
         // Setup Refresh Button
-        layout.vertretungsplanRefreshButton.setOnClickListener {
-            layout.vertretungsplanPdfView.reload()
-            layout.vertretungsplanPdfView.visibility = View.GONE
-            layout.vertretungsplanProgressbar.visibility = View.VISIBLE
+        layout.substitutionRefreshButton.setOnClickListener {
+            layout.substitutionPdfView.reload()
+            layout.substitutionPdfView.visibility = View.GONE
+            layout.substitutiionProgressbar.visibility = View.VISIBLE
             loadingError = false
         }
 
@@ -35,18 +35,18 @@ class VertretungsplanHandler(
         val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(layout.root.context)
 
         // Setup Webview and Load Page
-        layout.vertretungsplanPdfView.settings.loadWithOverviewMode = true
-        layout.vertretungsplanPdfView.settings.javaScriptEnabled = true
-        layout.vertretungsplanPdfView.loadUrl("https://docs.google.com/gview?embedded=true&url=${sharedPreferences.getString(urlPreferencesKey, "")}")
-        layout.vertretungsplanPdfView.webViewClient = this
+        layout.substitutionPdfView.settings.loadWithOverviewMode = true
+        layout.substitutionPdfView.settings.javaScriptEnabled = true
+        layout.substitutionPdfView.loadUrl("https://docs.google.com/gview?embedded=true&url=${sharedPreferences.getString(urlPreferencesKey, "")}")
+        layout.substitutionPdfView.webViewClient = this
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         //only execute if there was no error while loading
         if (!loadingError) {
             //Show Webview and remove Progressbar
-            layout.vertretungsplanPdfView.visibility = View.VISIBLE
-            layout.vertretungsplanProgressbar.visibility = View.GONE
+            layout.substitutionPdfView.visibility = View.VISIBLE
+            layout.substitutiionProgressbar.visibility = View.GONE
         }
     }
 
@@ -64,8 +64,8 @@ class VertretungsplanHandler(
         loadingError = true
 
         // Hide Webview and Progressbar
-        layout.vertretungsplanPdfView.visibility = View.GONE
-        layout.vertretungsplanProgressbar.visibility = View.GONE
+        layout.substitutionPdfView.visibility = View.GONE
+        layout.substitutiionProgressbar.visibility = View.GONE
 
         // Create and display snack bar
         Snackbar.make(snackbarView, "Es gab einen Fehler wärend des Ladens${if(error != null) ": ${error.description}" else null}", Snackbar.LENGTH_LONG).setAction("Action", null).show()

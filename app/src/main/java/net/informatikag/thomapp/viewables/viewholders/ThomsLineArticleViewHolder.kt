@@ -13,7 +13,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.squareup.picasso.Picasso
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
-import net.informatikag.thomapp.utils.models.data.WordpressArticle
+import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 
 /**
  * Viewholder displaying an article
@@ -106,7 +106,7 @@ class ThomsLineArticleViewHolder constructor(
      * This method is called when an article is bound to the viewholder, so here the content is
      * loaded into the layout
      */
-    fun bind(post: WordpressArticle, clickHandler: ArticleClickHandler){
+    fun bind(post: WordpressArticleData, clickHandler: ArticleClickHandler){
         // Set article and subheading
         itemView.findViewById<TextView>(R.id.thomsline_post_title).setText(post.title)
         itemView.findViewById<TextView>(R.id.thomsline_post_excerpt).setText(post.excerpt)
