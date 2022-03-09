@@ -1,22 +1,21 @@
-package net.informatikag.thomapp.viewables.fragments.vertretungsplan
+package net.informatikag.thomapp.viewables.fragments.substitution_legacy
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.databinding.VertretungsplanOberstufeFragmentBinding
+import net.informatikag.thomapp.databinding.SubstitutionLegacyOberstufeFragmentBinding
 
 /**
  * Displays the lower level substitution plan, where the actual functional parts of this class have
- * been moved to SubstitutionPlanHandler, since they differ only by the URL to the plan.
+ * been moved to SubstitutionHandler, since they differ only by the URL to the plan.
  */
-class VertretungsplanUnterstufeFragment : Fragment() {
+class SubstitutionUnterstufeFragment : Fragment() {
 
-    private var _binding: VertretungsplanOberstufeFragmentBinding? = null   // Binding to access the layout
-    private lateinit var handler: VertretungsplanHandler                    // The functional parts
+    private var _binding: SubstitutionLegacyOberstufeFragmentBinding? = null   // Binding to access the layout
+    private lateinit var handler: SubstitutionHandler                          // The functional parts
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -28,12 +27,12 @@ class VertretungsplanUnterstufeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate Layout
-        _binding = VertretungsplanOberstufeFragmentBinding.inflate(inflater, container, false)
+        _binding = SubstitutionLegacyOberstufeFragmentBinding.inflate(inflater, container, false)
 
         // Add handler
-        handler = VertretungsplanHandler(
+        handler = SubstitutionHandler(
             "preferences_substitution_legacy_url_unterstufe",
-            binding.fragmentVertretungsplanLayout,
+            binding.fragmentSubstitutionLayout,
             requireActivity().findViewById(R.id.app_bar_main)
         )
 

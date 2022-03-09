@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -119,8 +118,8 @@ class MainActivity : AppCompatActivity(){
                 R.id.nav_thomsline,
                 R.id.nav_thomaeum,
                 R.id.nav_substitution,
-                R.id.nav_vertretungsplan_oberstufe,
-                R.id.nav_vertretungsplan_unterstufe,
+                R.id.nav_substitution_legacy_oberstufe,
+                R.id.nav_substitution_legacy_unterstufe,
                 R.id.nav_preferences
             ), drawerLayout
         )

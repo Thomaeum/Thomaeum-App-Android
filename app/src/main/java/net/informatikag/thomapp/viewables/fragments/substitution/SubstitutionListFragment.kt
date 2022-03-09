@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.informatikag.thomapp.databinding.SubstitutionFragmentPageBinding
-import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
+import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
 
 class SubstitutionListFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private var _binding: SubstitutionFragmentPageBinding? = null
-    private val viewModel: VertretungsplanViewModel by activityViewModels() // Viewmodel für den Vertretungsplan
+    private val viewModel: SubstitutionViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,6 +38,6 @@ class SubstitutionListFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener
     }
 
     override fun onRefresh() {
-        viewModel.loadVertretungsplan(requireContext(),requireActivity(), true){res, err -> binding.root.isRefreshing = false}
+        viewModel.loadSubstitution(requireContext(),requireActivity(), true){ res, err -> binding.root.isRefreshing = false}
     }
 }

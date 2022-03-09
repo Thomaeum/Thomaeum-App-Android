@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import net.informatikag.thomapp.R
-import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
+import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
 
 class SubstitutionListAdapter(
     context: Context,
-    viewModel: VertretungsplanViewModel,
+    viewModel: SubstitutionViewModel,
     day: Int
 ): BaseAdapter() {
 
     private val mContext:Context
-    private val viewModel:VertretungsplanViewModel
+    private val viewModel:SubstitutionViewModel
     private val day: Int
 
     init {

@@ -7,19 +7,19 @@
 
         <!--PDF Viewer to display our PDF-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/vertretungsplan_refresh_button"
+            android:id="@+id/substitution_refresh_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="@string/vertretungsplan_refresh_description"
-            android:src="@drawable/ic_vertretungsplan_refresh"
+            android:contentDescription="@string/substitution_refresh_description"
+            android:src="@drawable/ic_substitution_refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ProgressBar
-            android:id="@+id/vertretungsplan_progressbar"
+            android:id="@+id/substitutiion_progressbar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             tools:visibility="visible" />
 
         <WebView
-            android:id="@+id/vertretungsplan_pdf_view"
+            android:id="@+id/substitution_pdf_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"

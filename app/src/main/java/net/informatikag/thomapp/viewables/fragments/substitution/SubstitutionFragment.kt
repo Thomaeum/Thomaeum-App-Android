@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import net.informatikag.thomapp.databinding.SubstitutionFragmentMainBinding
-import net.informatikag.thomapp.utils.models.view.VertretungsplanViewModel
+import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
 
 class SubstitutionFragment : Fragment() {
 
     private var _binding: SubstitutionFragmentMainBinding? = null
-    private val viewModel: VertretungsplanViewModel by activityViewModels()   // Viewmodel für den Vertretungsplan
+    private val viewModel: SubstitutionViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.

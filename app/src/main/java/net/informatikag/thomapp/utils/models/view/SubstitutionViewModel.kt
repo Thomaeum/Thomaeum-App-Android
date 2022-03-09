@@ -14,7 +14,7 @@ import net.informatikag.thomapp.utils.models.data.SubstitutionEntryData
 import net.informatikag.thomapp.utils.models.data.SubstitutionProfileData
 import net.informatikag.thomapp.utils.models.data.SubstitutionRequstResultData
 
-class VertretungsplanViewModel(application: Application): AndroidViewModel(application) {
+class SubstitutionViewModel(application: Application): AndroidViewModel(application) {
     // The Entries
     private val _entrys = MutableLiveData<Array<SubstitutionEntryData>>()
     val entrys: LiveData<Array<SubstitutionEntryData>> = _entrys
@@ -26,7 +26,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
     fun isEmpty():Boolean = _entrys.value == null
 
     fun getByDay(day:Int, context: Context, activity: Activity, full: Boolean):Array<SubstitutionEntryData>?{
-        if (isEmpty()) loadVertretungsplan(context, activity, full)
+        if (isEmpty()) loadSubstitution(context, activity, full)
         return getByDay(day)
     }
 
@@ -42,11 +42,11 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         return null
     }
 
-    fun loadVertretungsplan(context: Context, mainActivity: Activity, full:Boolean){
-        loadVertretungsplan(context, mainActivity, full) { res, err -> }
+    fun loadSubstitution(context: Context, mainActivity: Activity, full:Boolean){
+        loadSubstitution(context, mainActivity, full) { res, err -> }
     }
 
-    fun loadVertretungsplan(context: Context, mainActivity: Activity, full:Boolean, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit){
+    fun loadSubstitution(context: Context, mainActivity: Activity, full:Boolean, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit){
         // TODO replace this with letting the user Choose a Profile
         _profile.value = SubstitutionProfileData(
             -1,
@@ -61,7 +61,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             }
         )
 
-        _profile.value!!.getSubstitutionPlan(context, full){results, error ->
+        _profile.value!!.getSubstitution(context, full){ results, error ->
             if (error != null || results == null){
                 try {
                     Snackbar.make(mainActivity.findViewById(R.id.app_bar_main), MainActivity.getVolleyError(error, mainActivity), Snackbar.LENGTH_LONG).show()
@@ -79,7 +79,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             listViewAdapter.notifyDataSetChanged()
         })
         listView.adapter = listViewAdapter
-        if(isEmpty()) loadVertretungsplan(context, activity, full)
+        if(isEmpty()) loadSubstitution(context, activity, full)
     }
 
     fun getRelativDate(timeStamp:Long): Int{
