@@ -25,8 +25,8 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun isEmpty():Boolean = _entrys.value == null
 
-    fun getByDay(day:Int, context: Context, activity: Activity):Array<SubstitutionEntryData>?{
-        if (isEmpty()) loadVertretungsplan(context, activity)
+    fun getByDay(day:Int, context: Context, activity: Activity, full: Boolean):Array<SubstitutionEntryData>?{
+        if (isEmpty()) loadVertretungsplan(context, activity, full)
         return getByDay(day)
     }
 
@@ -35,11 +35,11 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         return _entrys.value
     }
 
-    fun loadVertretungsplan(context: Context, mainActivity: Activity){
-        loadVertretungsplan(context, mainActivity) { res, err -> }
+    fun loadVertretungsplan(context: Context, mainActivity: Activity, full:Boolean){
+        loadVertretungsplan(context, mainActivity, full) { res, err -> }
     }
 
-    fun loadVertretungsplan(context: Context, mainActivity: Activity, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit){
+    fun loadVertretungsplan(context: Context, mainActivity: Activity, full:Boolean, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit){
         // TODO replace this with letting the user Choose a Profile
         _profile.value = SubstitutionProfileData(
             -1,
@@ -54,7 +54,7 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
             }
         )
 
-        _profile.value!!.getSubstitutionPlan(context){results, error ->
+        _profile.value!!.getSubstitutionPlan(context, full){results, error ->
             if (error != null || results == null){
                 try {
                     Snackbar.make(mainActivity.findViewById(R.id.app_bar_main), MainActivity.getVolleyError(error, mainActivity), Snackbar.LENGTH_LONG).show()
@@ -68,12 +68,12 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun getSize(day:Int):Int = if (isEmpty()) 0 else if (day == 2) _entrys.value!!.size/2 else _entrys.value!!.size
 
-    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int){
+    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
         val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
         })
         listView.adapter = listViewAdapter
-        if(isEmpty()) loadVertretungsplan(context, activity)
+        if(isEmpty()) loadVertretungsplan(context, activity, full)
     }
 }

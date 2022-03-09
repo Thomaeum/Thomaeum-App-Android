@@ -41,8 +41,8 @@ class SubstitutionProfileData (
     }
 
     // Gets the
-    fun getSubstitutionPlan(context:Context, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit) {
-        getSubstitutionPlanByID(this.id!!, context) { results, error ->
+    fun getSubstitutionPlan(context:Context, loadFullPlan: Boolean, callback: (SubstitutionRequstResultData?, VolleyError?) -> Unit) {
+        getSubstitutionPlanByID(if(loadFullPlan || id == null) -1 else id!!, context) { results, error ->
             lastResultData = results
             callback(results, error)
         }

@@ -23,7 +23,6 @@ class SubstitutionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = SubstitutionFragmentMainBinding.inflate(inflater, container, false)  //Layout aufbauen
-        viewModel.loadVertretungsplan(requireContext(), requireActivity())
 
         return binding.root;
     }

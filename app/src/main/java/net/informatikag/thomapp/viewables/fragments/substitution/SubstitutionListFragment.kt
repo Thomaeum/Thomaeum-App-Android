@@ -33,11 +33,11 @@ class SubstitutionListFragment: Fragment(), SwipeRefreshLayout.OnRefreshListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey("day") }?.apply {
-            viewModel.initListView(binding.substitutionListView, requireContext(), viewLifecycleOwner, requireActivity(), getInt("day"))
+            viewModel.initListView(binding.substitutionListView, requireContext(), viewLifecycleOwner, requireActivity(), getInt("day"), true)
         }
     }
 
     override fun onRefresh() {
-        viewModel.loadVertretungsplan(requireContext(),requireActivity()){res, err -> binding.root.isRefreshing = false}
+        viewModel.loadVertretungsplan(requireContext(),requireActivity(), true){res, err -> binding.root.isRefreshing = false}
     }
 }
