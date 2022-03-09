@@ -25,9 +25,7 @@ class SubstitutionListAdapter(
         this.day = day
     }
 
-    override fun getCount(): Int {
-        return viewModel.getSize(day)
-    }
+    override fun getCount(): Int = viewModel.getByDay(day)?.size ?: 0
 
     override fun getItem(position: Int): Any = viewModel.getByDay(this.day)!![position]
 

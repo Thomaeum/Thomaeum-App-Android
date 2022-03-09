@@ -32,7 +32,13 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
 
     fun getByDay(day:Int):Array<SubstitutionEntryData>?{
         //TODO Filter by Date
-        return _entrys.value
+        if (_entrys.value != null) {
+            val entryData = ArrayList<SubstitutionEntryData>(0)
+            _entrys.value!!.forEach {
+                if (getRelativDate(it.start) == day) entryData.add(it)
+            }
+        }
+        return null
     }
 
     fun loadVertretungsplan(context: Context, mainActivity: Activity, full:Boolean){
@@ -66,8 +72,6 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
-    fun getSize(day:Int):Int = if (isEmpty()) 0 else if (day == 2) _entrys.value!!.size/2 else _entrys.value!!.size
-
     fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
         val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
@@ -75,5 +79,16 @@ class VertretungsplanViewModel(application: Application): AndroidViewModel(appli
         })
         listView.adapter = listViewAdapter
         if(isEmpty()) loadVertretungsplan(context, activity, full)
+    }
+
+    fun getRelativDate(timeStamp:Int): Int{
+        return getDaysFromTimestamp(timeStamp) - getDaysFromTimestamp(System.currentTimeMillis().toInt())
+    }
+
+    private fun getDaysFromTimestamp(stamp: Int): Int {
+        var r = stamp
+        r /= 86400000
+        r -= r % 1
+        return r
     }
 }
