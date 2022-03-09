@@ -3,8 +3,9 @@ package net.informatikag.thomapp.utils.models.data
 import org.json.JSONObject
 
 data class SubstitutionEntryData(
+    val date: Long,
     val start: Int,
-    val range: Int,
+    val duration: Int,
     val regularCourse: CourseData,
     val changedCourse: CourseData,
     val teacher: String,
@@ -13,8 +14,9 @@ data class SubstitutionEntryData(
     val type: String
 ) {
     constructor(jsonObject: JSONObject): this(
+        jsonObject.getLong("date"),
         jsonObject.getInt("start"),
-        jsonObject.getInt("range"),
+        jsonObject.getInt("duration"),
         CourseData(jsonObject.getJSONObject("regularCourse")),
         CourseData(jsonObject.getJSONObject("changedCourse").getJSONObject("subject")),
         jsonObject.getJSONObject("changedCourse").getString("teacher"),
