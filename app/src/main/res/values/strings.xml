@@ -13,6 +13,7 @@
     <string name="menu_news_thomaeum">Rundbriefe</string>
     <string name="menu_substitution_group_title">Vertretungspläne</string>
     <string name="menu_substitution_normal">Vertretungsplan</string>
+    <string name="menu_substitution_legacy">Vertretungsplan Legacy</string>
     <string name="menu_substitution_legacy_oberstufe">Oberstufe</string>
     <string name="menu_substitution_legacy_unterstufe">Unterstufe</string>
     <string name="menu_preferences">Settings</string>
@@ -27,8 +28,6 @@
     <string name="network_unexpected_result">Der Server hat eine unerwartete Antwort geliefert, versuch es später nochmal</string>
 
     <!-- Substitution -->
-    <string name="substitution_legacy_url_oberstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf</string>
-    <string name="substitution_legacy_url_unterstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf</string>
     <string name="substitution_refresh_description">Vertretungsplan neu laden</string>
     <string name="share_title">Share</string>
     <string name="substitution_tab_title_0">Heute</string>
@@ -37,6 +36,12 @@
     <string name="substitution_tag_title_default">In %1$d Tagen</string>
     <string name="substitution_item_lesson_time_single">%1$d. Stunde</string>
     <string name="substitution_item_lesson_time_double">%1$d-%2$d. Stunde</string>
+
+    <!-- Substitution Legacy -->
+    <string name="substitution_legacy_url_oberstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf</string>
+    <string name="substitution_legacy_url_unterstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom_si.pdf</string>
+    <string name="substitution_legacy_tab_title_0">Unterstufe</string>
+    <string name="substitution_legacy_tab_title_1">Oberstufe</string>
 
     <!-- Preferences-->
     <string name="preferences_substitution_legacy">Legacy URLs</string>

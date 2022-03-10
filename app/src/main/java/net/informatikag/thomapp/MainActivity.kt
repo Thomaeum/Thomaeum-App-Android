@@ -118,8 +118,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.nav_thomsline,
                 R.id.nav_thomaeum,
                 R.id.nav_substitution,
-                R.id.nav_substitution_legacy_oberstufe,
-                R.id.nav_substitution_legacy_unterstufe,
+                R.id.nav_substitution_legacy,
                 R.id.nav_preferences
             ), drawerLayout
         )
