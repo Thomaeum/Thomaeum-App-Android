@@ -30,13 +30,13 @@
 
             <item
                 android:id="@+id/nav_substitution_legacy"
-                android:icon="@drawable/ic_menu_substitution_legacy_unterstufe"
-                android:title="@string/menu_substitution_legacy_unterstufe" />
-
-            <item
-                android:id="@+id/nav_preferences"
-                android:icon="@drawable/ic_menu_preferences"
-                android:title="@string/menu_preferences" />
+                android:icon="@drawable/ic_menu_substitution_legacy"
+                android:title="@string/menu_substitution_legacy" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_preferences"
+        android:icon="@drawable/ic_menu_preferences"
+        android:title="@string/menu_preferences" />
 </menu>

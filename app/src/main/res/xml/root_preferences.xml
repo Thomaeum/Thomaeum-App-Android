@@ -9,14 +9,14 @@
 
         <EditTextPreference
             android:defaultValue="@string/substitution_legacy_url_unterstufe_default"
-            android:icon="@drawable/ic_menu_substitution_legacy_unterstufe"
+            android:icon="@drawable/ic_preferences_substitution_legacy_unterstufe"
             android:key="preferences_substitution_legacy_url_unterstufe"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/preferences_substitution_legacy_url_unterstufe" />
         <EditTextPreference
             android:defaultValue="@string/substitution_legacy_url_oberstufe_default"
-            android:icon="@drawable/ic_menu_substitution_legacy_oberstufe"
+            android:icon="@drawable/ic_preferences_substitution_legacy_oberstufe"
             android:key="preferences_substitution_legacy_url_oberstufe"
             android:selectAllOnFocus="true"
             android:singleLine="true"
