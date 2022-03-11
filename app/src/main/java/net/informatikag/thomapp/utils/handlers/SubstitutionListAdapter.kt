@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
@@ -60,6 +61,11 @@ class SubstitutionListAdapter(
 
         // Annotations
         view.findViewById<TextView>(R.id.substitution_annotation_textview).text = mContext.getString(R.string.substitution_item_lesson_annotations, substitutionEntryData.annotations)
+
+        val detailsLayout = view.findViewById<LinearLayout>(R.id.substitution_details)
+        view.setOnClickListener {
+            detailsLayout.visibility = if (detailsLayout.visibility != View.GONE) View.GONE else View.VISIBLE
+        }
 
         return view
     }

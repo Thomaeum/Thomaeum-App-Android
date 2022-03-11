@@ -3,78 +3,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/substitution_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/substitution_item_lesson_time_single" />
+
+        <TextView
+            android:id="@+id/substitution_course_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/substitution_item_lesson_room"
+            android:textAlignment="gravity" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/substitution_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:visibility="visible">
 
             <TextView
-                android:id="@+id/substitution_time_textview"
+                android:id="@+id/substitution_teacher_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/substitution_item_lesson_time_single" />
+                android:layout_weight="3"
+                android:text="@string/substitution_item_lesson_course" />
 
             <TextView
-                android:id="@+id/substitution_course_textview"
+                android:id="@+id/substitution_type_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="@string/substitution_item_lesson_room"
-                android:textAlignment="gravity" />
+                android:text="@string/substitution_item_lesson_type" />
+
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/substitution_details"
+        <TextView
+            android:id="@+id/substitution_annotation_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/substitution_teacher_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="@string/substitution_item_lesson_course" />
-
-                <TextView
-                    android:id="@+id/substitution_type_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="@string/substitution_item_lesson_type" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/substitution_annotation_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/substitution_item_lesson_annotations" />
-        </LinearLayout>
+            android:text="@string/substitution_item_lesson_annotations" />
     </LinearLayout>
 
 </LinearLayout>
