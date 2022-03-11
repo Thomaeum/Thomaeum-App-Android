@@ -38,17 +38,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_substitution_legacy_oberstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionOberstufeFragment"
-        android:label="@string/menu_substitution_legacy_oberstufe"
-        tools:layout="@layout/substitution_legacy_oberstufe_fragment" />
-
-    <fragment
-        android:id="@+id/nav_substitution_legacy_unterstufe"
-        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionUnterstufeFragment"
-        android:label="@string/menu_substitution_legacy_unterstufe"
-        tools:layout="@layout/substitution_legacy_unterstufe_fragment" />
-    <fragment
         android:id="@+id/nav_thomaeum"
         android:name="net.informatikag.thomapp.viewables.fragments.thomaeum.ThomaeumFragment"
         android:label="@string/menu_news_thomaeum"
@@ -75,5 +64,15 @@
         tools:layout="@layout/substitution_fragment_main" />
     <fragment
         android:id="@+id/substitutionChildFragment"
-        tools:layout="@layout/substitution_fragment_page" />
+        tools:layout="@layout/substitution_fragment_page"/>
+
+    <fragment
+        android:id="@+id/nav_substitution_legacy_child"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionLegacyChildFragment"
+        android:label="@string/menu_substitution_legacy" />
+
+    <fragment
+        android:id="@+id/nav_substitution_legacy"
+        android:name="net.informatikag.thomapp.viewables.fragments.substitution_legacy.SubstitutionLegacyFragment"
+        android:label="@string/menu_substitution_legacy"/>
 </navigation>
