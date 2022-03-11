@@ -7,66 +7,30 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
+import net.informatikag.thomapp.viewables.viewholders.SubstitutionEntryViewholder
 import org.w3c.dom.Text
 
 class SubstitutionListAdapter(
-    context: Context,
-    viewModel: SubstitutionViewModel,
-    day: Int
-): BaseAdapter() {
-
-    private val mContext:Context
-    private val viewModel:SubstitutionViewModel
+    private val context: Context,
+    private val viewModel: SubstitutionViewModel,
     private val day: Int
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    init {
-        this.mContext = context
-        this.viewModel = viewModel
-        this.day = day
-    }
-
-    override fun getCount(): Int = viewModel.getByDay(day)?.size ?: 0
-
-    override fun getItem(position: Int): Any = viewModel.getByDay(this.day)!![position]
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = LayoutInflater.from(mContext).inflate(R.layout.substitution_list_item, parent, false)
-
-        val substitutionEntryData = viewModel.getByDay(this.day)!![position]
-
-        // Time
-        if (substitutionEntryData.duration == 1)
-            view.findViewById<TextView>(R.id.substitution_time_textview).text = mContext.getString(R.string.substitution_item_lesson_time_single, substitutionEntryData.start)
-        else
-            view.findViewById<TextView>(R.id.substitution_time_textview).text = mContext.getString(R.string.substitution_item_lesson_time_double, substitutionEntryData.start, substitutionEntryData.start + substitutionEntryData.duration - 1)
-
-        // Teacher
-        view.findViewById<TextView>(R.id.substitution_teacher_textview).text = substitutionEntryData.teacher
-
-        // Course
-        view.findViewById<TextView>(R.id.substitution_course_textview).text = mContext.getString(R.string.substitution_item_lesson_course,
-            substitutionEntryData.regularCourse.subject,
-            if (substitutionEntryData.regularCourse.courseType) "LK" else "GK",
-            substitutionEntryData.room
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return SubstitutionEntryViewholder(
+            LayoutInflater.from(parent.context).inflate(R.layout.substitution_list_item, parent, false),
+            context
         )
-
-        // Type
-        view.findViewById<TextView>(R.id.substitution_type_textview).text = mContext.getString(R.string.substitution_item_lesson_type, substitutionEntryData.type)
-
-        // Annotations
-        view.findViewById<TextView>(R.id.substitution_annotation_textview).text = mContext.getString(R.string.substitution_item_lesson_annotations, substitutionEntryData.annotations)
-
-        val detailsLayout = view.findViewById<LinearLayout>(R.id.substitution_details)
-        view.setOnClickListener {
-            detailsLayout.visibility = if (detailsLayout.visibility != View.GONE) View.GONE else View.VISIBLE
-        }
-
-        return view
     }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(holder){
+            is SubstitutionEntryViewholder -> holder.bind(viewModel.getByDay(this.day)!![position])
+        }
+    }
+
+    override fun getItemCount(): Int = viewModel.getByDay(day)?.size ?:0
 }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomaeumMainFragmentBinding
-import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
+import net.informatikag.thomapp.utils.ListSpacingDecoration
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticleData
@@ -67,7 +67,7 @@ class ThomaeumFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Artic
 
         binding.thomaeumRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ThomaeumFragment.context)
-            addItemDecoration(ArticleListSpacingDecoration())
+            addItemDecoration(ListSpacingDecoration())
             adapter = recyclerAdapter
         }
         //endregion

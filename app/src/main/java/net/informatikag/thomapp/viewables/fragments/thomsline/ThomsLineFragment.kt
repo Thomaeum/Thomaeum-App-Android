@@ -10,15 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.android.volley.*
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.databinding.ThomslineMainFragmentBinding
 import net.informatikag.thomapp.utils.handlers.WordpressRecyclerAdapter
-import net.informatikag.thomapp.utils.ArticleListSpacingDecoration
+import net.informatikag.thomapp.utils.ListSpacingDecoration
 import net.informatikag.thomapp.utils.models.ArticleClickHandler
 import net.informatikag.thomapp.utils.models.data.WordpressArticleData
 import net.informatikag.thomapp.utils.models.view.ThomsLineViewModel
-import java.util.*
 
 /**
  * Pulls a list of articles from the JSON API of the Wordpress instance of the ThomsLine student newspaper.
@@ -76,7 +74,7 @@ class ThomsLineFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, Arti
         //region Init Recycler View
         _binding?.thomslineRecyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ThomsLineFragment.context)
-            addItemDecoration(ArticleListSpacingDecoration())
+            addItemDecoration(ListSpacingDecoration())
             adapter = recyclerAdapter
         }
         //endregion

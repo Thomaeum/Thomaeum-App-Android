@@ -8,8 +8,7 @@ import net.informatikag.thomapp.MainActivity
 /**
  * This decoration is applied to each element in the recyclerview, mainly to have distance between the items and to the edges of the screen.
  */
-class ArticleListSpacingDecoration: RecyclerView.ItemDecoration(){
-
+class ListSpacingDecoration: RecyclerView.ItemDecoration(){
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -20,7 +19,6 @@ class ArticleListSpacingDecoration: RecyclerView.ItemDecoration(){
         super.getItemOffsets(outRect, view, parent, state)
         outRect.apply {
             top = MainActivity.THOMSLINE_LIST_ARTICLE_PADDING
-            bottom = MainActivity.THOMSLINE_LIST_ARTICLE_PADDING
             left = MainActivity.THOMSLINE_LIST_ARTICLE_PADDING
             right = MainActivity.THOMSLINE_LIST_ARTICLE_PADDING
         }

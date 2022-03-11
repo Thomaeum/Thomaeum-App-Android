@@ -3,12 +3,14 @@ package net.informatikag.thomapp.utils.models.view
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.widget.ListView
 import androidx.lifecycle.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.VolleyError
 import com.google.android.material.snackbar.Snackbar
 import net.informatikag.thomapp.MainActivity
 import net.informatikag.thomapp.R
+import net.informatikag.thomapp.utils.ListSpacingDecoration
 import net.informatikag.thomapp.utils.handlers.SubstitutionListAdapter
 import net.informatikag.thomapp.utils.models.data.SubstitutionEntryData
 import net.informatikag.thomapp.utils.models.data.SubstitutionProfileData
@@ -73,15 +75,16 @@ class SubstitutionViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
+    fun initListView(listView: RecyclerView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
         if(isEmpty()) loadSubstitution(context, activity, full)
 
         val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
         })
+        listView.layoutManager = LinearLayoutManager(context)
         listView.adapter = listViewAdapter
-        listView.dividerHeight = 10
+        listView.addItemDecoration(ListSpacingDecoration())
     }
 
     fun getRelativDate(timeStamp:Long): Int{
