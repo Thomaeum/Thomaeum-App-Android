@@ -4,13 +4,13 @@
     <color name="white">#FFFFFFFF</color>
 
     <!--Hier theme einfügen (generiert mit https://material.io/resources/color/)-->
-    <color name="primaryColor">#a51a3e</color>
-    <color name="primaryLightColor">#dc5268</color>
-    <color name="primaryDarkColor">#700018</color>
+    <color name="primaryColor">#B61F2B</color>
+    <color name="primaryLightColor">#ef5754</color>
+    <color name="primaryDarkColor">#7f0002</color>
 
-    <color name="secondaryColor">#0a4659</color>
-    <color name="secondaryLightColor">#407186</color>
-    <color name="secondaryDarkColor">#001f30</color>
+    <color name="secondaryColor">#176d99</color>
+    <color name="secondaryLightColor">#569bca</color>
+    <color name="secondaryDarkColor">#00426b</color>
 
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
