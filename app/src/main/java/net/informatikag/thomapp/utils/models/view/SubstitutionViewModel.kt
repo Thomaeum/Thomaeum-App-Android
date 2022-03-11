@@ -74,12 +74,14 @@ class SubstitutionViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun initListView(listView: ListView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
+        if(isEmpty()) loadSubstitution(context, activity, full)
+
         val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
         })
         listView.adapter = listViewAdapter
-        if(isEmpty()) loadSubstitution(context, activity, full)
+        listView.dividerHeight = 10
     }
 
     fun getRelativDate(timeStamp:Long): Int{

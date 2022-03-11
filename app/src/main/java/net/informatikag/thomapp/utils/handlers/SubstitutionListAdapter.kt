@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import net.informatikag.thomapp.R
 import net.informatikag.thomapp.utils.models.view.SubstitutionViewModel
+import org.w3c.dom.Text
 
 class SubstitutionListAdapter(
     context: Context,
@@ -37,12 +38,29 @@ class SubstitutionListAdapter(
         val view = LayoutInflater.from(mContext).inflate(R.layout.substitution_list_item, parent, false)
 
         val substitutionEntryData = viewModel.getByDay(this.day)!![position]
-        if (substitutionEntryData.duration == 1)
-            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = mContext.getString(R.string.substitution_item_lesson_time_single, substitutionEntryData.start)
-        else
-            view.findViewById<TextView>(R.id.substitution_lesson_textview).text = mContext.getString(R.string.substitution_item_lesson_time_double, substitutionEntryData.start, substitutionEntryData.start + substitutionEntryData.duration - 1)
 
-        view.findViewById<TextView>(R.id.substitution_room_textview).text = substitutionEntryData.room
+        // Time
+        if (substitutionEntryData.duration == 1)
+            view.findViewById<TextView>(R.id.substitution_time_textview).text = mContext.getString(R.string.substitution_item_lesson_time_single, substitutionEntryData.start)
+        else
+            view.findViewById<TextView>(R.id.substitution_time_textview).text = mContext.getString(R.string.substitution_item_lesson_time_double, substitutionEntryData.start, substitutionEntryData.start + substitutionEntryData.duration - 1)
+
+        // Teacher
+        view.findViewById<TextView>(R.id.substitution_teacher_textview).text = substitutionEntryData.teacher
+
+        // Course
+        view.findViewById<TextView>(R.id.substitution_course_textview).text = mContext.getString(R.string.substitution_item_lesson_course,
+            substitutionEntryData.regularCourse.subject,
+            if (substitutionEntryData.regularCourse.courseType) "LK" else "GK",
+            substitutionEntryData.room
+        )
+
+        // Type
+        view.findViewById<TextView>(R.id.substitution_type_textview).text = mContext.getString(R.string.substitution_item_lesson_type, substitutionEntryData.type)
+
+        // Annotations
+        view.findViewById<TextView>(R.id.substitution_annotation_textview).text = mContext.getString(R.string.substitution_item_lesson_annotations, substitutionEntryData.annotations)
+
         return view
     }
 }
