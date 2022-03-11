@@ -36,6 +36,10 @@
     <string name="substitution_tag_title_default">In %1$d Tagen</string>
     <string name="substitution_item_lesson_time_single">%1$d. Stunde</string>
     <string name="substitution_item_lesson_time_double">%1$d-%2$d. Stunde</string>
+    <string name="substitution_item_lesson_room">%1$s</string>
+    <string name="substitution_item_lesson_course">%1$s %2$s (%3$s)</string>
+    <string name="substitution_item_lesson_type">%1$s</string>
+    <string name="substitution_item_lesson_annotations">%1$s</string>
 
     <!-- Substitution Legacy -->
     <string name="substitution_legacy_url_oberstufe_default">https://thomaeum.de/wp-content/uploads/2020/10/thom2.pdf</string>

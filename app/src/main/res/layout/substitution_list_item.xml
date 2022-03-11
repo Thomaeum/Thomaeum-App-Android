@@ -1,32 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:clickable="true"
+    android:focusable="true"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardPreventCornerOverlap="false" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/substitution_lesson_textview"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="1-2. Stunde" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/substitution_room_textview"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/substitution_time_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/substitution_item_lesson_time_single" />
+
+            <TextView
+                android:id="@+id/substitution_course_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/substitution_item_lesson_room"
+                android:textAlignment="gravity" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/substitution_details"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="E200"
-            android:textAlignment="gravity" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/substitution_teacher_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@string/substitution_item_lesson_course" />
+
+                <TextView
+                    android:id="@+id/substitution_type_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="@string/substitution_item_lesson_type" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/substitution_annotation_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/substitution_item_lesson_annotations" />
+        </LinearLayout>
     </LinearLayout>
 
-
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>
