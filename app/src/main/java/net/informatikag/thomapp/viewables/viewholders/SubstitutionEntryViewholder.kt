@@ -31,7 +31,8 @@ class SubstitutionEntryViewholder constructor(
 
     private var extended = false
         set(value) {
-            field
+            field = value
+            itemView.findViewById<LinearLayout>(R.id.substitution_details).visibility = if (value) View.VISIBLE else View.GONE
         }
 
     /**
@@ -62,9 +63,8 @@ class SubstitutionEntryViewholder constructor(
         // Annotations
         itemView.findViewById<TextView>(R.id.substitution_annotation_textview).text = context.getString(R.string.substitution_item_lesson_annotations, entryData.annotations)
 
-        val detailsLayout = itemView.findViewById<LinearLayout>(R.id.substitution_details)
         itemView.setOnClickListener {
-            detailsLayout.visibility = if (detailsLayout.visibility != View.GONE) View.GONE else View.VISIBLE
+            extended = !extended
         }
     }
 }
