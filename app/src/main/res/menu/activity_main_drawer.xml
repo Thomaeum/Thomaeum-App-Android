@@ -2,41 +2,47 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/ic_menu_home"
-        android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_home" />
 
-    <item android:title="@string/menu_news_group_title">
-        <menu>
-            <item
-                android:id="@+id/nav_thomsline"
-                android:icon="@drawable/ic_menu_thomsline"
-                android:title="@string/menu_news_thomsline" />
-            <item
-                android:id="@+id/nav_thomaeum"
-                android:icon="@drawable/ic_menu_thomaeum"
-                android:title="@string/menu_news_thomaeum" />
-        </menu>
-    </item>
+        <item android:title="@string/menu_news_group_title">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_thomsline"
+                        android:icon="@drawable/ic_menu_thomsline"
+                        android:title="@string/menu_news_thomsline" />
+                    <item
+                        android:id="@+id/nav_thomaeum"
+                        android:icon="@drawable/ic_menu_thomaeum"
+                        android:title="@string/menu_news_thomaeum" />
+                </group>
+            </menu>
+        </item>
 
-    <item android:title="@string/menu_substitution_group_title">
-        <menu>
-            <item
-                android:id="@+id/nav_substitution"
-                android:icon="@drawable/ic_menu_substitution"
-                android:title="@string/menu_substitution_normal" />
+        <item android:title="@string/menu_substitution_group_title">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_substitution"
+                        android:icon="@drawable/ic_menu_substitution"
+                        android:title="@string/menu_substitution_normal" />
 
-            <item
-                android:id="@+id/nav_substitution_legacy"
-                android:icon="@drawable/ic_menu_substitution_legacy"
-                android:title="@string/menu_substitution_legacy" />
-        </menu>
-    </item>
+                    <item
+                        android:id="@+id/nav_substitution_legacy"
+                        android:icon="@drawable/ic_menu_substitution_legacy"
+                        android:title="@string/menu_substitution_legacy" />
+                </group>
+            </menu>
+        </item>
 
-    <item
-        android:id="@+id/nav_preferences"
-        android:icon="@drawable/ic_menu_preferences"
-        android:title="@string/menu_preferences" />
+        <item
+            android:id="@+id/nav_preferences"
+            android:icon="@drawable/ic_menu_preferences"
+            android:title="@string/menu_preferences" />
+    </group>
 </menu>
