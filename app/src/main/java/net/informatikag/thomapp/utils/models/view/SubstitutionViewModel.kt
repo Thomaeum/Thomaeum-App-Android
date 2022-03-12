@@ -3,6 +3,7 @@ package net.informatikag.thomapp.utils.models.view
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,16 +33,17 @@ class SubstitutionViewModel(application: Application): AndroidViewModel(applicat
         return getByDay(day)
     }
 
-    fun getByDay(day:Int):Array<SubstitutionEntryData>?{
+    fun getByDay(day:Int):Array<SubstitutionEntryData>{
+        val entryData = ArrayList<SubstitutionEntryData>(0)
+
         if (_entrys.value != null) {
-            val entryData = ArrayList<SubstitutionEntryData>(0)
             _entrys.value!!.forEach {
                 if (getRelativDate(it.date) == day)
                     entryData.add(it)
             }
-            return entryData.toTypedArray()
         }
-        return null
+
+        return entryData.toTypedArray()
     }
 
     fun loadSubstitution(context: Context, mainActivity: Activity, full:Boolean){
@@ -75,16 +77,31 @@ class SubstitutionViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun initListView(listView: RecyclerView, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
+    fun initListView(recyclerView: RecyclerView, emptyIndicator:View, context: Context, viewLifecycleOwner:LifecycleOwner, activity: Activity, day: Int, full: Boolean){
         if(isEmpty()) loadSubstitution(context, activity, full)
 
         val listViewAdapter = SubstitutionListAdapter(context, this, day)
         entrys.observe(viewLifecycleOwner, Observer {
             listViewAdapter.notifyDataSetChanged()
+            if (getByDay(day).size == 0) {
+                recyclerView.visibility = View.GONE
+                emptyIndicator.visibility = View.VISIBLE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                emptyIndicator.visibility = View.GONE
+            }
         })
-        listView.layoutManager = LinearLayoutManager(context)
-        listView.adapter = listViewAdapter
-        listView.addItemDecoration(ListSpacingDecoration())
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = listViewAdapter
+        recyclerView.addItemDecoration(ListSpacingDecoration())
+
+        if (getByDay(day).size == 0) {
+            recyclerView.visibility = View.GONE
+            emptyIndicator.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            emptyIndicator.visibility = View.GONE
+        }
     }
 
     fun getRelativDate(timeStamp:Long): Int{

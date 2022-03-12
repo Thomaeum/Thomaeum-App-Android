@@ -13,7 +13,18 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/substitution_list_item"/>
+        tools:listitem="@layout/substitution_list_item"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/home_substitution_empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="@string/substitution_empty"
+        android:textAlignment="gravity"
+        android:visibility="visible" />
 
     <HorizontalScrollView
         android:layout_weight="0"

@@ -38,7 +38,7 @@ class HomeFragment : Fragment(), ArticleClickHandler{
         _binding = HomeFragmentBinding.inflate(inflater, container, false)  //Layout aufbauen
 
         // Substitution
-        substitutionViewModel.initListView(binding.homeSubstitutionPreview, requireContext(), viewLifecycleOwner, requireActivity(), 0, false)
+        substitutionViewModel.initListView(binding.homeSubstitutionPreview, binding.homeSubstitutionEmptyText, requireContext(), viewLifecycleOwner, requireActivity(), 0, false)
 
         // ThomsLine
         val thomslineArticleViewHolder = ThomsLineArticleViewHolder(if(thomsLineViewModel.isEmpty()) 0 else 1,  binding.homeArticlePreviewThomsline.root,this, true)
